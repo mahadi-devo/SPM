@@ -1,0 +1,30 @@
+# Backend
+backend/config/.env
+node_modules/
+backend/dsassignment.iml
+.idea
+.vscode
+
+
+# dependencies
+frontend/node_modules
+frontend/.pnp
+.pnp.js
+
+# testing
+frontend/coverage
+
+# production
+frontend/build
+
+# misc
+/backend/.env
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
