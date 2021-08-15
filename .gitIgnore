@@ -5,6 +5,7 @@ backend/dsassignment.iml
 .idea
 .vscode
 
+*.log
 
 # dependencies
 frontend/node_modules
