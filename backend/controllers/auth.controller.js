@@ -1,14 +1,34 @@
 const User = require("../models/user.model");
+const ApiError = require("../utils/apiError");
 
 const registerController = async (req, res, next) => {
   try {
     const { email, name, role, password } = req.body;
     const userExist = await User.findOne({ email });
     if (userExist) {
-      throw new Error("User can not be find");
+      return next(new ApiError("User is exist with provided email", 400));
     }
     const user = await User.create({ email, name, role, password });
     await sendToken(user, 200, res);
+  } catch (e) {
+    if(e.status) {
+      console.log(e);
+    }
+    res.status(500).json({
+      success: false,
+      msg: e.message,
+    });
+  }
+};
+
+const loginController = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const userExist = await User.findOne({ email }).select("+password");
+    if (!userExist) {
+      return next(new ApiError("User is not exist", 400));
+    }
+    await sendToken(userExist, 200, res);
   } catch (e) {
     res.status(500).json({
       success: false,
@@ -17,15 +37,15 @@ const registerController = async (req, res, next) => {
   }
 };
 
-const loginController = async (req, res, next) => {
+const getUserController = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const userExist = await User.findOne({ email }).select("+password");
-    if (!userExist) {
-      throw new Error("Invalid credentials");
-    }
-    await sendToken(userExist, 200, res);
+
+    console.log(req)
+
+    const user = await User.findById(req.user.id).select("-password");
+    res.json(user);
   } catch (e) {
+    console.log(e)
     res.status(500).json({
       success: false,
       message: e.message,
@@ -54,25 +74,16 @@ const logoutController = async (req, res, next) => {
 const sendToken = async (user, statusCode, res) => {
   const token = await user.getJwtToken();
 
-  const options = {
-    expires: new Date(
-        Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
-    ),
-  };
-
-  res
-      .status(statusCode)
-      .cookie("JwtToken", token, options)
-      .json({
-        success: true,
-        user: {
-          id: user._id,
-          name: user.name,
-          role: user.role,
-          email: user.email,
-        },
-        token,
-      });
+  res.status(statusCode).json({
+    success: true,
+    user: {
+      id: user._id,
+      name: user.name,
+      role: user.role,
+      email: user.email,
+    },
+    token,
+  });
 };
 
-module.exports = { registerController, loginController, logoutController };
+module.exports = { registerController, loginController, logoutController, getUserController };

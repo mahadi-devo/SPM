@@ -3,6 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const errorHandler = require('./middleware/error');
 
 const mongoConnect = require('./config/db');
 
@@ -28,6 +29,9 @@ app.use(cors());
 
 // Mount routes
 app.use('/api/v1/auth', auth);
+
+
+app.use(errorHandler);
 
 const dirname = path.resolve()
 // app.use('/uploads', express.static(path.join(__dirname, '/uploads')))

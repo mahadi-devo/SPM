@@ -22,17 +22,18 @@ const UserSchema = mongoose.Schema({
     select: false,
   },
   role: {
-    type: String,
-    enum: ['seller', 'buyer'],
-    default: 'buyer',
+    type: Number,
+    enum: [1, 2, 3],
+    default: 3,
   },
-  cartItems: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      required: false,
-      ref: 'product',
-    },
-  ],
+  loggedIn: {
+    type: Boolean,
+    default: false,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 UserSchema.pre('save', async function (next) {
