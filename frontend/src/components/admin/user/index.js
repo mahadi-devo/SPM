@@ -7,6 +7,11 @@ import {
   HStack,
   Heading,
   Text,
+  FormControl,
+  FormLabel,
+  Input,
+  FormErrorMessage,
+  FormHelperText,
   Button,
   Modal,
   ModalOverlay,
@@ -158,11 +163,27 @@ const User = () => {
           <ModalHeader>Add User</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Heading as='h5' size='sm'>
-              My form
-            </Heading>
+            <FormControl id='name'>
+              <FormLabel>Name</FormLabel>
+              <Input type='text' />
+              <FormHelperText></FormHelperText>
+            </FormControl>
+            <FormControl id='email'>
+              <FormLabel>Email address</FormLabel>
+              <Input type='email' />
+              <FormHelperText></FormHelperText>
+            </FormControl>
+            <FormControl id='department'>
+              <FormLabel>Department</FormLabel>
+              <Input type='text' />
+              <FormHelperText></FormHelperText>
+            </FormControl>
+            <FormControl id='mobile'>
+              <FormLabel>Mobile</FormLabel>
+              <Input type='text' />
+              <FormHelperText></FormHelperText>
+            </FormControl>
           </ModalBody>
-
           <ModalFooter>
             <Button colorScheme='blue' mr={3}>
               Add
