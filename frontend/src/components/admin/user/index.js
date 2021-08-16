@@ -8,12 +8,22 @@ import {
   Heading,
   Text,
   Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
 } from '@chakra-ui/react';
 import { FaPlus, FaEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { useDisclosure } from '@chakra-ui/react';
 
 import CustomTable from '../../shared/customTable';
 
 const User = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const Handelview = (id) => {
     console.log('clicked view on ', id);
   };
@@ -135,12 +145,34 @@ const User = () => {
             leftIcon={<FaPlus />}
             colorScheme='blue'
             size='sm'
-            variant='solid'>
+            variant='solid'
+            onClick={onOpen}>
             ADD
           </Button>
         </HStack>
         <CustomTable cols={cols} rows={rows} />
       </VStack>
+      <Modal size='xl' isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Add User</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Heading as='h5' size='sm'>
+              My form
+            </Heading>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme='blue' mr={3}>
+              Add
+            </Button>
+            <Button variant='ghost' onClick={onClose}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Container>
   );
 };
