@@ -4,44 +4,58 @@ import {
   FiSettings,
   FiStar,
   FiTrendingUp,
-} from "react-icons/fi";
-import { AccessRights } from "./accessRights";
+} from 'react-icons/fi';
+import { AccessRights } from './accessRights';
 
 const menu = [
   {
-    name: "Tickets",
+    name: 'Tickets',
     icon: FiHome,
-    route: "/admin/tickets",
+    route: '/admin/tickets',
     default: true,
     entitlement: [AccessRights.admin, AccessRights.organizationalUser],
   },
   {
-    name: "Departments",
+    name: 'Departments',
     icon: FiTrendingUp,
-    route: "/admin/departments",
+    route: '/admin/departments',
     default: false,
     entitlement: [AccessRights.admin, AccessRights.organizationalUser],
   },
   {
-    name: "Statuses",
+    name: 'Statuses',
     icon: FiCompass,
-    route: "/admin/statuses",
+    route: '/admin/statuses',
     default: false,
     entitlement: [AccessRights.admin, AccessRights.organizationalUser],
   },
   {
-    name: "Users",
+    name: 'Users',
     icon: FiStar,
-    route: "/admin/users",
+    route: '/admin/users',
     default: false,
     entitlement: [AccessRights.admin],
   },
   {
-    name: "Settings",
+    name: 'Settings',
     icon: FiSettings,
-    route: "/admin/settings",
+    route: '/admin/settings',
     default: false,
     entitlement: [AccessRights.admin],
+  },
+  {
+    name: 'Ticket',
+    icon: FiSettings,
+    route: '/customer',
+    default: true,
+    entitlement: [AccessRights.user],
+  },
+  {
+    name: 'Ticket History',
+    icon: FiSettings,
+    route: '/customer/history',
+    default: false,
+    entitlement: [AccessRights.user],
   },
 ];
 
