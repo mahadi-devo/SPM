@@ -1,16 +1,14 @@
-import React from 'react';
+import { useState, useRef } from 'react';
+
 import {
   Container,
-  Box,
   Spacer,
   VStack,
   HStack,
   Heading,
-  Text,
   FormControl,
   FormLabel,
   Input,
-  FormErrorMessage,
   FormHelperText,
   Button,
   Modal,
@@ -20,18 +18,34 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  Tooltip,
 } from '@chakra-ui/react';
 import { FaPlus, FaEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { useDisclosure } from '@chakra-ui/react';
 
 import CustomTable from '../../shared/customTable';
+import AddUserSideBar from './modals/AddUserSideBar';
 
 const User = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const Handelview = (id) => {
-    console.log('clicked view on ', id);
-  };
+  const [isOpenDelete, setIsOpen] = useState(false);
+  const onCloseDelete = () => setIsOpen(false);
+  const cancelRef = useRef();
+
+  //const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  //const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+
+  // const Handelview = (id) => {
+  //   console.log('clicked view on ', id);
+  // };
 
   const HandelEdit = (id) => {
     console.log('clicked edit on ', id);
@@ -56,49 +70,40 @@ const User = () => {
     },
     {
       title: 'User Email',
-      // isNumeric: true,
+
       render: (data) => {
         return data.email;
       },
     },
     {
       title: 'Department',
-      // isNumeric: true,
       render: (data) => {
         return data.department;
       },
     },
     {
       title: 'Mobile',
-      // isNumeric: true,
       render: (data) => {
         return data.mobile;
       },
     },
     {
-      title: 'Action',
-      // isNumeric: true,
+      title: ' Actions ',
       render: (data) => {
         return (
           <HStack w='50%'>
-            <FaEye
-              fontSize='6xl'
-              cursor='pointer'
-              onClick={() => Handelview(data.id)}
-              color='blue'
-            />
             <Spacer />
             <FaEdit
-              fontSize='3xl'
+              fontSize='4xl'
               cursor='pointer'
               onClick={() => HandelEdit(data.id)}
-              color='yellow'
+              color='#4299e1'
             />
             <Spacer />
             <FaTrashAlt
-              fontSize='3xl'
+              fontSize='4xl'
               cursor='pointer'
-              onClick={() => HandelDelete(data.id)}
+              onClick={() => setIsOpen(true)}
               color='red'
             />
           </HStack>
@@ -141,7 +146,7 @@ const User = () => {
   return (
     <Container maxW='100%' centerContent={true}>
       <VStack w='90%' alignItems='stretch' mt={5}>
-        <HStack>
+        <HStack mb={8}>
           <Heading as='h1' size='lg'>
             User Management
           </Heading>
@@ -155,7 +160,12 @@ const User = () => {
             ADD
           </Button>
         </HStack>
-        <CustomTable cols={cols} rows={rows} />
+        <CustomTable
+          headColor='white'
+          colorScheme={'blackAlpha'}
+          cols={cols}
+          rows={rows}
+        />
       </VStack>
       <Modal size='xl' isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -194,6 +204,33 @@ const User = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      <AlertDialog
+        isOpen={isOpenDelete}
+        leastDestructiveRef={cancelRef}
+        onClose={onCloseDelete}>
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              Delete User
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure? You can't undo this action afterwards.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onCloseDelete}>
+                Cancel
+              </Button>
+              <Button colorScheme='red' onClick={onCloseDelete} ml={3}>
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+
+      {/* <AddUserSideBar /> */}
     </Container>
   );
 };

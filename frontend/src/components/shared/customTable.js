@@ -11,10 +11,11 @@ import {
 } from '@chakra-ui/react';
 
 function CustomTable(props) {
-  const { footer, cation, headColor, rows, cols } = props;
-  
+  const { footer, cation, headColor, rows, cols, colorScheme } = props;
+
+  console.log(colorScheme);
   return (
-    <Table variant="simple">
+    <Table variant='simple' colorScheme={colorScheme ? colorScheme : ''}>
       {cation && <TableCaption>{cation}</TableCaption>}
       <Thead backgroundColor={headColor ? headColor : ''}>
         <Tr>
@@ -32,7 +33,11 @@ function CustomTable(props) {
           return (
             <Tr key={i}>
               {cols.map((column, c) => {
-                return <Td isNumeric={column.isNumeric} key={c}>{column.render(row)}</Td>;
+                return (
+                  <Td isNumeric={column.isNumeric} key={c}>
+                    {column.render(row)}
+                  </Td>
+                );
               })}
             </Tr>
           );
