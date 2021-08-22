@@ -6,6 +6,6 @@ export const AccessRights = {
 
 export const ValidateAccessRight = (prop) => {
   // Get User accessRight from localStorage || get user access right from authContext
-  const accessRight = AccessRights.user;
+  const accessRight = AccessRights.admin;
   return !!prop.includes(accessRight);
 };
