@@ -12,9 +12,9 @@ import {
 
 function CustomTable(props) {
   const { footer, cation, headColor, rows, cols } = props;
-  
+
   return (
-    <Table variant="simple">
+    <Table variant='simple'>
       {cation && <TableCaption>{cation}</TableCaption>}
       <Thead backgroundColor={headColor ? headColor : ''}>
         <Tr>
@@ -32,7 +32,11 @@ function CustomTable(props) {
           return (
             <Tr key={i}>
               {cols.map((column, c) => {
-                return <Td isNumeric={column.isNumeric} key={c}>{column.render(row)}</Td>;
+                return (
+                  <Td isNumeric={column.isNumeric} key={c}>
+                    {column.render(row)}
+                  </Td>
+                );
               })}
             </Tr>
           );
