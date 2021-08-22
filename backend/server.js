@@ -27,7 +27,7 @@ app.use(cors());
 
 // Mount routes
 app.use('/api/v1/auth', auth);
-app.use('/api/v1/user', auth);
+app.use('/api/v1/user', user);
 
 app.use(errorHandler);
 
