@@ -10,10 +10,13 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { FaPlus, FaEye, FaEdit, FaTrashAlt} from 'react-icons/fa';
+import { Link, useRouteMatch } from 'react-router-dom';
 
 import CustomTable from '../shared/customTable';
 
 const DepartmentHome = (props) => {
+  const { url } = useRouteMatch();
+
   const Handelview = (id) => {
     console.log('clicked view on ', id);
   }
@@ -97,9 +100,11 @@ const DepartmentHome = (props) => {
             Department Management
           </Heading>
           <Spacer />
-          <Button leftIcon={<FaPlus />} colorScheme="blue" variant="solid">
-            ADD
-          </Button>
+          <Link to={`${url}/add`}>
+            <Button leftIcon={<FaPlus />} colorScheme="blue" variant="solid">
+              ADD
+            </Button>
+          </Link>
         </HStack>
         <CustomTable cols={cols} rows={rows}/>
       </VStack>

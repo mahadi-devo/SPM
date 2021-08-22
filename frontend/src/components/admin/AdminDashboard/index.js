@@ -12,6 +12,7 @@ import {
 import Ticket from '../ticket/ticket';
 import User from '../user/index';
 import Topbar from '../../shared/topbar';
+import Department from '../../department'
 
 const AdminDashboard = () => {
   const { path } = useRouteMatch();
@@ -46,6 +47,14 @@ const AdminDashboard = () => {
               exact
               path={`${path}/users`}
               component={User}
+              entitlement={[
+                AccessRights.admin,
+                AccessRights.organizationalUser,
+              ]}
+            />
+            <PrivateRoute
+              path={`${path}/departments`}
+              component={Department}
               entitlement={[
                 AccessRights.admin,
                 AccessRights.organizationalUser,
