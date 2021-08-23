@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext } from 'react';
+import React, { Fragment, useState, useContext, useEffect } from 'react';
 import {
   Flex,
   Spacer,
@@ -27,11 +27,26 @@ import FileUploader from '../../shared/FileUpload';
 import customerContext from '../../../context/customer/customerContext';
 
 const Ticket = () => {
-  const [file, setFile] = useState('');
-
   const CustomerContext = useContext(customerContext);
 
-  const { addTicket } = CustomerContext;
+  const { addTicket, loading, sucess } = CustomerContext;
+
+  const toast = useToast();
+
+  useEffect(() => {
+    if (sucess) {
+      toast({
+        title: 'Ticket Created Successfully',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      });
+    }
+    // eslint-disable-next-line
+  }, [sucess]);
+
+  const [file, setFile] = useState('');
 
   const getFile = (FileData) => {
     const reader = new FileReader();
@@ -41,7 +56,7 @@ const Ticket = () => {
           title: 'Invalid File Size',
           description: 'File size exceed the maximum size',
           status: 'warning',
-          duration: 1000,
+          duration: 7000,
           isClosable: true,
         });
       } else {
@@ -55,6 +70,7 @@ const Ticket = () => {
       }
     }
   };
+
   const submitHandler = async (
     values,
     { setSubmitting, setErrors, setStatus, resetForm }
@@ -69,12 +85,7 @@ const Ticket = () => {
         file: file,
       });
       resetForm({});
-      setStatus({ success: true });
-    } catch (error) {
-      setStatus({ success: false });
-      setSubmitting(false);
-      setErrors({ submit: error.message });
-    }
+    } catch (error) {}
   };
   return (
     <Fragment>
@@ -94,11 +105,11 @@ const Ticket = () => {
                   onSubmit={(values, actions) => {
                     submitHandler(values, actions);
                   }}>
-                  {(props) => (
+                  {({ props, values }) => (
                     <Form>
                       <Stack spacing={4}>
                         <Field name='name'>
-                          {({ field, form }) => (
+                          {({ field, form, values }) => (
                             <FormControl
                               isInvalid={form.errors.name && form.touched.name}
                               isRequired>
@@ -150,6 +161,7 @@ const Ticket = () => {
                                 borderColor='#707070'
                                 {...field}
                                 id='department'
+                                value={values.department || ''}
                                 placeholder='Department'>
                                 <option value='option1'>Option 1</option>
                                 <option value='option2'>Option 2</option>
@@ -174,6 +186,7 @@ const Ticket = () => {
                                 borderColor='#707070'
                                 {...field}
                                 id='subject'
+                                value={values.subject || ''}
                                 placeholder='Subject'
                               />
                               <FormErrorMessage>
@@ -196,6 +209,7 @@ const Ticket = () => {
                                 {...field}
                                 id='message'
                                 placeholder='message'
+                                value={values.message || ''}
                               />
                               <FormErrorMessage>
                                 {form.errors.message}
@@ -218,7 +232,9 @@ const Ticket = () => {
                           _hover={{
                             bg: 'teal.500',
                           }}
-                          isLoading={props.isSubmitting}
+                          loadingText='Saving'
+                          spinnerPlacement='start'
+                          isLoading={loading}
                           type='submit'>
                           Submit
                         </Button>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Flex,
   Spacer,
@@ -25,7 +25,13 @@ import {
 import { Formik, Form, Field } from 'formik';
 import { TicketSchema } from './ticketSchema';
 
-const ViewTicket = ({ match, func }) => {
+const ViewTicket = ({ match, func, ticket }) => {
+  useEffect(() => {
+    console.log('view', ticket);
+  }, []);
+
+  const { name, email, status, subject, department, message } = ticket;
+
   const submitHandler = async (
     values,
     { setSubmitting, setErrors, setStatus, resetForm }
@@ -53,12 +59,18 @@ const ViewTicket = ({ match, func }) => {
             <Stack spacing={8} mx={'auto'} maxW={'lg'}>
               <Box rounded={'lg'} width={'450px'}>
                 <Formik
-                  initialValues={{ name: '', email: '', password: '' }}
+                  initialValues={{
+                    name: name,
+                    email: email,
+                    subject: subject,
+                    message: message,
+                    department: department,
+                  }}
                   validationSchema={TicketSchema}
                   onSubmit={(values, actions) => {
                     submitHandler(values, actions);
                   }}>
-                  {(props) => (
+                  {(props, values) => (
                     <Form>
                       <Stack spacing={4}>
                         <Field name='name'>

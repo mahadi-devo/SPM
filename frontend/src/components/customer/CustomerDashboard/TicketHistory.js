@@ -1,4 +1,10 @@
-import React, { Fragment, useState, useRef } from 'react';
+import React, {
+  Fragment,
+  useState,
+  useRef,
+  useContext,
+  useEffect,
+} from 'react';
 import {
   Table,
   Thead,
@@ -22,16 +28,32 @@ import { useHistory } from 'react-router-dom';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import CustomTable from '../../shared/customTable';
 import ViewTicket from './ViewTicket';
+import customerContext from '../../../context/customer/customerContext';
 
 const TicketHistory = () => {
-  let history = useHistory();
+  const CustomerContext = useContext(customerContext);
+
+  const { tickets, getTickets } = CustomerContext;
+
+  useEffect(() => {
+    getTickets();
+  }, []);
+
   const [isOpen, setIsOpen] = useState(false);
   const [editTicket, setEditTicket] = useState(false);
+  const [ticket, setTicket] = useState('');
+
   const onClose = () => setIsOpen(false);
   const cancelRef = useRef();
+
   const HandelEdit = (id) => {
     console.log('clicked edit on ', id);
-    // history.push(`/ticket/${id}`);
+    const x = tickets.filter((ticket) => {
+      return ticket._id === id;
+    });
+
+    setTicket(x[0]);
+    console.log('huhhuhuhu', ticket);
     setEditTicket(true);
   };
 
@@ -44,7 +66,7 @@ const TicketHistory = () => {
     {
       title: 'Ref No',
       render: (data) => {
-        return data.id;
+        return data._id;
       },
     },
     {
@@ -78,7 +100,7 @@ const TicketHistory = () => {
               w={5}
               h={5}
               cursor='pointer'
-              onClick={() => HandelEdit(data.id)}
+              onClick={() => HandelEdit(data._id)}
             />
             <Spacer />
             <DeleteIcon
@@ -86,7 +108,7 @@ const TicketHistory = () => {
               w={5}
               h={5}
               cursor='pointer'
-              onClick={() => HandelDelete(data.id)}
+              onClick={() => HandelDelete(data._id)}
             />
           </HStack>
         );
@@ -94,106 +116,18 @@ const TicketHistory = () => {
     },
   ];
 
-  const rows = [
-    {
-      id: '12345',
-      name: 'Pasindu Jayawardena ',
-      subject: 'PC is not responding',
-      status: 'Pending',
-    },
-    {
-      id: '6789',
-      name: 'Mahadi Hassan',
-      subject: 'Display is not working',
-      status: 'Closed',
-    },
-    {
-      id: '3055',
-      name: 'Aflal Ahmed',
-      subject: 'Printer is not working',
-      status: 'Open',
-    },
-    {
-      id: '5584',
-      name: 'Avishka shyaman ',
-      subject: 'Coffee machine is not working',
-      status: 'Pending',
-    },
-  ];
-
   const pull_data = (data) => {
-    console.log(data); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
+    setTicket(null);
     setEditTicket(false);
   };
 
   return (
-    // <div style={{ borderWidth: '1px', borderRadius: '12px' }}>
-    //   <Table variant='simple'>
-    //     <Thead>
-    //       <Tr>
-    //         <Th bg='gray.300' style={{ borderTopLeftRadius: '12px' }}>
-    //           Ref No
-    //         </Th>
-    //         <Th bg='gray.300'>Name</Th>
-    //         <Th bg='gray.300'>Subject</Th>
-    //         <Th bg='gray.300'>Status</Th>
-    //         <Th bg='gray.300' style={{ borderTopRightRadius: '12px' }}>
-    //           Action
-    //         </Th>
-    //       </Tr>
-    //     </Thead>
-    //     <Tbody>
-    //       <Tr>
-    //         <Td>inches</Td>
-    //         <Td>millimetres (mm)</Td>
-    //         <Td>PC is not responding</Td>
-    //         <Td>Open</Td>
-    //         <Td>
-    //           <EditIcon color='#6C63FF' w={5} h={5} />{' '}
-    //           <DeleteIcon color='#C10707' w={5} h={5} ml='2' />{' '}
-    //         </Td>
-    //       </Tr>
-    //       <Tr>
-    //         <Td>feet</Td>
-    //         <Td>centimetres (cm)</Td>
-    //         <Td>Mouse is not working</Td>
-    //         <Td>Closed</Td>
-    //         <Td>
-    //           <EditIcon color='#6C63FF' w={5} h={5} />{' '}
-    //           <DeleteIcon color='#C10707' w={5} h={5} ml='2' />{' '}
-    //         </Td>
-    //       </Tr>
-    //       <Tr>
-    //         <Td>yards</Td>
-    //         <Td>metres (m)</Td>
-    //         <Td>Web cam is not working</Td>
-    //         <Td>Pending</Td>
-    //         <Td>
-    //           <EditIcon color='#6C63FF' w={5} h={5} />{' '}
-    //           <DeleteIcon color='#C10707' w={5} h={5} ml='2' />{' '}
-    //         </Td>
-    //       </Tr>
-    //     </Tbody>
-    //     <Tfoot>
-    //       <Tr>
-    //         <Td>yards</Td>
-    //         <Td>metres (m)</Td>
-    //         <Td>Web cam is not working</Td>
-    //         <Td>Pending</Td>
-    //         <Td>
-    //           <EditIcon color='#6C63FF' w={5} h={5} />{' '}
-    //           <DeleteIcon color='#C10707' w={5} h={5} ml='2' />{' '}
-    //         </Td>
-    //       </Tr>
-    //     </Tfoot>
-    //   </Table>
-    // </div>
     <Fragment>
       {editTicket ? (
-        <ViewTicket func={pull_data} />
+        <ViewTicket ticket={ticket} func={pull_data} />
       ) : (
         <div style={{ borderWidth: '1px', borderRadius: '12px' }}>
-          <CustomTable cols={cols} rows={rows} />
+          <CustomTable cols={cols} rows={tickets} />
         </div>
       )}
 
