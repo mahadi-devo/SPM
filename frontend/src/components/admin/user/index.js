@@ -1,16 +1,14 @@
-import React from 'react';
+import { useState, useRef } from 'react';
+
 import {
   Container,
-  Box,
   Spacer,
   VStack,
   HStack,
   Heading,
-  Text,
   FormControl,
   FormLabel,
   Input,
-  FormErrorMessage,
   FormHelperText,
   Button,
   Modal,
@@ -20,25 +18,30 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
 } from '@chakra-ui/react';
-import { FaPlus, FaEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
+
+import { FaPlus, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { useDisclosure } from '@chakra-ui/react';
 
 import CustomTable from '../../shared/customTable';
+import DeleteModal from '../../shared/deleteModal';
 
 const User = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  //const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const Handelview = (id) => {
-    console.log('clicked view on ', id);
-  };
+  const [isOpenDelete, setIsOpen] = useState(false);
+  const onCloseDelete = () => setIsOpen(false);
+
+  const cancelRef = useRef();
 
   const HandelEdit = (id) => {
     console.log('clicked edit on ', id);
-  };
-
-  const HandelDelete = (id) => {
-    console.log('clicked delete on ', id);
   };
 
   const cols = [
@@ -56,49 +59,40 @@ const User = () => {
     },
     {
       title: 'User Email',
-      // isNumeric: true,
+
       render: (data) => {
         return data.email;
       },
     },
     {
       title: 'Department',
-      // isNumeric: true,
       render: (data) => {
         return data.department;
       },
     },
     {
       title: 'Mobile',
-      // isNumeric: true,
       render: (data) => {
         return data.mobile;
       },
     },
     {
-      title: 'Action',
-      // isNumeric: true,
+      title: ' Actions ',
       render: (data) => {
         return (
           <HStack w='50%'>
-            <FaEye
-              fontSize='6xl'
-              cursor='pointer'
-              onClick={() => Handelview(data.id)}
-              color='blue'
-            />
             <Spacer />
             <FaEdit
-              fontSize='3xl'
+              fontSize='4xl'
               cursor='pointer'
               onClick={() => HandelEdit(data.id)}
-              color='yellow'
+              color='#4299e1'
             />
             <Spacer />
             <FaTrashAlt
-              fontSize='3xl'
+              fontSize='4xl'
               cursor='pointer'
-              onClick={() => HandelDelete(data.id)}
+              onClick={() => setIsOpen(true)}
               color='red'
             />
           </HStack>
@@ -141,7 +135,7 @@ const User = () => {
   return (
     <Container maxW='100%' centerContent={true}>
       <VStack w='90%' alignItems='stretch' mt={5}>
-        <HStack>
+        <HStack mb={8}>
           <Heading as='h1' size='lg'>
             User Management
           </Heading>
@@ -150,50 +144,24 @@ const User = () => {
             leftIcon={<FaPlus />}
             colorScheme='blue'
             size='sm'
-            variant='solid'
-            onClick={onOpen}>
+            variant='solid'>
             ADD
           </Button>
         </HStack>
-        <CustomTable cols={cols} rows={rows} />
+        <CustomTable
+          headColor='white'
+          colorScheme={'blackAlpha'}
+          cols={cols}
+          rows={rows}
+        />
       </VStack>
-      <Modal size='xl' isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Add User</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl id='name'>
-              <FormLabel>Name</FormLabel>
-              <Input type='text' />
-              <FormHelperText></FormHelperText>
-            </FormControl>
-            <FormControl id='email'>
-              <FormLabel>Email address</FormLabel>
-              <Input type='email' />
-              <FormHelperText></FormHelperText>
-            </FormControl>
-            <FormControl id='department'>
-              <FormLabel>Department</FormLabel>
-              <Input type='text' />
-              <FormHelperText></FormHelperText>
-            </FormControl>
-            <FormControl id='mobile'>
-              <FormLabel>Mobile</FormLabel>
-              <Input type='text' />
-              <FormHelperText></FormHelperText>
-            </FormControl>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme='blue' mr={3}>
-              Add
-            </Button>
-            <Button variant='ghost' onClick={onClose}>
-              Cancel
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+
+      <DeleteModal
+        isOpenDelete={isOpenDelete}
+        onCloseDelete={onCloseDelete}
+        title='User'
+        subTitle="Are you sure? You can't undo this action afterwards."
+      />
     </Container>
   );
 };
