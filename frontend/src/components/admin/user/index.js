@@ -24,35 +24,24 @@ import {
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
-  Tooltip,
 } from '@chakra-ui/react';
-import { FaPlus, FaEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
+
+import { FaPlus, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { useDisclosure } from '@chakra-ui/react';
 
 import CustomTable from '../../shared/customTable';
-import AddUserSideBar from './modals/AddUserSideBar';
+import DeleteModal from '../../shared/deleteModal';
 
 const User = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  //const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [isOpenDelete, setIsOpen] = useState(false);
   const onCloseDelete = () => setIsOpen(false);
+
   const cancelRef = useRef();
-
-  //const [isSidebarOpen, setSidebarOpen] = useState(false);
-
-  //const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
-
-  // const Handelview = (id) => {
-  //   console.log('clicked view on ', id);
-  // };
 
   const HandelEdit = (id) => {
     console.log('clicked edit on ', id);
-  };
-
-  const HandelDelete = (id) => {
-    console.log('clicked delete on ', id);
   };
 
   const cols = [
@@ -155,8 +144,7 @@ const User = () => {
             leftIcon={<FaPlus />}
             colorScheme='blue'
             size='sm'
-            variant='solid'
-            onClick={onOpen}>
+            variant='solid'>
             ADD
           </Button>
         </HStack>
@@ -167,70 +155,13 @@ const User = () => {
           rows={rows}
         />
       </VStack>
-      <Modal size='xl' isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Add User</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl id='name'>
-              <FormLabel>Name</FormLabel>
-              <Input type='text' />
-              <FormHelperText></FormHelperText>
-            </FormControl>
-            <FormControl id='email'>
-              <FormLabel>Email address</FormLabel>
-              <Input type='email' />
-              <FormHelperText></FormHelperText>
-            </FormControl>
-            <FormControl id='department'>
-              <FormLabel>Department</FormLabel>
-              <Input type='text' />
-              <FormHelperText></FormHelperText>
-            </FormControl>
-            <FormControl id='mobile'>
-              <FormLabel>Mobile</FormLabel>
-              <Input type='text' />
-              <FormHelperText></FormHelperText>
-            </FormControl>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme='blue' mr={3}>
-              Add
-            </Button>
-            <Button variant='ghost' onClick={onClose}>
-              Cancel
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-      <AlertDialog
-        isOpen={isOpenDelete}
-        leastDestructiveRef={cancelRef}
-        onClose={onCloseDelete}>
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Delete User
-            </AlertDialogHeader>
 
-            <AlertDialogBody>
-              Are you sure? You can't undo this action afterwards.
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onCloseDelete}>
-                Cancel
-              </Button>
-              <Button colorScheme='red' onClick={onCloseDelete} ml={3}>
-                Delete
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
-
-      {/* <AddUserSideBar /> */}
+      <DeleteModal
+        isOpenDelete={isOpenDelete}
+        onCloseDelete={onCloseDelete}
+        title='User'
+        subTitle="Are you sure? You can't undo this action afterwards."
+      />
     </Container>
   );
 };
