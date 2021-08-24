@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import React, { useReducer } from 'react';
 import axios from 'axios';
 import { ADD_USER, GET_USER } from './types';
 
@@ -11,6 +11,7 @@ const userState = (props) => {
     current: null,
   };
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [state, dispatch] = useReducer(UserReducer, initialState);
 
   const addUser = async (user) => {

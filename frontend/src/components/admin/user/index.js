@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 import {
   Container,
@@ -6,43 +6,40 @@ import {
   VStack,
   HStack,
   Heading,
-  FormControl,
-  FormLabel,
-  Input,
-  FormHelperText,
   Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Grid,
+  Box,
+  Flex,
 } from '@chakra-ui/react';
 
-import { FaPlus, FaEdit, FaTrashAlt } from 'react-icons/fa';
-import { useDisclosure } from '@chakra-ui/react';
+import { FaPlus } from 'react-icons/fa';
+import { DeleteIcon, SearchIcon, EditIcon } from '@chakra-ui/icons';
 
 import CustomTable from '../../shared/customTable';
 import DeleteModal from '../../shared/deleteModal';
 
+import { Link, useRouteMatch } from 'react-router-dom';
+
+import UserContext from '../../../context/admin/user/userContext';
+
 const User = () => {
-  //const { isOpen, onOpen, onClose } = useDisclosure();
+  const { url } = useRouteMatch();
+
+  const userContext = useContext(UserContext);
+  const { users, getUser } = userContext;
+
+  useEffect(() => {
+    getUser();
+    // eslint-disable-next-line
+  }, []);
+
+  console.log(users);
 
   const [isOpenDelete, setIsOpen] = useState(false);
   const onCloseDelete = () => setIsOpen(false);
-
-  const cancelRef = useRef();
-
-  const HandelEdit = (id) => {
-    console.log('clicked edit on ', id);
-  };
 
   const cols = [
     {
@@ -82,15 +79,10 @@ const User = () => {
         return (
           <HStack w='50%'>
             <Spacer />
-            <FaEdit
-              fontSize='4xl'
-              cursor='pointer'
-              onClick={() => HandelEdit(data.id)}
-              color='#4299e1'
-            />
+            <EditIcon fontSize='1xl' cursor='pointer' color='#4299e1' />
             <Spacer />
-            <FaTrashAlt
-              fontSize='4xl'
+            <DeleteIcon
+              fontSize='1xl'
               cursor='pointer'
               onClick={() => setIsOpen(true)}
               color='red'
@@ -134,27 +126,44 @@ const User = () => {
 
   return (
     <Container maxW='100%' centerContent={true}>
-      <VStack w='90%' alignItems='stretch' mt={5}>
-        <HStack mb={8}>
-          <Heading as='h1' size='lg'>
-            User Management
-          </Heading>
+      <VStack w='100%' alignItems='stretch' mt={5}>
+        <Flex>
+          <Box>
+            <Heading as='h1' size='lg'>
+              User Management
+            </Heading>
+          </Box>
           <Spacer />
-          <Button
-            leftIcon={<FaPlus />}
-            colorScheme='blue'
-            size='sm'
-            variant='solid'>
-            ADD
-          </Button>
-        </HStack>
-        <CustomTable
-          headColor='white'
-          colorScheme={'blackAlpha'}
-          cols={cols}
-          rows={rows}
-        />
+          <Box>
+            <HStack mb={8}>
+              <InputGroup>
+                <InputLeftElement
+                  pointerEvents='none'
+                  children={<SearchIcon color='gray.300' />}
+                />
+                <Input size='sm' w='20vw' placeholder='Search' />
+              </InputGroup>
+
+              <Link to={`${url}/add`}>
+                <Button
+                  leftIcon={<FaPlus />}
+                  colorScheme='blue'
+                  size='sm'
+                  variant='solid'>
+                  ADD
+                </Button>
+              </Link>
+            </HStack>
+          </Box>
+        </Flex>
       </VStack>
+
+      <CustomTable
+        headColor='white'
+        colorScheme={'blackAlpha'}
+        cols={cols}
+        rows={rows}
+      />
 
       <DeleteModal
         isOpenDelete={isOpenDelete}

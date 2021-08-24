@@ -12,9 +12,8 @@ const UserReducer = (state, action) => {
         ...state,
         users: action.payload,
       };
-
     default:
-      break;
+      return state;
   }
 };
 

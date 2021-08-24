@@ -32,7 +32,7 @@ const addUser = async (req, res, next) => {
 
 const getAllUser = async (req, res) => {
   try {
-    const users = await UserModal.find({});
+    const users = await UserModal.find({ role: 2 });
     res.status(200).json({
       users,
       success: true,

@@ -10,9 +10,9 @@ import {
   useRouteMatch,
 } from 'react-router-dom';
 import Ticket from '../ticket/ticket';
-import User from '../user/index';
+import User from '../user/UserRoute';
 import Topbar from '../../shared/topbar';
-import Department from '../../department'
+import Department from '../../department';
 
 const AdminDashboard = () => {
   const { path } = useRouteMatch();
@@ -44,7 +44,6 @@ const AdminDashboard = () => {
               ]}
             />
             <PrivateRoute
-              exact
               path={`${path}/users`}
               component={User}
               entitlement={[
