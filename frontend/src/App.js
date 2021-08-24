@@ -12,7 +12,6 @@ import CustomerDashboard from './components/customer/CustomerDashboard';
 import { useContext, useEffect } from 'react';
 import AuthContext from './context/auth/authContext';
 import Register from './components/auth/Register';
-import UserState from './context/admin/user/UserState';
 
 function App() {
   // Get authentication state, userRole from auth Context
@@ -36,78 +35,76 @@ function App() {
   return (
     <div className='App'>
       <Router>
-        <UserState>
-          <Switch>
-            <Route
-              exact
-              path='/login'
-              render={() =>
-                authenticated &&
-                (userRole === AccessRights.admin ||
-                  userRole === AccessRights.organizationalUser) ? (
-                  <Redirect to='/admin' />
-                ) : authenticated && userRole === AccessRights.user ? (
-                  <Redirect to='/customer' />
-                ) : (
-                  <Login />
-                )
-              }
-            />
-            <Route
-              exact
-              path='/register'
-              render={() =>
-                authenticated &&
-                (userRole === AccessRights.admin ||
-                  userRole === AccessRights.organizationalUser) ? (
-                  <Redirect to='/admin' />
-                ) : authenticated && userRole === AccessRights.user ? (
-                  <Redirect to='/customer' />
-                ) : (
-                  <Register />
-                )
-              }
-            />
-            <Route
-              from='/admin'
-              render={() =>
-                authenticated &&
-                (userRole === AccessRights.admin ||
-                  userRole === AccessRights.organizationalUser) ? (
-                  <AdminDashboard />
-                ) : (
-                  <Redirect to='/login' />
-                )
-              }
-            />
-            <Route
-              from='/customer'
-              exact
-              render={() =>
-                authenticated && userRole === AccessRights.user ? (
-                  <CustomerDashboard />
-                ) : (
-                  <Redirect to='/login' />
-                )
-              }
-            />
-            <Route
-              from='/'
-              exact
-              render={() =>
-                authenticated &&
-                (userRole === AccessRights.admin ||
-                  userRole === AccessRights.organizationalUser) ? (
-                  <Redirect to='/admin' />
-                ) : authenticated && userRole === AccessRights.user ? (
-                  <Redirect to='/customer' />
-                ) : (
-                  <Redirect to='/login' />
-                )
-              }
-            />
-          </Switch>
-        </UserState>
+        <Switch>
+          <Route
+            exact
+            path='/login'
+            render={() =>
+              authenticated &&
+              (userRole === AccessRights.admin ||
+                userRole === AccessRights.organizationalUser) ? (
+                <Redirect to='/admin' />
+              ) : authenticated && userRole === AccessRights.user ? (
+                <Redirect to='/customer' />
+              ) : (
+                <Login />
+              )
+            }
+          />
+          <Route
+            exact
+            path='/register'
+            render={() =>
+              authenticated &&
+              (userRole === AccessRights.admin ||
+                userRole === AccessRights.organizationalUser) ? (
+                <Redirect to='/admin' />
+              ) : authenticated && userRole === AccessRights.user ? (
+                <Redirect to='/customer' />
+              ) : (
+                <Register />
+              )
+            }
+          />
+          <Route
+            from='/admin'
+            render={() =>
+              authenticated &&
+              (userRole === AccessRights.admin ||
+                userRole === AccessRights.organizationalUser) ? (
+                <AdminDashboard />
+              ) : (
+                <Redirect to='/login' />
+              )
+            }
+          />
+          <Route
+            from='/customer'
+            exact
+            render={() =>
+              authenticated && userRole === AccessRights.user ? (
+                <CustomerDashboard />
+              ) : (
+                <Redirect to='/login' />
+              )
+            }
+          />
+          <Route
+            from='/'
+            exact
+            render={() =>
+              authenticated &&
+              (userRole === AccessRights.admin ||
+                userRole === AccessRights.organizationalUser) ? (
+                <Redirect to='/admin' />
+              ) : authenticated && userRole === AccessRights.user ? (
+                <Redirect to='/customer' />
+              ) : (
+                <Redirect to='/login' />
+              )
+            }
+          />
+        </Switch>
       </Router>
     </div>
   );

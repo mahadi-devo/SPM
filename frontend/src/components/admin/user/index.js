@@ -162,7 +162,7 @@ const User = () => {
         headColor='white'
         colorScheme={'blackAlpha'}
         cols={cols}
-        rows={rows}
+        rows={users}
       />
 
       <DeleteModal
