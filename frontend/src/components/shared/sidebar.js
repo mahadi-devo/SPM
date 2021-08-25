@@ -13,6 +13,7 @@ import {
 import { Link } from "react-router-dom";
 import menu from "./menu";
 import { ValidateAccessRight } from "./accessRights";
+import {ChatIcon} from "@chakra-ui/icons";
 
 const Sidebar = () => {
   const { isOpen, onClose } = useDisclosure();
@@ -49,7 +50,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
   return (
     <Box
       transition="3s ease"
-      bg={useColorModeValue("white", "gray.900")}
+      bg={"#6C63FF"}
       borderRight="1px"
       borderRightColor={useColorModeValue("gray.200", "gray.700")}
       w={{ base: "", md: 60 }}
@@ -58,8 +59,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Help Desk
+        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold" color={"#ffff"}>
+            <ChatIcon fill={"#333333"}/> Help Desk
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
@@ -76,9 +77,10 @@ const SidebarContent = ({ onClose, ...rest }) => {
     </Box>
   );
 };
+
 const NavItem = ({ icon, route, children, ...rest }) => {
   return (
-    <Link to={route} style={{ textDecoration: "none" }}>
+    <Link to={route} style={{ textDecoration: "none", color: "#ffffff" }}>
       <Flex
         align="center"
         p="4"
@@ -87,8 +89,8 @@ const NavItem = ({ icon, route, children, ...rest }) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "cyan.400",
-          color: "white",
+          bg: "#ffffff",
+          color: "black",
         }}
         {...rest}
       >
@@ -97,7 +99,7 @@ const NavItem = ({ icon, route, children, ...rest }) => {
             mr="4"
             fontSize="16"
             _groupHover={{
-              color: "white",
+              color: "black",
             }}
             as={icon}
           />

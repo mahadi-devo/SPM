@@ -18,7 +18,7 @@ const AdminDashboard = () => {
   const { path } = useRouteMatch();
   return (
     <Router>
-      <Box minH='100vh' bg={useColorModeValue('gray.100', 'gray.900')}>
+      <Box minH='100vh' bg="#rgba(255, 255, 255, 0.80)">
         <Sidebar />
         <Topbar
           entitlement={[AccessRights.admin, AccessRights.organizationalUser]}
