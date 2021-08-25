@@ -24,7 +24,6 @@ import {
   AlertDialogOverlay,
   Button,
 } from '@chakra-ui/react';
-import { useHistory } from 'react-router-dom';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import CustomTable from '../../shared/customTable';
 import ViewTicket from './ViewTicket';
@@ -33,7 +32,7 @@ import customerContext from '../../../context/customer/customerContext';
 const TicketHistory = () => {
   const CustomerContext = useContext(customerContext);
 
-  const { tickets, getTickets } = CustomerContext;
+  const { tickets, getTickets, removeLoaded } = CustomerContext;
 
   useEffect(() => {
     getTickets();
@@ -47,13 +46,11 @@ const TicketHistory = () => {
   const cancelRef = useRef();
 
   const HandelEdit = (id) => {
-    console.log('clicked edit on ', id);
     const x = tickets.filter((ticket) => {
       return ticket._id === id;
     });
 
     setTicket(x[0]);
-    console.log('huhhuhuhu', ticket);
     setEditTicket(true);
   };
 
@@ -119,6 +116,7 @@ const TicketHistory = () => {
   const pull_data = (data) => {
     setTicket(null);
     setEditTicket(false);
+    removeLoaded();
   };
 
   return (

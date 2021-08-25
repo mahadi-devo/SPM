@@ -25,11 +25,16 @@ import { Formik, Form, Field } from 'formik';
 import { TicketSchema } from './ticketSchema';
 import FileUploader from '../../shared/FileUpload';
 import customerContext from '../../../context/customer/customerContext';
+import departmentContext from '../../../context/department/departmentContext';
 
 const Ticket = () => {
   const CustomerContext = useContext(customerContext);
 
+  const DepartmentContext = useContext(departmentContext);
+
   const { addTicket, loading, sucess } = CustomerContext;
+
+  const { getDeartment, depatments } = DepartmentContext;
 
   const toast = useToast();
 
@@ -43,6 +48,7 @@ const Ticket = () => {
         position: 'top',
       });
     }
+    getDeartment();
     // eslint-disable-next-line
   }, [sucess]);
 
@@ -163,9 +169,14 @@ const Ticket = () => {
                                 id='department'
                                 value={values.department || ''}
                                 placeholder='Department'>
-                                <option value='option1'>Option 1</option>
+                                {/* <option value='option1'>Option 1</option>
                                 <option value='option2'>Option 2</option>
-                                <option value='option3'>Option 3</option>
+                                <option value='option3'>Option 3</option> */}
+                                {depatments.map((item) => (
+                                  <option value={item._id}>
+                                    {item.departmentName}
+                                  </option>
+                                ))}
                               </Select>
                               <FormErrorMessage>
                                 {form.errors.department}
