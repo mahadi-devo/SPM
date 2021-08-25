@@ -10,9 +10,9 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Grid,
   Box,
   Flex,
+  Tooltip,
 } from '@chakra-ui/react';
 
 import { FaPlus } from 'react-icons/fa';
@@ -36,18 +36,17 @@ const User = () => {
     // eslint-disable-next-line
   }, []);
 
-  console.log(users);
+  console.log('My users', users);
+  console.log('My users2', users);
+
+  // users.map((user) => {
+  //   console.log(user);
+  // });
 
   const [isOpenDelete, setIsOpen] = useState(false);
   const onCloseDelete = () => setIsOpen(false);
 
   const cols = [
-    {
-      title: 'User ID',
-      render: (data) => {
-        return data.id;
-      },
-    },
     {
       title: 'User Name',
       render: (data) => {
@@ -79,21 +78,26 @@ const User = () => {
         return (
           <HStack w='50%'>
             <Spacer />
-            <EditIcon fontSize='1xl' cursor='pointer' color='#4299e1' />
+            <Tooltip hasArrow label='Edit' fontSize='md' placement='top'>
+              <EditIcon fontSize='1xl' cursor='pointer' color='#4299e1' />
+            </Tooltip>
+
             <Spacer />
-            <DeleteIcon
-              fontSize='1xl'
-              cursor='pointer'
-              onClick={() => setIsOpen(true)}
-              color='red'
-            />
+            <Tooltip hasArrow label='Delete' fontSize='md' placement='top'>
+              <DeleteIcon
+                fontSize='1xl'
+                cursor='pointer'
+                onClick={() => setIsOpen(true)}
+                color='red'
+              />
+            </Tooltip>
           </HStack>
         );
       },
     },
   ];
 
-  const rows = [
+  const rowss = [
     {
       id: 'IT',
       name: 'Aflal ',
@@ -162,7 +166,7 @@ const User = () => {
         headColor='white'
         colorScheme={'blackAlpha'}
         cols={cols}
-        rows={rows}
+        rows={rowss}
       />
 
       <DeleteModal

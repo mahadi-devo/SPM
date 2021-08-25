@@ -2,6 +2,8 @@ const UserModal = require('../models/user.model');
 const ApiError = require('../utils/apiError');
 
 const addUser = async (req, res, next) => {
+  console.log(req.body);
+
   try {
     const { email, name, role, password, mobile, department } = req.body;
     const userExist = await UserModal.findOne({ email });

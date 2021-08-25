@@ -4,13 +4,10 @@ import {
   Redirect,
   Route,
   Switch,
-  useHistory,
 } from 'react-router-dom';
 import Login from './components/auth/Login';
 import { AccessRights } from './components/shared/accessRights';
 import CustomerDashboard from './components/customer/CustomerDashboard';
-import { useContext, useEffect } from 'react';
-import AuthContext from './context/auth/authContext';
 import Register from './components/auth/Register';
 
 function App() {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Container,
   VStack,
@@ -20,8 +20,14 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
+import UserContext from '../../../../context/admin/user/userContext';
+
 function UserAdd() {
   const history = useHistory();
+
+  const userContext = useContext(UserContext);
+
+  const { addUser } = userContext;
 
   const validationSchema = Yup.object().shape({
     userName: Yup.string().required('User Name is required!'),
@@ -31,7 +37,6 @@ function UserAdd() {
     password: Yup.string().required('Password is required!'),
   });
 
-  console.log('In add');
   return (
     <Container maxW='100%' centerContent={true}>
       <Center>
@@ -62,6 +67,7 @@ function UserAdd() {
             validationSchema={validationSchema}
             onSubmit={(values, actions) => {
               console.log(values, actions);
+              addUser(values);
             }}>
             {(formik) => (
               <Form>

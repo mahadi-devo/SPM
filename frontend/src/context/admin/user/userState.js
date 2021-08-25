@@ -24,14 +24,16 @@ const userState = (props) => {
 
     const data = {};
 
-    data.email = user.user.email;
-    data.name = user.user.name;
-    data.department = user.user.department;
-    data.password = user.user.password;
+    data.name = user.userName;
+    data.email = user.userEmail;
+    data.department = user.department;
+    data.password = user.password;
+    data.mobile = user.mobile;
     data.role = 2;
 
     try {
       const res = await axios.post('/api/v1/user', data, config);
+      console.log(res);
       dispatch({ type: ADD_USER, payload: res.data });
     } catch (e) {
       console.error(e);

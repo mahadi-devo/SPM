@@ -7,10 +7,6 @@ import UserAdd from './views/UserAdd';
 
 const UserRoute = () => {
   const { url } = useRouteMatch();
-
-  console.log(url);
-
-  console.log('Route hitted');
   return (
     <Route>
       <Switch>
