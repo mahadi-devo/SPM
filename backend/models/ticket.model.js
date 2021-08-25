@@ -1,21 +1,44 @@
 const mongoose = require('mongoose');
 
-const TicketSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
+const TicketSchema = mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      lowercase: true,
+      match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      trim: true,
+    },
+    department: {
+      type: String,
+      enum: ['option1', 'option2', 'option3'],
+      default: null,
+    },
+    subject: {
+      type: String,
+    },
+    message: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'closed', 'open', 'on hold', 'resolved'],
+      default: 'open',
+    },
+    file: {
+      type: String,
+    },
   },
-  email: {
-    type: String,
-    required: true,
-    lowercase: true,
-    match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-    trim: true,
-  },
-  department: {
-    type: String,
-    required: true,
-  },
-});
+  { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
+);
 
 module.exports = mongoose.model('ticket', TicketSchema);
