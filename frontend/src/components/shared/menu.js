@@ -23,23 +23,9 @@ const menu = [
     entitlement: [AccessRights.admin, AccessRights.organizationalUser],
   },
   {
-    name: 'Statuses',
-    icon: FiCompass,
-    route: '/admin/statuses',
-    default: false,
-    entitlement: [AccessRights.admin, AccessRights.organizationalUser],
-  },
-  {
     name: 'Users',
     icon: FiStar,
     route: '/admin/users',
-    default: false,
-    entitlement: [AccessRights.admin],
-  },
-  {
-    name: 'Settings',
-    icon: FiSettings,
-    route: '/admin/settings',
     default: false,
     entitlement: [AccessRights.admin],
   },

@@ -18,9 +18,8 @@ const TicketSchema = mongoose.Schema(
       trim: true,
     },
     department: {
-      type: String,
-      enum: ['option1', 'option2', 'option3'],
-      default: null,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'department',
     },
     subject: {
       type: String,
