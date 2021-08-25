@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Container,
   Box,
@@ -20,11 +20,15 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import { DeleteIcon, SearchIcon, EditIcon } from '@chakra-ui/icons';
 
 import CustomTable from '../shared/customTable';
+import DeleteModal from '../shared/deleteModal';
 import departmentContext from '../../context/department/departmentContext';
 
 const DepartmentHome = (props) => {
   const { url } = useRouteMatch();
   const { depatments, getDeartment } = useContext(departmentContext);
+
+  const [isOpenDelete, setIsOpen] = useState(false);
+  const onCloseDelete = () => setIsOpen(false);
 
   useEffect(() => {
     getDeartment();
@@ -40,6 +44,7 @@ const DepartmentHome = (props) => {
 
   const HandelDelete = (id) => {
     console.log('clicked delete on ', id);
+    setIsOpen(true);
   };
 
   const cols = [
@@ -80,7 +85,8 @@ const DepartmentHome = (props) => {
               color="orange"
             />
             <Spacer />
-            <FaTrashAlt
+            <DeleteIcon
+              fontSize="1xl"
               cursor="pointer"
               onClick={() => HandelDelete(data.departmentId)}
               color="red"
@@ -110,35 +116,35 @@ const DepartmentHome = (props) => {
             </Button>
           </Link>
         </HStack>
-        <Flex>
+        <HStack mt={5}>
           <InputGroup>
             <InputLeftElement
               pointerEvents="none"
-              children={<SearchIcon  color='gray.300' />}
+              children={<SearchIcon color="gray.300" />}
             />
             <Input w="20vw" placeholder="Search" />
           </InputGroup>
           <Spacer />
-          <Flex direction='row' >
-            <Center  w='150px'>
+          <Flex direction="row">
+            <Center w="150px">
               <Text>Sort By</Text>
             </Center>
-            <Select variant="outline" placeholder="Sort By" >
+            <Select variant="outline" placeholder="Select">
               <option value="option1">Option 1</option>
               <option value="option2">Option 2</option>
               <option value="option3">Option 3</option>
             </Select>
             <Spacer />
-            <Center  w='200px'>
+            <Center w="200px">
               <Text>Order By</Text>
             </Center>
-            <Select variant="outline" placeholder="Order By" >
+            <Select variant="outline" placeholder="Select">
               <option value="option1">Option 1</option>
               <option value="option2">Option 2</option>
               <option value="option3">Option 3</option>
             </Select>
           </Flex>
-        </Flex>
+        </HStack>
         {/* <CustomTable cols={cols} rows={depatments} /> */}
         <CustomTable
           headColor="white"
@@ -147,6 +153,12 @@ const DepartmentHome = (props) => {
           rows={depatments}
         />
       </VStack>
+      <DeleteModal
+        isOpenDelete={isOpenDelete}
+        onCloseDelete={onCloseDelete}
+        title="Deparment"
+        subTitle="Are you sure? You can't undo this action afterwards."
+      />
     </Container>
   );
 };
