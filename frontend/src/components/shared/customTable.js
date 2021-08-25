@@ -13,7 +13,6 @@ import {
 function CustomTable(props) {
   const { footer, cation, headColor, rows, cols, colorScheme } = props;
 
-  console.log(colorScheme);
   return (
     <Table variant='simple' colorScheme={colorScheme ? colorScheme : ''}>
       {cation && <TableCaption>{cation}</TableCaption>}

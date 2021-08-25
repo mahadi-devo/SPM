@@ -1,5 +1,3 @@
-import { useState, useRef } from 'react';
-
 import {
   Container,
   Button,
@@ -10,7 +8,6 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
 } from '@chakra-ui/react';
-import { deleteModel } from 'mongoose';
 
 const DeleteModel = (props) => {
   const { isOpenDelete, cancelRef, onCloseDelete, title, subTitle } = props;
