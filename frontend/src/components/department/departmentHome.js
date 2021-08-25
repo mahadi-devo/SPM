@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   Container,
   Box,
@@ -9,37 +9,43 @@ import {
   Text,
   Button,
 } from '@chakra-ui/react';
-import { FaPlus, FaEye, FaEdit, FaTrashAlt} from 'react-icons/fa';
+import { FaPlus, FaEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { Link, useRouteMatch } from 'react-router-dom';
 
 import CustomTable from '../shared/customTable';
+import departmentContext from '../../context/department/departmentContext';
 
 const DepartmentHome = (props) => {
   const { url } = useRouteMatch();
+  const { depatments, getDeartment } = useContext(departmentContext);
+
+  useEffect(() => {
+    getDeartment();
+  }, []);
 
   const Handelview = (id) => {
     console.log('clicked view on ', id);
-  }
-  
+  };
+
   const HandelEdit = (id) => {
     console.log('clicked edit on ', id);
-  }
-  
+  };
+
   const HandelDelete = (id) => {
     console.log('clicked delete on ', id);
-  }
+  };
 
   const cols = [
     {
       title: 'Department ID',
       render: (data) => {
-        return data.id;
+        return data.departmentId;
       },
     },
     {
       title: 'Department Name',
       render: (data) => {
-        return data.name;
+        return data.departmentName;
       },
     },
     {
@@ -53,42 +59,28 @@ const DepartmentHome = (props) => {
       title: 'Manager Name',
       // isNumeric: true,
       render: (data) => {
-        return <HStack w="50%">
-          <FaEye cursor='pointer' onClick={() => Handelview(data.id)} color="blue" />
-          <Spacer />
-          <FaEdit cursor='pointer' onClick={() => HandelEdit(data.id)} color="yellow" />
-          <Spacer />
-          <FaTrashAlt cursor='pointer' onClick={() => HandelDelete(data.id)} color="red" />
-        </HStack>;
+        return (
+          <HStack w="50%">
+            <FaEye
+              cursor="pointer"
+              onClick={() => Handelview(data.departmentId)}
+              color="blue"
+            />
+            <Spacer />
+            <FaEdit
+              cursor="pointer"
+              onClick={() => HandelEdit(data.departmentId)}
+              color="orange"
+            />
+            <Spacer />
+            <FaTrashAlt
+              cursor="pointer"
+              onClick={() => HandelDelete(data.departmentId)}
+              color="red"
+            />
+          </HStack>
+        );
       },
-    },
-  ];
-
-  const rows = [
-    {
-      id: 'IT',
-      name: 'Information Technology ',
-      manager: 'Nuwan Chamara',
-    },
-    {
-      id: 'ET',
-      name: 'Information Technology ',
-      manager: 'Nuwan Chamara',
-    },
-    {
-      id: 'BT',
-      name: 'Information Technology ',
-      manager: 'Nuwan Chamara',
-    },
-    {
-      id: 'ENG',
-      name: 'Information Technology ',
-      manager: 'Nuwan Chamara',
-    },
-    {
-      id: 'BA',
-      name: 'Information Technology ',
-      manager: 'Nuwan Chamara',
     },
   ];
 
@@ -106,7 +98,7 @@ const DepartmentHome = (props) => {
             </Button>
           </Link>
         </HStack>
-        <CustomTable cols={cols} rows={rows}/>
+        <CustomTable cols={cols} rows={depatments} />
       </VStack>
     </Container>
   );

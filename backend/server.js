@@ -16,6 +16,7 @@ mongoConnect();
 // Routes
 const auth = require('./routes/auth.route');
 const user = require('./routes/user.route');
+const department = require('./routes/department.route');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(cors());
 
 // Mount routes
 app.use('/api/v1/auth', auth);
+app.use('/api/v1/department', department);
 app.use('/api/v1/user', user);
 
 app.use(errorHandler);

@@ -14,10 +14,7 @@ const registerController = async (req, res, next) => {
     if(e.status) {
       console.log(e);
     }
-    res.status(500).json({
-      success: false,
-      msg: e.message,
-    });
+    return next(new ApiError(e.message, 500));
   }
 };
 
