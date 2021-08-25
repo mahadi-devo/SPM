@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Container,
   VStack,
@@ -19,9 +19,11 @@ import { Formik, Form, Field } from 'formik';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
+import departmentContext from '../../context/department/departmentContext';
 
 function DepartmentAdd() {
   const history = useHistory();
+  const { addDeparment } = useContext(departmentContext);
 
   const validationSchema = Yup.object().shape({
     departmentId: Yup.string().required('Department ID is required!'),
@@ -57,6 +59,7 @@ function DepartmentAdd() {
           validationSchema={validationSchema}
           onSubmit={(values, actions) => {
             console.log(values, actions);
+            addDeparment(values);
           }}
         >
           {(formik) => (

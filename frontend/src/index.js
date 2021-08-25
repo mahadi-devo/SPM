@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { ChakraProvider } from '@chakra-ui/react';
 import AuthState from './context/auth/AuthState';
-import UserState from './context/admin/user/UserState';
+import UserState from './context/admin/user/userState';
 import DepartmentState from './context/department/departmentState';
 
 ReactDOM.render(
