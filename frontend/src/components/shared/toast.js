@@ -5,11 +5,11 @@ const Toast = (props) => {
 
   const { title, description, status, duration, isClosable } = props;
   return toast({
-    title: 'Account created.',
-    description: "We've created your account for you.",
-    status: 'success',
-    duration: 9000,
-    isClosable: true,
+    title: { title },
+    description: { description },
+    status: { status },
+    duration: { duration },
+    isClosable: { isClosable },
   });
 };
 
