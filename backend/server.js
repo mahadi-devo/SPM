@@ -15,18 +15,22 @@ mongoConnect();
 
 // Routes
 const auth = require('./routes/auth.route');
+const ticket = require('./routes/ticket.route');
 const user = require('./routes/user.route');
+const department = require('./routes/department.route');
 
 const app = express();
 
 // Body Parser
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 
 // CORS
 app.use(cors());
 
 // Mount routes
 app.use('/api/v1/auth', auth);
+app.use('/api/v1/ticket', ticket);
+app.use('/api/v1/department', department);
 app.use('/api/v1/user', user);
 
 app.use(errorHandler);

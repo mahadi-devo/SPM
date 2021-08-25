@@ -4,12 +4,16 @@ import App from './App';
 import { ChakraProvider } from '@chakra-ui/react';
 import AuthState from './context/auth/AuthState';
 import UserState from './context/admin/user/UserState';
+import DepartmentState from './context/department/departmentState';
+
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider>
       <AuthState>
         <UserState>
-          <App />
+          <DepartmentState>
+            <App />
+          </DepartmentState>
         </UserState>
       </AuthState>
     </ChakraProvider>
