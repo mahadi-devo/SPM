@@ -36,13 +36,6 @@ const User = () => {
     // eslint-disable-next-line
   }, []);
 
-  console.log('My users', users);
-  console.log('My users2', users);
-
-  // users.map((user) => {
-  //   console.log(user);
-  // });
-
   const [isOpenDelete, setIsOpen] = useState(false);
   const onCloseDelete = () => setIsOpen(false);
 
@@ -97,37 +90,6 @@ const User = () => {
     },
   ];
 
-  const rowss = [
-    {
-      id: 'IT',
-      name: 'Aflal ',
-      email: 'aflal@gmail.com',
-      department: 'IT',
-      mobile: '+94234234234',
-    },
-    {
-      id: 'ET',
-      name: 'Pasindu ',
-      email: 'pasindu@gmail.com',
-      department: 'ET',
-      mobile: '+94234234234',
-    },
-    {
-      id: 'BT',
-      name: 'Mahadi ',
-      email: 'mahadi@gmail.com',
-      department: 'BT',
-      mobile: '+94234234234',
-    },
-    {
-      id: 'ENG',
-      name: 'Avishka ',
-      email: 'avishka@gmail.com',
-      department: 'ENG',
-      mobile: '+94234234234',
-    },
-  ];
-
   return (
     <Container maxW='100%' centerContent={true}>
       <VStack w='100%' alignItems='stretch' mt={5}>
@@ -166,7 +128,7 @@ const User = () => {
         headColor='white'
         colorScheme={'blackAlpha'}
         cols={cols}
-        rows={rowss}
+        rows={users}
       />
 
       <DeleteModal
