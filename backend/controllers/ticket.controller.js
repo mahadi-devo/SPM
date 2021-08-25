@@ -10,10 +10,22 @@ cloudinary.config({
 const getTickets = async (req, res) => {
   try {
     const user = req.user;
-    const tickets = await Ticket.find({ user: user._id });
+    const tickets = await Ticket.find({ user: user._id }).populate(
+      'department'
+    );
     res.status(200).json({ tickets });
   } catch (error) {
     res.status(500).json(error);
+  }
+};
+
+const getTicket = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await Ticket.findById(id).populate('department');
+    res.status(200).json({ data });
+  } catch (error) {
+    res.status(500);
   }
 };
 
@@ -56,4 +68,5 @@ module.exports = {
   deleteTicket,
   updateTicket,
   updateStatus,
+  getTicket,
 };
