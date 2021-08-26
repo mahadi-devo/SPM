@@ -13,7 +13,7 @@ import Register from './components/auth/Register';
 function App() {
   // Get authentication state, userRole from auth Context
   const authenticated = true;
-  const userRole = AccessRights.user;
+  const userRole = AccessRights.admin;
 
   // let authenticated = false;
   // let userRole = null;

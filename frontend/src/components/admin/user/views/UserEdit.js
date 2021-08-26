@@ -22,7 +22,7 @@ import * as Yup from 'yup';
 
 import UserContext from '../../../../context/admin/user/userContext';
 
-function UserAdd() {
+function UserEdit() {
   const history = useHistory();
 
   const userContext = useContext(UserContext);
@@ -43,7 +43,7 @@ function UserAdd() {
         <VStack w='100%' alignItems='stretch'>
           <HStack>
             <Heading as='h1' size='xl'>
-              Create New User
+              Edit User
             </Heading>
             <Spacer />
             <IconButton
@@ -202,4 +202,4 @@ function UserAdd() {
   );
 }
 
-export default UserAdd;
+export default UserEdit;
