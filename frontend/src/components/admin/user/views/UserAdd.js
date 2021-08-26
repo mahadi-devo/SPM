@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import { FaArrowLeft } from 'react-icons/fa';
-import { useHistory } from 'react-router-dom';
+import {Redirect, useHistory} from 'react-router-dom';
 import * as Yup from 'yup';
 
 import UserContext from '../../../../context/admin/user/userContext';
@@ -32,18 +32,18 @@ function UserAdd() {
 
   const toast = useToast();
 
-  useEffect(() => {
-    if (sucess) {
-      toast({
-        title: 'User Created Successfully',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-        position: 'top',
-      });
-    }
-    // eslint-disable-next-line
-  }, [sucess]);
+  // useEffect(() => {
+  //   if (sucess) {
+  //     toast({
+  //       title: 'User Created Successfully',
+  //       status: 'success',
+  //       duration: 5000,
+  //       isClosable: true,
+  //       position: 'top',
+  //     });
+  //   }
+  //   // eslint-disable-next-line
+  // }, [sucess]);
 
   const validationSchema = Yup.object().shape({
     userName: Yup.string().required('User Name is required!'),
@@ -92,6 +92,7 @@ function UserAdd() {
                 isClosable: true,
                 position: 'top',
               });
+              history.push('/admin/users/')
             }}>
             {(formik) => (
               <Form>

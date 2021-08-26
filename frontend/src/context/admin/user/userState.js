@@ -44,6 +44,7 @@ const userState = (props) => {
       //     isClosable={true}
       //   />;
       // }
+      await getUser();
       dispatch({ type: ADD_USER, payload: res.data });
     } catch (e) {
       console.error(e);
