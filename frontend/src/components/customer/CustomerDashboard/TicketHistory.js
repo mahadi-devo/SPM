@@ -12,6 +12,9 @@ import {
   Tfoot,
   Tr,
   Th,
+  InputGroup,
+  InputLeftElement,
+  Input,
   Td,
   TableCaption,
   Spacer,
@@ -24,7 +27,7 @@ import {
   AlertDialogOverlay,
   Button,
 } from '@chakra-ui/react';
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
+import { DeleteIcon, EditIcon, SearchIcon } from '@chakra-ui/icons';
 import CustomTable from '../../shared/customTable';
 import ViewTicket from './ViewTicket';
 import customerContext from '../../../context/customer/customerContext';
@@ -124,9 +127,24 @@ const TicketHistory = () => {
       {editTicket ? (
         <ViewTicket ticket={ticket} func={pull_data} />
       ) : (
-        <div style={{ borderWidth: '1px', borderRadius: '12px' }}>
-          <CustomTable cols={cols} rows={tickets} />
-        </div>
+        <Fragment>
+          <InputGroup
+            style={{
+              marginBottom: '20px',
+              width: '250px',
+              marginLeft: 'auto',
+              marginRight: '0',
+            }}>
+            <InputLeftElement
+              pointerEvents='none'
+              children={<SearchIcon color='gray.300' />}
+            />
+            <Input type='tel' placeholder='Search Ticket' />
+          </InputGroup>
+          <div style={{ borderWidth: '1px', borderRadius: '12px' }}>
+            <CustomTable cols={cols} rows={tickets} />
+          </div>
+        </Fragment>
       )}
 
       <div>
