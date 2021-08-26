@@ -1,30 +1,23 @@
-import {
-  FiCompass,
-  FiHome,
-  FiSettings,
-  FiStar,
-  FiTrendingUp,
-} from 'react-icons/fi';
+import { FiHome, FiSettings, FiUser, FiCreditCard } from 'react-icons/fi';
 import { AccessRights } from './accessRights';
-
 const menu = [
   {
     name: 'Tickets',
-    icon: FiHome,
+    icon: FiCreditCard,
     route: '/admin/tickets',
     default: true,
     entitlement: [AccessRights.admin, AccessRights.organizationalUser],
   },
   {
     name: 'Departments',
-    icon: FiTrendingUp,
+    icon: FiHome,
     route: '/admin/departments',
     default: false,
     entitlement: [AccessRights.admin, AccessRights.organizationalUser],
   },
   {
     name: 'Users',
-    icon: FiStar,
+    icon: FiUser,
     route: '/admin/users',
     default: false,
     entitlement: [AccessRights.admin],

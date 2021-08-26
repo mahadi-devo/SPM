@@ -30,29 +30,25 @@ const Register = () => {
   const authContext = useContext(AuthContext);
   const { register, error, isAuthenticated } = authContext;
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      toast({
-        title: "Account created.",
-        description: "We've created your account for you.",
-        status: "success",
-        duration: 1000,
-        isClosable: true,
-      });
-      history.push("/customer");
-    }
-
-    if (error) {
-      toast({
-        title: error,
-        status: "error",
-        duration: 5000,
-        position: "top",
-        isClosable: true,
-      });
-    }
-    // eslint-disable-next-line
-  }, [error, isAuthenticated, history.push]);
+  // if (isAuthenticated) {
+  //   toast({
+  //     title: "Account created.",
+  //     description: "We've created your account for you.",
+  //     status: "success",
+  //     duration: 1000,
+  //     isClosable: true,
+  //   });
+  // }
+  //
+  // if (error) {
+  //   toast({
+  //     title: error,
+  //     status: "error",
+  //     duration: 5000,
+  //     position: "top",
+  //     isClosable: true,
+  //   });
+  // }
 
   const submitHandler = async (
     values,
@@ -64,6 +60,7 @@ const Register = () => {
         email: values.email,
         password: values.password,
       });
+      history.push("/customer");
       resetForm({});
       setStatus({ success: true });
     } catch (error) {
@@ -81,7 +78,8 @@ const Register = () => {
             <Stack spacing={10} mx={"auto"} maxW={"lg"}>
               <Stack>
                 <Heading fontSize="3xl" color={"gray.600"}>
-                  Hello!<br/>
+                  Hello!
+                  <br />
                   Create your account
                 </Heading>
               </Stack>
@@ -160,7 +158,7 @@ const Register = () => {
                           bg={"#6C63FF"}
                           color={"white"}
                           _hover={{
-                            bg: "teal.500",
+                            boxShadow: "dark-lg",
                           }}
                           isLoading={props.isSubmitting}
                           type="submit"
@@ -176,7 +174,7 @@ const Register = () => {
               <Text flex={1}>
                 Already have an account ?{" "}
                 <Link to="/login">
-                  <span style={{ color: '#6C63FF' }}>Login here</span>
+                  <span style={{ color: "#6C63FF" }}>Login here</span>
                 </Link>
               </Text>
             </Stack>
@@ -184,7 +182,7 @@ const Register = () => {
         </Box>
         <Square flex="1">
           <Box boxSize="lg">
-            <Image src='./login.png' mt='10' />
+            <Image boxSize="580px" src="./register.png" />
           </Box>
         </Square>
       </Flex>

@@ -14,13 +14,13 @@ import {
   Square,
   Image,
   useToast,
-} from "@chakra-ui/react";
-import { Field, Form, Formik } from "formik";
-import { SignupSchema } from "./authSchema";
-import React, { useContext, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import AuthContext from "../../context/auth/authContext";
-import { Link } from "react-router-dom";
+} from '@chakra-ui/react';
+import { Field, Form, Formik } from 'formik';
+import {LoginSchema, SignupSchema} from './authSchema';
+import React, { useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import AuthContext from '../../context/auth/authContext';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const toast = useToast();
@@ -31,21 +31,21 @@ const Login = () => {
   useEffect(() => {
     if (isAuthenticated) {
       toast({
-        title: "Account created.",
+        title: 'Account created.',
         description: "We've created your account for you.",
-        status: "success",
+        status: 'success',
         duration: 1000,
         isClosable: true,
       });
-      history.push("/customer");
+      history.push('/customer');
     }
 
     if (error) {
       toast({
         title: error,
-        status: "error",
+        status: 'error',
         duration: 5000,
-        position: "top",
+        position: 'top',
         isClosable: true,
       });
     }
@@ -57,6 +57,7 @@ const Login = () => {
     { setSubmitting, setErrors, setStatus, resetForm }
   ) => {
     try {
+      history.push('/admin/tickets/')
       // await register({
       //   name: values.name,
       //   email: values.email,
@@ -74,39 +75,38 @@ const Login = () => {
   return (
     <>
       <Flex>
-        <Box flex="1">
-          <Flex minH={"100vh"} align={"center"} justify={"center"}>
-            <Stack spacing={10} mx={"auto"} maxW={"lg"}>
+        <Box flex='1'>
+          <Flex minH={'100vh'} align={'center'} justify={'center'}>
+            <Stack spacing={10} mx={'auto'} maxW={'lg'}>
               <Stack>
-                <Heading fontSize="3xl" color={"gray.600"}>
-                  Hello!<br/>
+                <Heading fontSize='3xl' color={'gray.600'}>
+                  Hello!
+                  <br />
                   Welcome back
                 </Heading>
               </Stack>
-              <Box rounded={"lg"} width={"450px"}>
+              <Box rounded={'lg'} width={'450px'}>
                 <Formik
-                  initialValues={{ email: "", password: "" }}
-                  validationSchema={SignupSchema}
+                  initialValues={{ email: '', password: '' }}
+                  validationSchema={LoginSchema}
                   onSubmit={(values, actions) => {
                     submitHandler(values, actions);
-                  }}
-                >
+                  }}>
                   {(props) => (
                     <Form>
                       <Stack spacing={4}>
-                        <Field name="email">
+                        <Field name='email'>
                           {({ field, form }) => (
                             <FormControl
                               isInvalid={
                                 form.errors.email && form.touched.email
                               }
-                              isRequired
-                            >
-                              <FormLabel htmlFor="Email">Email</FormLabel>
+                              isRequired>
+                              <FormLabel htmlFor='Email'>Email</FormLabel>
                               <Input
                                 {...field}
-                                id="email"
-                                placeholder="john@gmail.com"
+                                id='email'
+                                placeholder='john@gmail.com'
                               />
                               <FormErrorMessage>
                                 {form.errors.email}
@@ -114,19 +114,18 @@ const Login = () => {
                             </FormControl>
                           )}
                         </Field>
-                        <Field name="password">
+                        <Field name='password'>
                           {({ field, form }) => (
                             <FormControl
                               isInvalid={
                                 form.errors.password && form.touched.password
                               }
-                              isRequired
-                            >
-                              <FormLabel htmlFor="password">Password</FormLabel>
+                              isRequired>
+                              <FormLabel htmlFor='password'>Password</FormLabel>
                               <Input
                                 {...field}
-                                id="password"
-                                placeholder="secret***"
+                                id='password'
+                                placeholder='secret***'
                               />
                               <FormErrorMessage>
                                 {form.errors.password}
@@ -137,14 +136,12 @@ const Login = () => {
                       </Stack>
                       <Stack spacing={10} pt={8}>
                         <Button
-                          bg={"#6C63FF"}
-                          color={"white"}
-                          _hover={{
-                            bg: "teal.500",
-                          }}
+                          bg={'#6C63FF'}
+                          color={'white'}
+                          _hover={{ boxShadow: 'dark-lg' }}
                           isLoading={props.isSubmitting}
-                          type="submit"
-                        >
+                          onClick={()=> history.push('/admin/user/')}
+                          type='button'>
                           Login
                         </Button>
                       </Stack>
@@ -154,18 +151,18 @@ const Login = () => {
               </Box>
 
               <Text flex={1}>
-                Don't have an account ?{" "}
-                <Link to="/register">
+                Don't have an account ?{' '}
+                <Link to='/register'>
                   <span style={{ color: '#6C63FF' }}>Create account</span>
                 </Link>
               </Text>
             </Stack>
           </Flex>
         </Box>
-        <Square flex="1">
-          <Box boxSize="lg">
+        <Square flex='1'>
+          <Box boxSize='lg'>
             {/* <Image src='../../../../public/ticketbg.png' /> */}
-            <Image src="./login.png" mt="10" />
+            <Image boxSize='540px' src='./login.png' mt='' />
           </Box>
         </Square>
       </Flex>

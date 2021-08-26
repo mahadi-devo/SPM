@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import {
   Container,
   VStack,
@@ -11,39 +11,23 @@ import {
   Select,
   Center,
   Button,
-  useToast,
   FormControl,
   FormLabel,
   FormErrorMessage,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import { FaArrowLeft } from 'react-icons/fa';
-import {Redirect, useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import UserContext from '../../../../context/admin/user/userContext';
 
-function UserAdd() {
+function UserEdit() {
   const history = useHistory();
 
   const userContext = useContext(UserContext);
 
-  const { addUser, sucess, changeSuccess } = userContext;
-
-  const toast = useToast();
-
-  // useEffect(() => {
-  //   if (sucess) {
-  //     toast({
-  //       title: 'User Created Successfully',
-  //       status: 'success',
-  //       duration: 5000,
-  //       isClosable: true,
-  //       position: 'top',
-  //     });
-  //   }
-  //   // eslint-disable-next-line
-  // }, [sucess]);
+  const { addUser } = userContext;
 
   const validationSchema = Yup.object().shape({
     userName: Yup.string().required('User Name is required!'),
@@ -58,8 +42,8 @@ function UserAdd() {
       <Center>
         <VStack w='100%' alignItems='stretch'>
           <HStack>
-            <Heading as='h4' size='lg'>
-              Create New User
+            <Heading as='h1' size='xl'>
+              Edit User
             </Heading>
             <Spacer />
             <IconButton
@@ -84,15 +68,6 @@ function UserAdd() {
             onSubmit={(values, actions) => {
               console.log(values, actions);
               addUser(values);
-              //changeSuccess();
-              toast({
-                title: 'User Created Successfully',
-                status: 'success',
-                duration: 5000,
-                isClosable: true,
-                position: 'top',
-              });
-              history.push('/admin/users/')
             }}>
             {(formik) => (
               <Form>
@@ -221,10 +196,11 @@ function UserAdd() {
                     width='100%'
                     maxW='100%'
                     type='reset'
+                    bg='red'
                     _hover={{
                       boxShadow: '2xl',
                     }}
-                    colorScheme='red'>
+                    color='white'>
                     Reset
                   </Button>
                 </Box>
@@ -237,4 +213,4 @@ function UserAdd() {
   );
 }
 
-export default UserAdd;
+export default UserEdit;

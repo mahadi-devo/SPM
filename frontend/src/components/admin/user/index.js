@@ -12,11 +12,16 @@ import {
   InputLeftElement,
   Box,
   Flex,
-  Tooltip,
+  Tooltip, Center, Text, Select,
 } from '@chakra-ui/react';
 
 import { FaPlus } from 'react-icons/fa';
-import { DeleteIcon, SearchIcon, EditIcon } from '@chakra-ui/icons';
+import {
+  DeleteIcon,
+  SearchIcon,
+  EditIcon,
+  DownloadIcon,
+} from '@chakra-ui/icons';
 
 import CustomTable from '../../shared/customTable';
 import DeleteModal from '../../shared/deleteModal';
@@ -72,7 +77,9 @@ const User = () => {
           <HStack w='50%'>
             <Spacer />
             <Tooltip hasArrow label='Edit' fontSize='md' placement='top'>
-              <EditIcon fontSize='1xl' cursor='pointer' color='#4299e1' />
+              <Link to={`${url}/edit`}>
+                <EditIcon fontSize='1xl' cursor='pointer' color='#6C63FF' />
+              </Link>
             </Tooltip>
 
             <Spacer />
@@ -93,35 +100,84 @@ const User = () => {
   return (
     <Container maxW='100%' centerContent={true}>
       <VStack w='100%' alignItems='stretch' mt={5}>
-        <Flex>
+        <Flex px={5}>
           <Box>
-            <Heading as='h1' size='lg'>
-              User Management
+            <Heading as="h4" size="lg">
+              User Management{' '}
+              <Button
+                leftIcon={<DownloadIcon />}
+                colorScheme='blue'
+                size='sm'
+                _hover={{
+                  boxShadow: '2xl',
+                }}
+                bg='#6C63FF'>
+                Import
+              </Button>
             </Heading>
           </Box>
           <Spacer />
           <Box>
             <HStack mb={8}>
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents='none'
-                  children={<SearchIcon color='gray.300' />}
-                />
-                <Input size='sm' w='20vw' placeholder='Search' />
-              </InputGroup>
+              {/*<InputGroup>*/}
+              {/*  <InputLeftElement*/}
+              {/*    pointerEvents='none'*/}
+              {/*    children={<SearchIcon color='gray.300' />}*/}
+              {/*  />*/}
+              {/*  <Input size='sm' w='20vw' placeholder='Search' />*/}
+              {/*</InputGroup>*/}
 
               <Link to={`${url}/add`}>
                 <Button
                   leftIcon={<FaPlus />}
                   colorScheme='blue'
                   size='sm'
-                  variant='solid'>
+                  _hover={{
+                    boxShadow: '2xl',
+                  }}
+                  bg='#6C63FF'>
                   ADD
                 </Button>
               </Link>
             </HStack>
           </Box>
         </Flex>
+        <HStack px="5" pb="5">
+          <InputGroup>
+            <InputLeftElement
+                pointerEvents="none"
+                size="sm"
+                height="30px"
+                children={<SearchIcon color="gray.300" />}
+            />
+            <Input size="sm" w="20vw" placeholder="Search" />
+          </InputGroup>
+          <Spacer />
+          <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+          >
+            <Center w="200px">
+              <Text size="xs">Sort By</Text>
+            </Center>
+            <Select variant="outline" placeholder="Select" size="sm">
+              <option value="Department">Department</option>
+              <option value="Manager">Manager</option>
+              <option value="Latest">Latest</option>
+            </Select>
+            <Spacer />
+            <Center w="200px">
+              <Text size="sm">Order By</Text>
+            </Center>
+            <Select variant="outline" placeholder="Select" size="sm">
+              <option value="Department">Department</option>
+              <option value="Manger">Manger</option>
+            </Select>
+          </div>
+        </HStack>
       </VStack>
 
       <CustomTable
