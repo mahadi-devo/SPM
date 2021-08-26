@@ -137,9 +137,7 @@ const Login = () => {
                         <Button
                           bg={'#6C63FF'}
                           color={'white'}
-                          _hover={{
-                            bg: 'teal.500',
-                          }}
+                          _hover={{ boxShadow: 'dark-lg' }}
                           isLoading={props.isSubmitting}
                           type='submit'>
                           Login

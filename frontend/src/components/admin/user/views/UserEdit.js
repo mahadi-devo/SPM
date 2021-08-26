@@ -48,7 +48,7 @@ function UserEdit() {
             <Spacer />
             <IconButton
               variant='ghost'
-              colorScheme='blue'
+              colorScheme='purple'
               aria-label='Back'
               fontSize='20px'
               isRound
@@ -179,7 +179,14 @@ function UserEdit() {
                   </Field>
                 </Box>
                 <Box fontSize='lg' mt='5' w='30vw'>
-                  <Button width='100%' type='submit' colorScheme='blue'>
+                  <Button
+                    width='100%'
+                    type='submit'
+                    bg='#6C63FF'
+                    _hover={{
+                      boxShadow: '2xl',
+                    }}
+                    color='white'>
                     Save
                   </Button>
                 </Box>
@@ -189,7 +196,11 @@ function UserEdit() {
                     width='100%'
                     maxW='100%'
                     type='reset'
-                    colorScheme='red'>
+                    bg='red'
+                    _hover={{
+                      boxShadow: '2xl',
+                    }}
+                    color='white'>
                     Reset
                   </Button>
                 </Box>

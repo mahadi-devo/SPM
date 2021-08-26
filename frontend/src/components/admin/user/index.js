@@ -78,7 +78,7 @@ const User = () => {
             <Spacer />
             <Tooltip hasArrow label='Edit' fontSize='md' placement='top'>
               <Link to={`${url}/edit`}>
-                <EditIcon fontSize='1xl' cursor='pointer' color='#4299e1' />
+                <EditIcon fontSize='1xl' cursor='pointer' color='#6C63FF' />
               </Link>
             </Tooltip>
 
@@ -108,7 +108,10 @@ const User = () => {
                 leftIcon={<DownloadIcon />}
                 colorScheme='blue'
                 size='sm'
-                variant='solid'>
+                _hover={{
+                  boxShadow: '2xl',
+                }}
+                bg='#6C63FF'>
                 Import
               </Button>
             </Heading>
@@ -129,7 +132,10 @@ const User = () => {
                   leftIcon={<FaPlus />}
                   colorScheme='blue'
                   size='sm'
-                  variant='solid'>
+                  _hover={{
+                    boxShadow: '2xl',
+                  }}
+                  bg='#6C63FF'>
                   ADD
                 </Button>
               </Link>
