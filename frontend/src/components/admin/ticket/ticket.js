@@ -7,7 +7,7 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Box,
-  Button,
+  Button, Center,
   color,
   Container,
   Flex,
@@ -15,8 +15,8 @@ import {
   HStack,
   Input,
   InputGroup,
-  InputLeftElement,
-  Spacer,
+  InputLeftElement, Select,
+  Spacer, Text,
   Tooltip,
   VStack,
 } from "@chakra-ui/react";
@@ -139,36 +139,58 @@ const Ticket = () => {
         <Flex p={5}>
           <Box>
             <Heading as="h6" size="lg">
-              Ticket Management
+              Ticket Management{' '}
+              <Button
+                  leftIcon={<DownloadIcon />}
+                  colorScheme='blue'
+                  size='sm'
+                  _hover={{
+                    boxShadow: '2xl',
+                  }}
+                  bg='#6C63FF'>
+                Import
+              </Button>
             </Heading>
           </Box>
           <Spacer />
-          <Box>
-            <HStack mb={8}>
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<SearchIcon color="gray.300" fontSize="15" />}
-                />
-                <Input size="sm" placeholder="Search" />
-              </InputGroup>
-              <Button
-                padding={"15px"}
-                rightIcon={<DownloadIcon />}
-                size="sm"
-                color="white"
-                _hover={{
-                  bg: "#403ac2",
-                  color: "#ffffff",
-                }}
-                bg="#6c63ff"
-                variant="solid"
-              >
-                Report
-              </Button>
-            </HStack>
-          </Box>
         </Flex>
+        <HStack px="5" style={{ marginBottom: "10px" }}>
+          <InputGroup>
+            <InputLeftElement
+                pointerEvents="none"
+                size="sm"
+                height="30px"
+                children={<SearchIcon color="gray.300" />}
+            />
+            <Input size="sm" w="20vw" placeholder="Search" />
+          </InputGroup>
+          <Spacer />
+          <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+          >
+            <Center w="200px">
+              <Text size="xs">Sort By</Text>
+            </Center>
+            <Select variant="outline" placeholder="Select" size="sm">
+              <option value="Department">Department</option>
+              <option value="Manager">Manager</option>
+              <option value="Latest">Latest</option>
+            </Select>
+            <Spacer />
+            <Center w="200px">
+              <Text size="sm">Order By</Text>
+            </Center>
+            <Select variant="outline" placeholder="Select" size="sm">
+              <option value="Department">Ascending</option>
+              <option value="Manger">Descending</option>
+            </Select>
+          </div>
+        </HStack>
+        <Spacer />
       </VStack>
 
       <CustomTable

@@ -16,7 +16,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
-import { SignupSchema } from './authSchema';
+import {LoginSchema, SignupSchema} from './authSchema';
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import AuthContext from '../../context/auth/authContext';
@@ -57,6 +57,7 @@ const Login = () => {
     { setSubmitting, setErrors, setStatus, resetForm }
   ) => {
     try {
+      history.push('/admin/tickets/')
       // await register({
       //   name: values.name,
       //   email: values.email,
@@ -87,7 +88,7 @@ const Login = () => {
               <Box rounded={'lg'} width={'450px'}>
                 <Formik
                   initialValues={{ email: '', password: '' }}
-                  validationSchema={SignupSchema}
+                  validationSchema={LoginSchema}
                   onSubmit={(values, actions) => {
                     submitHandler(values, actions);
                   }}>
@@ -139,7 +140,8 @@ const Login = () => {
                           color={'white'}
                           _hover={{ boxShadow: 'dark-lg' }}
                           isLoading={props.isSubmitting}
-                          type='submit'>
+                          onClick={()=> history.push('/admin/user/')}
+                          type='button'>
                           Login
                         </Button>
                       </Stack>
