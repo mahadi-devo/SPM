@@ -26,6 +26,8 @@ import { Formik, Form, Field } from 'formik';
 import { TicketSchema } from './ticketSchema';
 import customerContext from '../../../context/customer/customerContext';
 
+import { DownloadIcon, ArrowBackIcon } from '@chakra-ui/icons';
+
 const ViewTicket = ({ match, func, ticket }) => {
   const CustomerContext = useContext(customerContext);
 
@@ -52,14 +54,15 @@ const ViewTicket = ({ match, func, ticket }) => {
   };
   return (
     <div>
-      <Button
+      <Button style={{ marginLeft: "50px", marginBottom: "20px" }}
+        leftIcon={<ArrowBackIcon />}
         onClick={() => {
           func('hello');
         }}>
-        back
+        Back
       </Button>
-      <Flex>
-        <Box flex='1'>
+      <Flex justifyContent="space-between" px={'50'}>
+        <Box>
           {loadedTicket !== null && (
             <Flex minH={'100vh'}>
               <Stack spacing={8} mx={'auto'} maxW={'lg'}>
@@ -93,6 +96,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                                   id='name'
                                   placeholder='John Doe'
                                   isDisabled
+                                  bg="gray.300"
                                 />
                                 <FormErrorMessage>
                                   {form.errors.name}
@@ -114,6 +118,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                                   id='email'
                                   placeholder='john@gmail.com'
                                   isDisabled
+                                  bg="gray.300"
                                 />
                                 <FormErrorMessage>
                                   {form.errors.email}
@@ -138,6 +143,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                                   isDisabled
                                   id='department'
                                   placeholder='Department'
+                                  bg="gray.300"
                                 />
 
                                 <FormErrorMessage>
@@ -161,6 +167,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                                   {...field}
                                   id='subject'
                                   placeholder='Subject'
+                                  bg="gray.300"
                                 />
                                 <FormErrorMessage>
                                   {form.errors.subject}
@@ -183,6 +190,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                                   {...field}
                                   id='message'
                                   placeholder='message'
+                                  bg="gray.300"
                                 />
                                 <FormErrorMessage>
                                   {form.errors.message}
@@ -253,16 +261,42 @@ const ViewTicket = ({ match, func, ticket }) => {
                   {loadedTicket.status.toUpperCase()}
                 </Heading>
               </div>
-              <Button
-                bg='#B22222'
-                size='md'
-                _hover={{
-                  bg: 'red',
-                }}
-                color={'white'}
-                style={{ width: '200px', marginTop: '10px' }}>
-                CLOSE TICKET
-              </Button>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'flex-end',
+                  marginTop: '10px',
+                  marginBottom: '10px',
+                }}>
+                <Button
+                  bg='#B22222'
+                  size='md'
+                  _hover={{
+                    bg: 'red',
+                  }}
+                  color={'white'}
+                  style={{
+                    width: '200px',
+                    marginTop: '10px',
+                    marginRight: '0',
+                    marginLeft: 'auto',
+                  }}>
+                  CLOSE TICKET
+                </Button>
+                <Button
+                  leftIcon={<DownloadIcon />}
+                  style={{
+                    width: '200px',
+                    marginTop: '10px',
+                    marginRight: '0',
+                    marginLeft: 'auto',
+                  }}
+                  colorScheme='teal'
+                  variant='solid'>
+                  Generate report
+                </Button>
+              </div>
             </>
           )}
         </Box>
