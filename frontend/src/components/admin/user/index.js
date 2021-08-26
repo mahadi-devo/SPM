@@ -39,7 +39,7 @@ const User = () => {
   useEffect(() => {
     getUser();
     // eslint-disable-next-line
-  }, []);
+  }, [users]);
 
   const [isOpenDelete, setIsOpen] = useState(false);
   const onCloseDelete = () => setIsOpen(false);
