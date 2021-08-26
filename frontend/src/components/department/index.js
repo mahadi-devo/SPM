@@ -4,6 +4,7 @@ import PrivateRoute from '../shared/privateRoute';
 import { AccessRights } from '../shared/accessRights';
 import DepartmentHome from './departmentHome';
 import DepartmentAdd from './departmentAdd';
+import DepartmentView from './departmentView';
 
 const Department = () => {
   const { path } = useRouteMatch();
@@ -21,6 +22,12 @@ const Department = () => {
           exact
           path={`${path}/add`}
           component={DepartmentAdd}
+          entitlement={[AccessRights.admin, AccessRights.organizationalUser]}
+        />
+        <PrivateRoute
+          exact
+          path={`${path}/view`}
+          component={DepartmentView}
           entitlement={[AccessRights.admin, AccessRights.organizationalUser]}
         />
       </Switch>

@@ -42,7 +42,7 @@ const DepartmentState = (props) => {
 
       dispatch({
         type: ADD_DEPARTMENT,
-        payload: res.data,
+        payload: res.data.department,
       });
     } catch (err) {
       console.log(err);

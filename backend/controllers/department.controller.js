@@ -20,7 +20,7 @@ const getDepartment = async (req, res) => {
 const addDepartment = async (req, res) => {
   console.log('department :');
   try {
-    const { departmentId, departmentName, manager } = req.body;
+    const { departmentId, departmentName, manager, desctiption } = req.body;
 
     const departmentExist = await Department.findOne({ departmentId });
 
@@ -32,6 +32,7 @@ const addDepartment = async (req, res) => {
       departmentId,
       departmentName,
       manager,
+      desctiption,
     });
 
     console.log('department :', department);
