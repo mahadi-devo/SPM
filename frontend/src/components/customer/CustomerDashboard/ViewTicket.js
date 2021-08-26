@@ -54,15 +54,15 @@ const ViewTicket = ({ match, func, ticket }) => {
   };
   return (
     <div>
-      <Button
+      <Button style={{ marginLeft: "50px", marginBottom: "20px" }}
         leftIcon={<ArrowBackIcon />}
         onClick={() => {
           func('hello');
         }}>
         Back
       </Button>
-      <Flex>
-        <Box flex='1'>
+      <Flex justifyContent="space-between" px={'50'}>
+        <Box>
           {loadedTicket !== null && (
             <Flex minH={'100vh'}>
               <Stack spacing={8} mx={'auto'} maxW={'lg'}>
@@ -96,6 +96,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                                   id='name'
                                   placeholder='John Doe'
                                   isDisabled
+                                  bg="gray.300"
                                 />
                                 <FormErrorMessage>
                                   {form.errors.name}
@@ -117,6 +118,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                                   id='email'
                                   placeholder='john@gmail.com'
                                   isDisabled
+                                  bg="gray.300"
                                 />
                                 <FormErrorMessage>
                                   {form.errors.email}
@@ -141,6 +143,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                                   isDisabled
                                   id='department'
                                   placeholder='Department'
+                                  bg="gray.300"
                                 />
 
                                 <FormErrorMessage>
@@ -164,6 +167,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                                   {...field}
                                   id='subject'
                                   placeholder='Subject'
+                                  bg="gray.300"
                                 />
                                 <FormErrorMessage>
                                   {form.errors.subject}
@@ -186,6 +190,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                                   {...field}
                                   id='message'
                                   placeholder='message'
+                                  bg="gray.300"
                                 />
                                 <FormErrorMessage>
                                   {form.errors.message}
