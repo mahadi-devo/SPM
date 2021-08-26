@@ -38,7 +38,7 @@ function DepartmentView() {
     <Container maxW="100%" centerContent={true}>
       <Stack w="80%" alignItems="stretch">
         <HStack>
-          <Heading as="h1" size="xl">
+          <Heading as="h4" size="lg">
             Create Details
           </Heading>
           <Spacer />
@@ -51,11 +51,11 @@ function DepartmentView() {
             icon={<FaArrowLeft />}
             onClick={history.goBack}
           />
-          <Button colorScheme="blue">Update</Button>
-          <Button colorScheme="red">Delete</Button>
+          <Button colorScheme="blue" size="sm">Update</Button>
+          <Button colorScheme="red" size="sm">Delete</Button>
         </HStack>
         <Center>
-        <Box width={{ base: "100%", sm: "100%", md: "90%" }}>
+        <Box width={{ base: "100%", sm: "100%", md: "100%" }}>
           <Formik
             initialValues={{
               departmentId: 'SE',
@@ -155,15 +155,15 @@ function DepartmentView() {
         </Box>
         </Center>
         <Center>
-        <Box mt={4} p={5} shadow="md" width="100%" borderWidth="1px">
-          <Heading fontSize="xl">User list</Heading>
-          <Text >here are all the users belogs to this department</Text>
-          <Box mt={4} pl={5}>
-            <Text >User name one</Text>
-            <Text >User name one</Text>
-            <Text >User name one</Text>
-          </Box>
-        </Box>
+        {/*<Box mt={4} p={5} shadow="md" width="100%" borderWidth="1px">*/}
+        {/*  <Heading fontSize="xl">User list</Heading>*/}
+        {/*  <Text >here are all the users belogs to this department</Text>*/}
+        {/*  <Box mt={4} pl={5}>*/}
+        {/*    <Text >User name one</Text>*/}
+        {/*    <Text >User name one</Text>*/}
+        {/*    <Text >User name one</Text>*/}
+        {/*  </Box>*/}
+        {/*</Box>*/}
         </Center>
       </Stack>
     </Container>

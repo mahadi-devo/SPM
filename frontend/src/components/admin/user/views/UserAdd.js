@@ -58,7 +58,7 @@ function UserAdd() {
       <Center>
         <VStack w='100%' alignItems='stretch'>
           <HStack>
-            <Heading as='h1' size='xl'>
+            <Heading as='h4' size='lg'>
               Create New User
             </Heading>
             <Spacer />

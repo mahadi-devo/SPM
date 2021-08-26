@@ -12,7 +12,7 @@ import {
   InputLeftElement,
   Box,
   Flex,
-  Tooltip,
+  Tooltip, Center, Text, Select,
 } from '@chakra-ui/react';
 
 import { FaPlus } from 'react-icons/fa';
@@ -100,9 +100,9 @@ const User = () => {
   return (
     <Container maxW='100%' centerContent={true}>
       <VStack w='100%' alignItems='stretch' mt={5}>
-        <Flex>
+        <Flex px={5}>
           <Box>
-            <Heading as='h1' size='lg'>
+            <Heading as="h4" size="lg">
               User Management{' '}
               <Button
                 leftIcon={<DownloadIcon />}
@@ -119,13 +119,13 @@ const User = () => {
           <Spacer />
           <Box>
             <HStack mb={8}>
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents='none'
-                  children={<SearchIcon color='gray.300' />}
-                />
-                <Input size='sm' w='20vw' placeholder='Search' />
-              </InputGroup>
+              {/*<InputGroup>*/}
+              {/*  <InputLeftElement*/}
+              {/*    pointerEvents='none'*/}
+              {/*    children={<SearchIcon color='gray.300' />}*/}
+              {/*  />*/}
+              {/*  <Input size='sm' w='20vw' placeholder='Search' />*/}
+              {/*</InputGroup>*/}
 
               <Link to={`${url}/add`}>
                 <Button
@@ -142,6 +142,42 @@ const User = () => {
             </HStack>
           </Box>
         </Flex>
+        <HStack px="5" pb="5">
+          <InputGroup>
+            <InputLeftElement
+                pointerEvents="none"
+                size="sm"
+                height="30px"
+                children={<SearchIcon color="gray.300" />}
+            />
+            <Input size="sm" w="20vw" placeholder="Search" />
+          </InputGroup>
+          <Spacer />
+          <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+          >
+            <Center w="200px">
+              <Text size="xs">Sort By</Text>
+            </Center>
+            <Select variant="outline" placeholder="Select" size="sm">
+              <option value="Department">Department</option>
+              <option value="Manager">Manager</option>
+              <option value="Latest">Latest</option>
+            </Select>
+            <Spacer />
+            <Center w="200px">
+              <Text size="sm">Order By</Text>
+            </Center>
+            <Select variant="outline" placeholder="Select" size="sm">
+              <option value="Department">Department</option>
+              <option value="Manger">Manger</option>
+            </Select>
+          </div>
+        </HStack>
       </VStack>
 
       <CustomTable

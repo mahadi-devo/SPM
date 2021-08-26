@@ -136,7 +136,7 @@ const Ticket = () => {
   return (
     <Container maxW="100%" centerContent={true}>
       <VStack w="100%" alignItems="stretch" mt={5}>
-        <Flex>
+        <Flex p={5}>
           <Box>
             <Heading as="h6" size="lg">
               Ticket Management
