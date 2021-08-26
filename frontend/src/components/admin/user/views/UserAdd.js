@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   Container,
   VStack,
@@ -11,6 +11,7 @@ import {
   Select,
   Center,
   Button,
+  useToast,
   FormControl,
   FormLabel,
   FormErrorMessage,
@@ -27,7 +28,22 @@ function UserAdd() {
 
   const userContext = useContext(UserContext);
 
-  const { addUser } = userContext;
+  const { addUser, sucess, changeSuccess } = userContext;
+
+  const toast = useToast();
+
+  useEffect(() => {
+    if (sucess) {
+      toast({
+        title: 'User Created Successfully',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      });
+    }
+    // eslint-disable-next-line
+  }, [sucess]);
 
   const validationSchema = Yup.object().shape({
     userName: Yup.string().required('User Name is required!'),
@@ -68,6 +84,14 @@ function UserAdd() {
             onSubmit={(values, actions) => {
               console.log(values, actions);
               addUser(values);
+              //changeSuccess();
+              toast({
+                title: 'User Created Successfully',
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+                position: 'top',
+              });
             }}>
             {(formik) => (
               <Form>

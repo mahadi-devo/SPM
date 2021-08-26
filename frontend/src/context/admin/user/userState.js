@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
-import { ADD_USER, GET_USER } from './types';
+import { ADD_USER, GET_USER, CHANGE_SUCESS } from './types';
 
 import UserReducer from './userReducer';
 import UserContext from './userContext';
@@ -10,6 +10,7 @@ const userState = (props) => {
   const initialState = {
     users: [],
     current: null,
+    sucess: false,
   };
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -64,13 +65,18 @@ const userState = (props) => {
     }
   };
 
+  const changeSuccess = () => {
+    dispatch({ type: CHANGE_SUCESS, payload: state.sucess });
+  };
   return (
     <UserContext.Provider
       value={{
         users: state.users,
         current: state.current,
+        sucess: state.sucess,
         addUser,
         getUser,
+        changeSuccess,
       }}>
       {props.children}
     </UserContext.Provider>
