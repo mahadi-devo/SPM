@@ -16,7 +16,12 @@ import {
 } from '@chakra-ui/react';
 
 import { FaPlus } from 'react-icons/fa';
-import { DeleteIcon, SearchIcon, EditIcon } from '@chakra-ui/icons';
+import {
+  DeleteIcon,
+  SearchIcon,
+  EditIcon,
+  DownloadIcon,
+} from '@chakra-ui/icons';
 
 import CustomTable from '../../shared/customTable';
 import DeleteModal from '../../shared/deleteModal';
@@ -72,7 +77,9 @@ const User = () => {
           <HStack w='50%'>
             <Spacer />
             <Tooltip hasArrow label='Edit' fontSize='md' placement='top'>
-              <EditIcon fontSize='1xl' cursor='pointer' color='#4299e1' />
+              <Link to={`${url}/edit`}>
+                <EditIcon fontSize='1xl' cursor='pointer' color='#6C63FF' />
+              </Link>
             </Tooltip>
 
             <Spacer />
@@ -96,7 +103,17 @@ const User = () => {
         <Flex>
           <Box>
             <Heading as='h1' size='lg'>
-              User Management
+              User Management{' '}
+              <Button
+                leftIcon={<DownloadIcon />}
+                colorScheme='blue'
+                size='sm'
+                _hover={{
+                  boxShadow: '2xl',
+                }}
+                bg='#6C63FF'>
+                Import
+              </Button>
             </Heading>
           </Box>
           <Spacer />
@@ -115,7 +132,10 @@ const User = () => {
                   leftIcon={<FaPlus />}
                   colorScheme='blue'
                   size='sm'
-                  variant='solid'>
+                  _hover={{
+                    boxShadow: '2xl',
+                  }}
+                  bg='#6C63FF'>
                   ADD
                 </Button>
               </Link>
