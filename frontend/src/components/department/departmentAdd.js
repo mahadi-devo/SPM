@@ -52,9 +52,9 @@ function DepartmentAdd() {
 
   return (
     <Container maxW="100%" centerContent={true}>
-      <Stack w="80%" alignItems="stretch">
+      <Stack w="70%" alignItems="stretch">
         <HStack>
-          <Heading as="h4" size="lg" paddingLeft="10">
+          <Heading as="h4" size="lg">
             Create New Department
           </Heading>
           <Spacer />
@@ -69,7 +69,7 @@ function DepartmentAdd() {
           />
         </HStack>
         <Center>
-          <Box width={{ base: "100%", sm: "100%", md: "90%" }}>
+          <Box width={{ base: "100%", sm: "100%", md: "100%" }}>
             <Formik
               initialValues={{
                 departmentId: "",
@@ -145,7 +145,7 @@ function DepartmentAdd() {
                           <Input
                             {...field}
                             id="manager"
-                            placeholder="John Doe"
+                            placeholder="Enter Manager Name Here"
                           />
                           <FormErrorMessage>
                             {form.errors.manager}
@@ -166,7 +166,7 @@ function DepartmentAdd() {
                           <Textarea
                             {...field}
                             id="manager"
-                            placeholder="John Doe"
+                            placeholder="Enter Manager Desctiption Here"
                           />
                           <FormErrorMessage>
                             {form.errors.name}
