@@ -4,8 +4,6 @@ const ApiError = require('../utils/apiError');
 const getDepartment = async (req, res) => {
   try {
     const { keyword, sortby='', orderby = -1 } = req.query;
-    console.log("🚀 ~ file: department.controller.js ~ line 7 ~ getDepartment ~ sortby", sortby)
-    console.log("🚀 ~ file: department.controller.js ~ line 7 ~ getDepartment ~ orderby", orderby)
     let quary;
     switch (sortby) {
       case 'departmentId':
@@ -22,12 +20,10 @@ const getDepartment = async (req, res) => {
         break;
     }
     let department;
-    console.log("🚀 ~ file: department.controller.js ~ line 26 ~ getDepartment ~ keyword", keyword)
     if (keyword) {
       var re = new RegExp(keyword,"i");
       department = await Department.find({departmentName: re}).collation({locale:'en'}).sort(quary);
     } else {
-      console.log("🚀 ~ file: department.controller.js ~ line 26 ~ getDepartment ~ quary", quary)
       department = await Department.find().collation({locale:'en'}).sort(quary);
     }
     res.status(200).json({
