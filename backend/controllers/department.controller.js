@@ -2,9 +2,34 @@ const Department = require('../models/department.model');
 const ApiError = require('../utils/apiError');
 
 const getDepartment = async (req, res) => {
-  console.log('in');
   try {
-    const department = await Department.find();
+    const { keyword, sortby='', orderby = -1 } = req.query;
+    console.log("🚀 ~ file: department.controller.js ~ line 7 ~ getDepartment ~ sortby", sortby)
+    console.log("🚀 ~ file: department.controller.js ~ line 7 ~ getDepartment ~ orderby", orderby)
+    let quary;
+    switch (sortby) {
+      case 'departmentId':
+        quary = { departmentId: orderby };
+        break;
+      case 'departmentName':
+        quary = { departmentName: orderby };
+        break;
+      case 'manager':
+        quary = { manager: orderby };
+        break;
+      default:
+        quary = { createdAt: -1 };
+        break;
+    }
+    let department;
+    console.log("🚀 ~ file: department.controller.js ~ line 26 ~ getDepartment ~ keyword", keyword)
+    if (keyword) {
+      var re = new RegExp(keyword,"i");
+      department = await Department.find({departmentName: re}).collation({locale:'en'}).sort(quary);
+    } else {
+      console.log("🚀 ~ file: department.controller.js ~ line 26 ~ getDepartment ~ quary", quary)
+      department = await Department.find().collation({locale:'en'}).sort(quary);
+    }
     res.status(200).json({
       department,
       success: true,
