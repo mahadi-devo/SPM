@@ -84,7 +84,7 @@ const Topbar = (props) => {
                   <Avatar
                     size="sm"
                     bg="#6C63FF"
-                    name="Pasindu Jayawardhana"
+                    name="Mahadi Hassan"
                     src="https://bit.ly/tioluwani-kolawole"
                   />
                   <VStack
@@ -93,9 +93,9 @@ const Topbar = (props) => {
                     spacing="1px"
                     ml="2"
                   >
-                    <Text fontSize="xs">Pasindu Jayawardhana</Text>
+                    <Text fontSize="xs">Mahadi Hassan</Text>
                     <Text fontSize="xs" color="gray.600">
-                      Admin
+                      Department Head IT
                     </Text>
                   </VStack>
                   <Box display={{ base: "none", md: "flex" }}>

@@ -75,38 +75,40 @@ const Login = () => {
   return (
     <>
       <Flex>
-        <Box flex='1'>
-          <Flex minH={'100vh'} align={'center'} justify={'center'}>
-            <Stack spacing={10} mx={'auto'} maxW={'lg'}>
+        <Box flex="1">
+          <Flex minH={"100vh"} align={"center"} justify={"center"}>
+            <Stack spacing={10} mx={"auto"} maxW={"lg"}>
               <Stack>
-                <Heading fontSize='3xl' color={'gray.600'}>
+                <Heading fontSize="3xl" color={"gray.600"}>
                   Hello!
                   <br />
                   Welcome back
                 </Heading>
               </Stack>
-              <Box rounded={'lg'} width={'450px'}>
+              <Box rounded={"lg"} width={"450px"}>
                 <Formik
-                  initialValues={{ email: '', password: '' }}
+                  initialValues={{ email: "", password: "" }}
                   validationSchema={LoginSchema}
                   onSubmit={(values, actions) => {
                     submitHandler(values, actions);
-                  }}>
+                  }}
+                >
                   {(props) => (
                     <Form>
                       <Stack spacing={4}>
-                        <Field name='email'>
+                        <Field name="email">
                           {({ field, form }) => (
                             <FormControl
                               isInvalid={
                                 form.errors.email && form.touched.email
                               }
-                              isRequired>
-                              <FormLabel htmlFor='Email'>Email</FormLabel>
+                              isRequired
+                            >
+                              <FormLabel htmlFor="Email">Email</FormLabel>
                               <Input
                                 {...field}
-                                id='email'
-                                placeholder='john@gmail.com'
+                                id="email"
+                                placeholder="john@gmail.com"
                               />
                               <FormErrorMessage>
                                 {form.errors.email}
@@ -114,18 +116,19 @@ const Login = () => {
                             </FormControl>
                           )}
                         </Field>
-                        <Field name='password'>
+                        <Field name="password">
                           {({ field, form }) => (
                             <FormControl
                               isInvalid={
                                 form.errors.password && form.touched.password
                               }
-                              isRequired>
-                              <FormLabel htmlFor='password'>Password</FormLabel>
+                              isRequired
+                            >
+                              <FormLabel htmlFor="password">Password</FormLabel>
                               <Input
                                 {...field}
-                                id='password'
-                                placeholder='secret***'
+                                id="password"
+                                placeholder="secret***"
                               />
                               <FormErrorMessage>
                                 {form.errors.password}
@@ -136,12 +139,13 @@ const Login = () => {
                       </Stack>
                       <Stack spacing={10} pt={8}>
                         <Button
-                          bg={'#6C63FF'}
-                          color={'white'}
-                          _hover={{ boxShadow: 'dark-lg' }}
+                          bg={"#6C63FF"}
+                          color={"white"}
+                          _hover={{ boxShadow: "dark-lg" }}
                           isLoading={props.isSubmitting}
-                          onClick={()=> history.push('/admin/user/')}
-                          type='button'>
+                          onClick={() => history.push("/admin/user/")}
+                          type="button"
+                        >
                           Login
                         </Button>
                       </Stack>
@@ -151,18 +155,18 @@ const Login = () => {
               </Box>
 
               <Text flex={1}>
-                Don't have an account ?{' '}
-                <Link to='/register'>
-                  <span style={{ color: '#6C63FF' }}>Create account</span>
+                Don't have an account ?{" "}
+                <Link to="/register">
+                  <span style={{ color: "#6C63FF" }}>Create account</span>
                 </Link>
               </Text>
             </Stack>
           </Flex>
         </Box>
-        <Square flex='1'>
-          <Box boxSize='lg'>
+        <Square flex="1">
+          <Box boxSize="lg">
             {/* <Image src='../../../../public/ticketbg.png' /> */}
-            <Image boxSize='540px' src='./login.png' mt='' />
+            <Image boxSize="540px" src="./login.png" mt="" />
           </Box>
         </Square>
       </Flex>
