@@ -4,6 +4,7 @@ import PrivateRoute from '../../shared/privateRoute';
 import { AccessRights } from '../../shared/accessRights';
 import index from './index';
 import UserAdd from './views/UserAdd';
+import UserEdit from './views/UserEdit';
 
 const UserRoute = () => {
   const { url } = useRouteMatch();
@@ -19,7 +20,14 @@ const UserRoute = () => {
 
         <PrivateRoute
           exact
-          path={`${url}/`}
+          path={`${url}/edit`}
+          component={UserEdit}
+          entitlement={[AccessRights.admin, AccessRights.organizationalUser]}
+        />
+
+        <PrivateRoute
+          exact
+          path={`${url}`}
           component={index}
           entitlement={[AccessRights.admin, AccessRights.organizationalUser]}
         />

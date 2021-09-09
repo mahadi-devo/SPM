@@ -11,6 +11,7 @@ import Ticket from './Ticket';
 import TicketHistory from './TicketHistory';
 import ViewTicket from './ViewTicket';
 import CustomerState from '../../../context/customer/CustomerState';
+import DepartmentState from '../../../context/department/departmentState';
 import {
   Container,
   Tabs,
@@ -26,20 +27,22 @@ const CustomerDashboard = () => {
       <Topbar entitlement={[AccessRights.user]} />
       <Container maxW='container.xl' mt='3'>
         <CustomerState>
-          <Tabs isFitted>
-            <TabList mb='1em'>
-              <Tab>Ticket</Tab>
-              <Tab>Ticket History</Tab>
-            </TabList>
-            <TabPanels>
-              <TabPanel>
-                <Ticket />
-              </TabPanel>
-              <TabPanel>
-                <TicketHistory />
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
+          <DepartmentState>
+            <Tabs isFitted>
+              <TabList mb='1em'>
+                <Tab>Ticket</Tab>
+                <Tab>Ticket History</Tab>
+              </TabList>
+              <TabPanels>
+                <TabPanel>
+                  <Ticket />
+                </TabPanel>
+                <TabPanel>
+                  <TicketHistory />
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          </DepartmentState>
         </CustomerState>
       </Container>
       <Router>

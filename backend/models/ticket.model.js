@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const TicketSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
+      ref: "user",
     },
     name: {
       type: String,
@@ -18,9 +18,8 @@ const TicketSchema = mongoose.Schema(
       trim: true,
     },
     department: {
-      type: String,
-      enum: ['option1', 'option2', 'option3'],
-      default: null,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "department",
     },
     subject: {
       type: String,
@@ -31,14 +30,14 @@ const TicketSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['pending', 'closed', 'open', 'on hold', 'resolved'],
-      default: 'open',
+      enum: ["pending", "closed", "open", "on hold", "resolved"],
+      default: "open",
     },
     file: {
       type: String,
     },
   },
-  { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
+  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
-module.exports = mongoose.model('ticket', TicketSchema);
+module.exports = mongoose.model("ticket", TicketSchema);

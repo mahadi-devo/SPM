@@ -4,7 +4,7 @@ import React, {
   useRef,
   useContext,
   useEffect,
-} from 'react';
+} from "react";
 import {
   Table,
   Thead,
@@ -12,6 +12,9 @@ import {
   Tfoot,
   Tr,
   Th,
+  InputGroup,
+  InputLeftElement,
+  Input,
   Td,
   TableCaption,
   Spacer,
@@ -23,17 +26,16 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   Button,
-} from '@chakra-ui/react';
-import { useHistory } from 'react-router-dom';
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import CustomTable from '../../shared/customTable';
-import ViewTicket from './ViewTicket';
-import customerContext from '../../../context/customer/customerContext';
+} from "@chakra-ui/react";
+import { DeleteIcon, EditIcon, SearchIcon } from "@chakra-ui/icons";
+import CustomTable from "../../shared/customTable";
+import ViewTicket from "./ViewTicket";
+import customerContext from "../../../context/customer/customerContext";
 
 const TicketHistory = () => {
   const CustomerContext = useContext(customerContext);
 
-  const { tickets, getTickets } = CustomerContext;
+  const { tickets, getTickets, removeLoaded } = CustomerContext;
 
   useEffect(() => {
     getTickets();
@@ -41,73 +43,71 @@ const TicketHistory = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [editTicket, setEditTicket] = useState(false);
-  const [ticket, setTicket] = useState('');
+  const [ticket, setTicket] = useState("");
 
   const onClose = () => setIsOpen(false);
   const cancelRef = useRef();
 
   const HandelEdit = (id) => {
-    console.log('clicked edit on ', id);
     const x = tickets.filter((ticket) => {
       return ticket._id === id;
     });
 
     setTicket(x[0]);
-    console.log('huhhuhuhu', ticket);
     setEditTicket(true);
   };
 
   const HandelDelete = (id) => {
-    console.log('clicked delete on ', id);
+    console.log("clicked delete on ", id);
     setIsOpen(true);
   };
 
   const cols = [
     {
-      title: 'Ref No',
+      title: "Ref No",
       render: (data) => {
         return data._id;
       },
     },
     {
-      title: 'Name',
+      title: "Name",
       render: (data) => {
         return data.name;
       },
     },
     {
-      title: 'Subject',
+      title: "Subject",
       // isNumeric: true,
       render: (data) => {
         return data.subject;
       },
     },
     {
-      title: 'Status',
+      title: "Status",
       // isNumeric: true,
       render: (data) => {
         return data.status;
       },
     },
     {
-      title: 'Actions',
+      title: "Actions",
       // isNumeric: true,
       render: (data) => {
         return (
-          <HStack w='50%'>
+          <HStack w="50%">
             <EditIcon
-              color='#6C63FF'
+              color="#6C63FF"
               w={5}
               h={5}
-              cursor='pointer'
+              cursor="pointer"
               onClick={() => HandelEdit(data._id)}
             />
             <Spacer />
             <DeleteIcon
-              color='#C10707'
+              color="#C10707"
               w={5}
               h={5}
-              cursor='pointer'
+              cursor="pointer"
               onClick={() => HandelDelete(data._id)}
             />
           </HStack>
@@ -119,6 +119,7 @@ const TicketHistory = () => {
   const pull_data = (data) => {
     setTicket(null);
     setEditTicket(false);
+    removeLoaded();
   };
 
   return (
@@ -126,19 +127,42 @@ const TicketHistory = () => {
       {editTicket ? (
         <ViewTicket ticket={ticket} func={pull_data} />
       ) : (
-        <div style={{ borderWidth: '1px', borderRadius: '12px' }}>
-          <CustomTable cols={cols} rows={tickets} />
-        </div>
+        <Fragment>
+          <InputGroup
+            style={{
+              marginBottom: "20px",
+              width: "250px",
+              marginLeft: "auto",
+              marginRight: "0",
+            }}
+          >
+            <InputLeftElement
+              pointerEvents="none"
+              height="35px"
+              children={<SearchIcon color="gray.300" />}
+            />
+            <Input type="tel" size={"sm"} placeholder="Search Ticket" />
+          </InputGroup>
+          <div>
+            <CustomTable
+              headColor="white"
+              colorScheme={"blackAlpha"}
+              cols={cols}
+              rows={tickets}
+            />
+          </div>
+        </Fragment>
       )}
 
       <div>
         <AlertDialog
           isOpen={isOpen}
           leastDestructiveRef={cancelRef}
-          onClose={onClose}>
+          onClose={onClose}
+        >
           <AlertDialogOverlay>
             <AlertDialogContent>
-              <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              <AlertDialogHeader fontSize="lg" fontWeight="bold">
                 Delete Customer
               </AlertDialogHeader>
 
@@ -150,7 +174,7 @@ const TicketHistory = () => {
                 <Button ref={cancelRef} onClick={onClose}>
                   Cancel
                 </Button>
-                <Button colorScheme='red' onClick={onClose} ml={3}>
+                <Button colorScheme="red" onClick={onClose} ml={3}>
                   Delete
                 </Button>
               </AlertDialogFooter>

@@ -34,7 +34,7 @@ const addUser = async (req, res, next) => {
 
 const getAllUser = async (req, res) => {
   try {
-    const users = await UserModal.find({ role: 2 });
+    const users = await UserModal.find({ role: 2 }).sort({ createdAt: -1 });
     res.status(200).json({
       users,
       success: true,
