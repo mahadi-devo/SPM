@@ -1,9 +1,8 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import {ValidateAccessRight} from "./accessRights";
+import { ValidateAccessRight } from "./accessRights";
 
 const PrivateRoute = (props) => {
-
   // Get authentication, userRole from authContext
   let authorized = ValidateAccessRight(props.entitlement);
 

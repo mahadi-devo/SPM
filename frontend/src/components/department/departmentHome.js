@@ -17,7 +17,12 @@ import {
 } from "@chakra-ui/react";
 import { FaPlus, FaEye, FaEdit, FaTrashAlt } from "react-icons/fa";
 import { Link, useHistory, useRouteMatch } from "react-router-dom";
-import {DeleteIcon, SearchIcon, EditIcon, DownloadIcon} from "@chakra-ui/icons";
+import {
+  DeleteIcon,
+  SearchIcon,
+  EditIcon,
+  DownloadIcon,
+} from "@chakra-ui/icons";
 
 import CustomTable from "../shared/customTable";
 import DeleteModal from "../shared/deleteModal";
@@ -101,17 +106,18 @@ const DepartmentHome = (props) => {
   return (
     <Container maxW="100%" centerContent={true}>
       <VStack w="100%" alignItems="stretch" mt={5}>
-        <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Heading as="h4" size="lg" mb="5">
-            Department Management{' '}
+            Department Management{" "}
             <Button
-                leftIcon={<DownloadIcon />}
-                colorScheme='blue'
-                size='sm'
-                _hover={{
-                  boxShadow: '2xl',
-                }}
-                bg='#6C63FF'>
+              leftIcon={<DownloadIcon />}
+              colorScheme="blue"
+              size="sm"
+              _hover={{
+                boxShadow: "2xl",
+              }}
+              bg="#6C63FF"
+            >
               Import
             </Button>
           </Heading>
