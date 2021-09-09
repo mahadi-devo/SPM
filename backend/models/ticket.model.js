@@ -35,7 +35,7 @@ const TicketSchema = mongoose.Schema(
     },
     file: {
       type: String,
-    }
+    },
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
