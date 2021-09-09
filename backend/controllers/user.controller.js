@@ -2,6 +2,8 @@ const UserModal = require('../models/user.model');
 const ApiError = require('../utils/apiError');
 
 const addUser = async (req, res, next) => {
+  console.log(req.body);
+
   try {
     const { email, name, role, password, mobile, department } = req.body;
     const userExist = await UserModal.findOne({ email });
@@ -32,7 +34,7 @@ const addUser = async (req, res, next) => {
 
 const getAllUser = async (req, res) => {
   try {
-    const users = await UserModal.find({});
+    const users = await UserModal.find({ role: 2 }).sort({ createdAt: -1 });
     res.status(200).json({
       users,
       success: true,

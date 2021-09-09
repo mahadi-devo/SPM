@@ -3,15 +3,21 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import { ChakraProvider } from "@chakra-ui/react";
 import AuthState from "./context/auth/AuthState";
-import DepartmentState from "./context/department/departmentState"
+import DepartmentState from "./context/department/departmentState";
+import UserState from "./context/admin/user/userState";
+import TicketState from "./context/admin/ticket/ticketState";
 
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider>
       <AuthState>
-        <DepartmentState>
-          <App />
-        </DepartmentState>
+          <UserState>
+            <TicketState>
+            <DepartmentState>
+              <App />
+            </DepartmentState>
+            </TicketState>
+          </UserState>
       </AuthState>
     </ChakraProvider>
   </React.StrictMode>,

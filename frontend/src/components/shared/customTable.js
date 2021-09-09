@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Table,
   Thead,
@@ -8,16 +8,15 @@ import {
   Th,
   Td,
   TableCaption,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
 function CustomTable(props) {
   const { footer, cation, headColor, rows, cols, colorScheme } = props;
 
-  console.log(colorScheme);
   return (
-    <Table variant='simple' colorScheme={colorScheme ? colorScheme : ''}>
+    <Table variant="simple" colorScheme={colorScheme ? colorScheme : ""}>
       {cation && <TableCaption>{cation}</TableCaption>}
-      <Thead backgroundColor={headColor ? headColor : ''}>
+      <Thead backgroundColor={headColor ? headColor : ""}>
         <Tr>
           {cols.map((column, c) => {
             return (

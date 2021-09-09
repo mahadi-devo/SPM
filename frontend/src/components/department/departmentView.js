@@ -10,6 +10,7 @@ import {
   IconButton,
   Input,
   Textarea,
+  Text,
   Checkbox,
   Button,
   FormControl,
@@ -23,7 +24,7 @@ import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import departmentContext from "../../context/department/departmentContext";
 
-function DepartmentAdd() {
+function DepartmentView() {
   const history = useHistory();
   const { addDeparment } = useContext(departmentContext);
 
@@ -37,30 +38,36 @@ function DepartmentAdd() {
     <Container maxW="100%" centerContent={true}>
       <Stack w="80%" alignItems="stretch">
         <HStack>
-          <Heading as="h4" size="lg" paddingLeft="10">
-            Create New Department
+          <Heading as="h4" size="lg">
+            Create Details
           </Heading>
           <Spacer />
           <IconButton
             variant="ghost"
-            colorScheme="purple"
+            colorScheme="blue"
             aria-label="Back"
             fontSize="20px"
             isRound
             icon={<FaArrowLeft />}
             onClick={history.goBack}
           />
+          <Button colorScheme="blue" size="sm">
+            Update
+          </Button>
+          <Button colorScheme="red" size="sm">
+            Delete
+          </Button>
         </HStack>
         <Center>
-          <Box width={{ base: "100%", sm: "100%", md: "90%" }}>
+          <Box width={{ base: "100%", sm: "100%", md: "100%" }}>
             <Formik
               initialValues={{
-                departmentId: "",
-                departmentName: "",
-                manager: "",
-                desctiption: "",
+                departmentId: "SE",
+                departmentName: "Software Engineering",
+                manager: "Aruna Lakruwan",
+                desctiption:
+                  "Software engineering is the discipline of designing, creating and maintaining software by applying technologies and practices from computer science, project management, engineering, application domains, interface design, digital assets management and other fields.",
               }}
-              validationSchema={validationSchema}
               onSubmit={(values, actions) => {
                 console.log(values, actions);
                 addDeparment(values);
@@ -85,10 +92,8 @@ function DepartmentAdd() {
                             {...field}
                             id="departmentId"
                             placeholder="eg :- IT"
+                            isReadOnly
                           />
-                          <FormErrorMessage>
-                            {form.errors.departmentId}
-                          </FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
@@ -101,7 +106,6 @@ function DepartmentAdd() {
                             form.errors.departmentName &&
                             form.touched.departmentName
                           }
-                          isRequired
                         >
                           <FormLabel htmlFor="departmentName">
                             Department Name
@@ -110,6 +114,7 @@ function DepartmentAdd() {
                             {...field}
                             id="departmentName"
                             placeholder="Enter Name Here"
+                            isReadOnly
                           />
                           <FormErrorMessage>
                             {form.errors.departmentName}
@@ -125,13 +130,14 @@ function DepartmentAdd() {
                           isInvalid={
                             form.errors.manager && form.touched.manager
                           }
-                          isRequired
+                          isReadOnly
                         >
                           <FormLabel htmlFor="manager">Manager</FormLabel>
                           <Input
                             {...field}
                             id="manager"
                             placeholder="John Doe"
+                            isReadOnly
                           />
                           <FormErrorMessage>
                             {form.errors.manager}
@@ -153,6 +159,7 @@ function DepartmentAdd() {
                             {...field}
                             id="manager"
                             placeholder="John Doe"
+                            isReadOnly
                           />
                           <FormErrorMessage>
                             {form.errors.name}
@@ -161,43 +168,25 @@ function DepartmentAdd() {
                       )}
                     </Field>
                   </Box>
-                  <Box fontSize="lg" mt="5">
-                    <Checkbox colorScheme="blue" isChecked={false}>
-                      Add Another Department
-                    </Checkbox>
-                  </Box>
-                  <Box fontSize="lg" mt="5">
-                    <Button
-                      width="100%"
-                      type="submit"
-                      bg="#6C63FF"
-                      _hover={{
-                        boxShadow: "2xl",
-                      }}
-                      color="white"
-                    >
-                      Save
-                    </Button>
-                  </Box>
-                  <Box fontSize="lg" mt="5">
-                    <Button
-                      onClick={() => {}}
-                      width="100%"
-                      maxW="100%"
-                      type="reset"
-                      colorScheme="red"
-                    >
-                      Cancle
-                    </Button>
-                  </Box>
                 </Form>
               )}
             </Formik>
           </Box>
+        </Center>
+        <Center>
+          {/*<Box mt={4} p={5} shadow="md" width="100%" borderWidth="1px">*/}
+          {/*  <Heading fontSize="xl">User list</Heading>*/}
+          {/*  <Text >here are all the users belogs to this department</Text>*/}
+          {/*  <Box mt={4} pl={5}>*/}
+          {/*    <Text >User name one</Text>*/}
+          {/*    <Text >User name one</Text>*/}
+          {/*    <Text >User name one</Text>*/}
+          {/*  </Box>*/}
+          {/*</Box>*/}
         </Center>
       </Stack>
     </Container>
   );
 }
 
-export default DepartmentAdd;
+export default DepartmentView;

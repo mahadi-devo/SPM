@@ -1,29 +1,31 @@
-import { Box, useColorModeValue } from '@chakra-ui/react';
-import { AccessRights } from '../../shared/accessRights';
-import Sidebar from '../../shared/sidebar';
-import PrivateRoute from '../../shared/privateRoute';
+import { Box, useColorModeValue } from "@chakra-ui/react";
+import { AccessRights } from "../../shared/accessRights";
+import Sidebar from "../../shared/sidebar";
+import PrivateRoute from "../../shared/privateRoute";
 
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   useRouteMatch,
-} from 'react-router-dom';
-import Ticket from '../ticket/ticket';
-import User from '../user/index';
-import Topbar from '../../shared/topbar';
-import Department from '../../department'
+} from "react-router-dom";
+import Ticket from "../ticket/ticket";
+import User from "../user/UserRoute";
+import Topbar from "../../shared/topbar";
+import Department from "../../department";
+import ViewTicket from "../../customer/CustomerDashboard/ViewTicket";
+import EditTicket from "../ticket/editTicket";
 
 const AdminDashboard = () => {
   const { path } = useRouteMatch();
   return (
     <Router>
-      <Box minH='100vh' bg={useColorModeValue('gray.100', 'gray.900')}>
+      <Box minH="100vh" bg="#rgba(255, 255, 255, 0.80)">
         <Sidebar />
         <Topbar
           entitlement={[AccessRights.admin, AccessRights.organizationalUser]}
         />
-        <Box ml={{ base: 0, md: 60 }} p='4'>
+        <Box ml={{ base: 0, md: 60 }} p="4">
           <Switch>
             <PrivateRoute
               exact
@@ -45,6 +47,14 @@ const AdminDashboard = () => {
             />
             <PrivateRoute
               exact
+              path={`${path}/tickets/edit`}
+              component={EditTicket}
+              entitlement={[
+                AccessRights.admin,
+                AccessRights.organizationalUser,
+              ]}
+            />
+            <PrivateRoute
               path={`${path}/users`}
               component={User}
               entitlement={[

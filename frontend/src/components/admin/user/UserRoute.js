@@ -1,33 +1,34 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import PrivateRoute from '../shared/privateRoute';
-import { AccessRights } from '../shared/accessRights';
-import DepartmentHome from './departmentHome';
-import DepartmentAdd from './departmentAdd';
-import DepartmentView from './departmentView';
+import PrivateRoute from '../../shared/privateRoute';
+import { AccessRights } from '../../shared/accessRights';
+import index from './index';
+import UserAdd from './views/UserAdd';
+import UserEdit from './views/UserEdit';
 
-const Department = () => {
-  const { path } = useRouteMatch();
-
+const UserRoute = () => {
+  const { url } = useRouteMatch();
   return (
     <Route>
       <Switch>
         <PrivateRoute
           exact
-          path={`${path}/`}
-          component={DepartmentHome}
+          path={`${url}/add`}
+          component={UserAdd}
           entitlement={[AccessRights.admin, AccessRights.organizationalUser]}
         />
+
         <PrivateRoute
           exact
-          path={`${path}/add`}
-          component={DepartmentAdd}
+          path={`${url}/edit`}
+          component={UserEdit}
           entitlement={[AccessRights.admin, AccessRights.organizationalUser]}
         />
+
         <PrivateRoute
           exact
-          path={`${path}/view`}
-          component={DepartmentView}
+          path={`${url}`}
+          component={index}
           entitlement={[AccessRights.admin, AccessRights.organizationalUser]}
         />
       </Switch>
@@ -35,4 +36,4 @@ const Department = () => {
   );
 };
 
-export default Department;
+export default UserRoute;

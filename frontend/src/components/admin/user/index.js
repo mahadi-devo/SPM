@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 import {
   Container,
@@ -6,51 +6,48 @@ import {
   VStack,
   HStack,
   Heading,
-  FormControl,
-  FormLabel,
-  Input,
-  FormHelperText,
   Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Box,
+  Flex,
+  Tooltip,
+  Center,
+  Text,
+  Select,
 } from '@chakra-ui/react';
 
-import { FaPlus, FaEdit, FaTrashAlt } from 'react-icons/fa';
-import { useDisclosure } from '@chakra-ui/react';
+import { FaPlus } from 'react-icons/fa';
+import {
+  DeleteIcon,
+  SearchIcon,
+  EditIcon,
+  DownloadIcon,
+} from '@chakra-ui/icons';
 
 import CustomTable from '../../shared/customTable';
 import DeleteModal from '../../shared/deleteModal';
 
+import { Link, useRouteMatch } from 'react-router-dom';
+
+import UserContext from '../../../context/admin/user/userContext';
+
 const User = () => {
-  //const { isOpen, onOpen, onClose } = useDisclosure();
+  const { url } = useRouteMatch();
+
+  const userContext = useContext(UserContext);
+  const { users, getUser } = userContext;
+
+  useEffect(() => {
+    getUser();
+    // eslint-disable-next-line
+  }, [users]);
 
   const [isOpenDelete, setIsOpen] = useState(false);
   const onCloseDelete = () => setIsOpen(false);
 
-  const cancelRef = useRef();
-
-  const HandelEdit = (id) => {
-    console.log('clicked edit on ', id);
-  };
-
   const cols = [
-    {
-      title: 'User ID',
-      render: (data) => {
-        return data.id;
-      },
-    },
     {
       title: 'User Name',
       render: (data) => {
@@ -82,79 +79,114 @@ const User = () => {
         return (
           <HStack w='50%'>
             <Spacer />
-            <FaEdit
-              fontSize='4xl'
-              cursor='pointer'
-              onClick={() => HandelEdit(data.id)}
-              color='#4299e1'
-            />
+            <Tooltip hasArrow label='Edit' fontSize='md' placement='top'>
+              <Link to={`${url}/edit`}>
+                <EditIcon fontSize='1xl' cursor='pointer' color='#6C63FF' />
+              </Link>
+            </Tooltip>
+
             <Spacer />
-            <FaTrashAlt
-              fontSize='4xl'
-              cursor='pointer'
-              onClick={() => setIsOpen(true)}
-              color='red'
-            />
+            <Tooltip hasArrow label='Delete' fontSize='md' placement='top'>
+              <DeleteIcon
+                fontSize='1xl'
+                cursor='pointer'
+                onClick={() => setIsOpen(true)}
+                color='red'
+              />
+            </Tooltip>
           </HStack>
         );
       },
     },
   ];
 
-  const rows = [
-    {
-      id: 'IT',
-      name: 'Aflal ',
-      email: 'aflal@gmail.com',
-      department: 'IT',
-      mobile: '+94234234234',
-    },
-    {
-      id: 'ET',
-      name: 'Pasindu ',
-      email: 'pasindu@gmail.com',
-      department: 'ET',
-      mobile: '+94234234234',
-    },
-    {
-      id: 'BT',
-      name: 'Mahadi ',
-      email: 'mahadi@gmail.com',
-      department: 'BT',
-      mobile: '+94234234234',
-    },
-    {
-      id: 'ENG',
-      name: 'Avishka ',
-      email: 'avishka@gmail.com',
-      department: 'ENG',
-      mobile: '+94234234234',
-    },
-  ];
-
   return (
     <Container maxW='100%' centerContent={true}>
-      <VStack w='90%' alignItems='stretch' mt={5}>
-        <HStack mb={8}>
-          <Heading as='h1' size='lg'>
-            User Management
-          </Heading>
+      <VStack w='100%' alignItems='stretch' mt={5}>
+        <Flex px={5}>
+          <Box>
+            <Heading as='h4' size='lg'>
+              User Management{' '}
+              <Button
+                leftIcon={<DownloadIcon />}
+                colorScheme='blue'
+                size='sm'
+                _hover={{
+                  boxShadow: '2xl',
+                }}
+                bg='#6C63FF'>
+                Import
+              </Button>
+            </Heading>
+          </Box>
           <Spacer />
-          <Button
-            leftIcon={<FaPlus />}
-            colorScheme='blue'
-            size='sm'
-            variant='solid'>
-            ADD
-          </Button>
+          <Box>
+            <HStack mb={8}>
+              {/*<InputGroup>*/}
+              {/*  <InputLeftElement*/}
+              {/*    pointerEvents='none'*/}
+              {/*    children={<SearchIcon color='gray.300' />}*/}
+              {/*  />*/}
+              {/*  <Input size='sm' w='20vw' placeholder='Search' />*/}
+              {/*</InputGroup>*/}
+
+              <Link to={`${url}/add`}>
+                <Button
+                  leftIcon={<FaPlus />}
+                  colorScheme='blue'
+                  size='sm'
+                  _hover={{
+                    boxShadow: '2xl',
+                  }}
+                  bg='#6C63FF'>
+                  ADD
+                </Button>
+              </Link>
+            </HStack>
+          </Box>
+        </Flex>
+        <HStack px='5' pb='5'>
+          <InputGroup>
+            <InputLeftElement
+              pointerEvents='none'
+              size='sm'
+              height='30px'
+              children={<SearchIcon color='gray.300' />}
+            />
+            <Input size='sm' w='20vw' placeholder='Search' />
+          </InputGroup>
+          <Spacer />
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <Center w='200px'>
+              <Text size='xs'>Sort By</Text>
+            </Center>
+            <Select variant='outline' placeholder='Select' size='sm'>
+              <option value='Department'>Ascending</option>
+              <option value='Manager'>Descending</option>
+            </Select>
+            <Spacer />
+            <Center w='200px'>
+              <Text size='sm'>Order By</Text>
+            </Center>
+            <Select variant='outline' placeholder='Select' size='sm'>
+              <option value='Department'>Username</option>
+              <option value='Manger'>Department</option>
+            </Select>
+          </div>
         </HStack>
-        <CustomTable
-          headColor='white'
-          colorScheme={'blackAlpha'}
-          cols={cols}
-          rows={rows}
-        />
       </VStack>
+
+      <CustomTable
+        headColor='white'
+        colorScheme={'blackAlpha'}
+        cols={cols}
+        rows={users}
+      />
 
       <DeleteModal
         isOpenDelete={isOpenDelete}

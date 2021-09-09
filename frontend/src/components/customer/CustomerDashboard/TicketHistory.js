@@ -137,12 +137,18 @@ const TicketHistory = () => {
             }}>
             <InputLeftElement
               pointerEvents='none'
+              height='35px'
               children={<SearchIcon color='gray.300' />}
             />
-            <Input type='tel' placeholder='Search Ticket' />
+            <Input type='tel' size={'sm'} placeholder='Search Ticket' />
           </InputGroup>
-          <div style={{ borderWidth: '1px', borderRadius: '12px' }}>
-            <CustomTable cols={cols} rows={tickets} />
+          <div>
+            <CustomTable
+              headColor='white'
+              colorScheme={'blackAlpha'}
+              cols={cols}
+              rows={tickets}
+            />
           </div>
         </Fragment>
       )}
