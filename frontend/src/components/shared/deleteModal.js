@@ -7,20 +7,21 @@ import {
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
 const DeleteModel = (props) => {
   const { isOpenDelete, cancelRef, onCloseDelete, title, subTitle } = props;
 
   return (
-    <Container maxW='100%' centerContent={true}>
+    <Container maxW="100%" centerContent={true}>
       <AlertDialog
         isOpen={isOpenDelete}
         leastDestructiveRef={cancelRef}
-        onClose={onCloseDelete}>
+        onClose={onCloseDelete}
+      >
         <AlertDialogOverlay>
           <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Delete {title}
             </AlertDialogHeader>
 
@@ -30,7 +31,7 @@ const DeleteModel = (props) => {
               <Button ref={cancelRef} onClick={onCloseDelete}>
                 Cancel
               </Button>
-              <Button colorScheme='red' onClick={onCloseDelete} ml={3}>
+              <Button colorScheme="red" onClick={onCloseDelete} ml={3}>
                 Delete
               </Button>
             </AlertDialogFooter>

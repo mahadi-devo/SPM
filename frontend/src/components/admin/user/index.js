@@ -12,7 +12,10 @@ import {
   InputLeftElement,
   Box,
   Flex,
-  Tooltip, Center, Text, Select,
+  Tooltip,
+  Center,
+  Text,
+  Select,
 } from '@chakra-ui/react';
 
 import { FaPlus } from 'react-icons/fa';
@@ -39,7 +42,7 @@ const User = () => {
   useEffect(() => {
     getUser();
     // eslint-disable-next-line
-  }, []);
+  }, [users]);
 
   const [isOpenDelete, setIsOpen] = useState(false);
   const onCloseDelete = () => setIsOpen(false);
@@ -102,7 +105,7 @@ const User = () => {
       <VStack w='100%' alignItems='stretch' mt={5}>
         <Flex px={5}>
           <Box>
-            <Heading as="h4" size="lg">
+            <Heading as='h4' size='lg'>
               User Management{' '}
               <Button
                 leftIcon={<DownloadIcon />}
@@ -142,39 +145,37 @@ const User = () => {
             </HStack>
           </Box>
         </Flex>
-        <HStack px="5" pb="5">
+        <HStack px='5' pb='5'>
           <InputGroup>
             <InputLeftElement
-                pointerEvents="none"
-                size="sm"
-                height="30px"
-                children={<SearchIcon color="gray.300" />}
+              pointerEvents='none'
+              size='sm'
+              height='30px'
+              children={<SearchIcon color='gray.300' />}
             />
-            <Input size="sm" w="20vw" placeholder="Search" />
+            <Input size='sm' w='20vw' placeholder='Search' />
           </InputGroup>
           <Spacer />
           <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-          >
-            <Center w="200px">
-              <Text size="xs">Sort By</Text>
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <Center w='200px'>
+              <Text size='xs'>Sort By</Text>
             </Center>
-            <Select variant="outline" placeholder="Select" size="sm">
-              <option value="Department">Department</option>
-              <option value="Manager">Manager</option>
-              <option value="Latest">Latest</option>
+            <Select variant='outline' placeholder='Select' size='sm'>
+              <option value='Department'>Ascending</option>
+              <option value='Manager'>Descending</option>
             </Select>
             <Spacer />
-            <Center w="200px">
-              <Text size="sm">Order By</Text>
+            <Center w='200px'>
+              <Text size='sm'>Order By</Text>
             </Center>
-            <Select variant="outline" placeholder="Select" size="sm">
-              <option value="Department">Department</option>
-              <option value="Manger">Manger</option>
+            <Select variant='outline' placeholder='Select' size='sm'>
+              <option value='Department'>Username</option>
+              <option value='Manger'>Department</option>
             </Select>
           </div>
         </HStack>

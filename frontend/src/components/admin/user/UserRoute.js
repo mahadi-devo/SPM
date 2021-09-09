@@ -27,7 +27,7 @@ const UserRoute = () => {
 
         <PrivateRoute
           exact
-          path={`${url}/`}
+          path={`${url}`}
           component={index}
           entitlement={[AccessRights.admin, AccessRights.organizationalUser]}
         />

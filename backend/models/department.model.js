@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const DepartmentSchema = mongoose.Schema({
   departmentId: {
@@ -19,8 +19,8 @@ const DepartmentSchema = mongoose.Schema({
     default: Date.now,
   },
   users: [
-    { type: mongoose.Schema.Types.ObjectId, required: false, ref: 'user' }
-  ]
+    { type: mongoose.Schema.Types.ObjectId, required: false, ref: "user" },
+  ],
 });
 
-module.exports = mongoose.model('department', DepartmentSchema);
+module.exports = mongoose.model("department", DepartmentSchema);

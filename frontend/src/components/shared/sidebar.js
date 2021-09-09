@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Box,
   CloseButton,
@@ -9,11 +9,11 @@ import {
   DrawerContent,
   Text,
   useDisclosure,
-} from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
-import menu from './menu';
-import { ValidateAccessRight } from './accessRights';
-import { ChatIcon } from '@chakra-ui/icons';
+} from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import menu from "./menu";
+import { ValidateAccessRight } from "./accessRights";
+import { ChatIcon } from "@chakra-ui/icons";
 
 const Sidebar = () => {
   const { isOpen, onClose } = useDisclosure();
@@ -22,15 +22,16 @@ const Sidebar = () => {
     <>
       <SidebarContent
         onClose={() => onClose}
-        display={{ base: 'none', md: 'block' }}
+        display={{ base: "none", md: "block" }}
       />
       <Drawer
         autoFocus={false}
         isOpen={isOpen}
-        placement='left'
+        placement="left"
         onClose={onClose}
         returnFocusOnClose={false}
-        onOverlayClick={onClose}>
+        onOverlayClick={onClose}
+      >
         <DrawerContent>
           <SidebarContent onClose={onClose} />
         </DrawerContent>
@@ -48,30 +49,33 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
   return (
     <Box
-      transition='3s ease'
-      bg={'#6C63FF'}
-      borderRight='1px'
-      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: '', md: 60 }}
-      pos='fixed'
-      h='full'
-      {...rest}>
-      <Flex h='20' alignItems='center' mx='8' justifyContent='space-between'>
+      transition="3s ease"
+      bg={"#6C63FF"}
+      borderRight="1px"
+      borderRightColor={useColorModeValue("gray.200", "gray.700")}
+      w={{ base: "", md: 60 }}
+      pos="fixed"
+      h="full"
+      {...rest}
+    >
+      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text
-          fontSize='2xl'
-          fontFamily='monospace'
-          fontWeight='bold'
-          color={'#ffff'}>
-          <ChatIcon color={'#000000'} /> Help Desk
+          fontSize="2xl"
+          fontFamily="monospace"
+          fontWeight="bold"
+          color={"#ffff"}
+        >
+          <ChatIcon color={"#000000"} /> Help Desk
         </Text>
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {filteredMenu.map((link) => (
         <NavItem
           key={link.name}
           icon={link.icon}
           route={link.route}
-          onClick={onClose}>
+          onClick={onClose}
+        >
           {link.name}
         </NavItem>
       ))}
@@ -81,25 +85,26 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
 const NavItem = ({ icon, route, children, ...rest }) => {
   return (
-    <Link to={route} style={{ textDecoration: 'none', color: '#ffffff' }}>
+    <Link to={route} style={{ textDecoration: "none", color: "#ffffff" }}>
       <Flex
-        align='center'
-        p='4'
-        mx='4'
-        borderRadius='lg'
-        role='group'
-        cursor='pointer'
+        align="center"
+        p="4"
+        mx="4"
+        borderRadius="lg"
+        role="group"
+        cursor="pointer"
         _hover={{
-          bg: '#ffffff',
-          color: 'black',
+          bg: "#ffffff",
+          color: "black",
         }}
-        {...rest}>
+        {...rest}
+      >
         {icon && (
           <Icon
-            mr='4'
-            fontSize='16'
+            mr="4"
+            fontSize="16"
             _groupHover={{
-              color: 'black',
+              color: "black",
             }}
             as={icon}
           />
