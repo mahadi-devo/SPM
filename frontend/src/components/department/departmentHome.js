@@ -79,15 +79,10 @@ const DepartmentHome = (props) => {
       render: (data) => {
         return (
           <HStack w="50%">
-            <FaEye
-              cursor="pointer"
-              onClick={() => history.push(`${url}/view/`)}
-              color="gray.100"
-            />
             <Spacer />
             <FaEdit
               cursor="pointer"
-              onClick={() => HandelEdit(data.departmentId)}
+              onClick={() => history.push(`${url}/view/`)}
               color="#6C63FF"
             />
             <Spacer />
@@ -104,7 +99,7 @@ const DepartmentHome = (props) => {
   ];
 
   return (
-    <Container maxW="100%" centerContent={true}>
+    <Container maxW="95%" centerContent={true}>
       <VStack w="100%" alignItems="stretch" mt={5}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Heading as="h4" size="lg" mb="5">
@@ -168,8 +163,8 @@ const DepartmentHome = (props) => {
               <Text size="sm">Order By</Text>
             </Center>
             <Select variant="outline" placeholder="Select" size="sm">
-              <option value="Department">Department</option>
-              <option value="Manger">Manger</option>
+              <option value="Department">Ascending</option>
+              <option value="Manger">Descending</option>
             </Select>
           </div>
         </HStack>

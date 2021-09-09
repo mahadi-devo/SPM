@@ -44,6 +44,8 @@ const DepartmentState = (props) => {
         type: ADD_DEPARTMENT,
         payload: res.data.department,
       });
+      getDeartment();
+      
     } catch (err) {
       console.log(err);
     }
