@@ -72,7 +72,7 @@ const updateTicket = async (req, res) => {};
 
 const updateMsgTicket = async (req, res) => {
   try {
-    console.log(req.user, req.body.message, req.body.ticketId)
+    console.log(req.user, req.body.message, req.body.ticketId);
 
     const newChat = new Chat({
       user: req.user,

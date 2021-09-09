@@ -11,7 +11,7 @@ const registerController = async (req, res, next) => {
     const user = await User.create({ email, name, role, password });
     await sendToken(user, 200, res);
   } catch (e) {
-    if(e.status) {
+    if (e.status) {
       console.log(e);
     }
     return next(new ApiError(e.message, 500));
@@ -36,13 +36,12 @@ const loginController = async (req, res, next) => {
 
 const getUserController = async (req, res) => {
   try {
-
-    console.log(req)
+    console.log(req);
 
     const user = await User.findById(req.user.id).select("-password");
     res.json(user);
   } catch (e) {
-    console.log(e)
+    console.log(e);
     res.status(500).json({
       success: false,
       message: e.message,
@@ -83,4 +82,9 @@ const sendToken = async (user, statusCode, res) => {
   });
 };
 
-module.exports = { registerController, loginController, logoutController, getUserController };
+module.exports = {
+  registerController,
+  loginController,
+  logoutController,
+  getUserController,
+};
