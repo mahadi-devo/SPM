@@ -155,7 +155,7 @@ const TicketHistory = () => {
           <AlertDialogOverlay>
             <AlertDialogContent>
               <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                Delete Customer
+                Delete Ticket
               </AlertDialogHeader>
 
               <AlertDialogBody>
