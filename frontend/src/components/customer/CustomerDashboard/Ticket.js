@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext, useEffect } from "react";
+import React, { Fragment, useState, useContext, useEffect } from 'react';
 import {
   Flex,
   Spacer,
@@ -20,12 +20,12 @@ import {
   Textarea,
   Image,
   Select,
-} from "@chakra-ui/react";
-import { Formik, Form, Field } from "formik";
-import { TicketSchema } from "./ticketSchema";
-import FileUploader from "../../shared/FileUpload";
-import customerContext from "../../../context/customer/customerContext";
-import departmentContext from "../../../context/department/departmentContext";
+} from '@chakra-ui/react';
+import { Formik, Form, Field } from 'formik';
+import { TicketSchema } from './ticketSchema';
+import FileUploader from '../../shared/FileUpload';
+import customerContext from '../../../context/customer/customerContext';
+import departmentContext from '../../../context/department/departmentContext';
 
 const Ticket = () => {
   const CustomerContext = useContext(customerContext);
@@ -41,27 +41,27 @@ const Ticket = () => {
   useEffect(() => {
     if (sucess) {
       toast({
-        title: "Ticket Created Successfully",
-        status: "success",
+        title: 'Ticket Created Successfully',
+        status: 'success',
         duration: 5000,
         isClosable: true,
-        position: "top",
+        position: 'top',
       });
     }
     getDeartment();
     // eslint-disable-next-line
   }, [sucess]);
 
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState('');
 
   const getFile = (FileData) => {
     const reader = new FileReader();
     if (FileData !== null) {
       if (FileData.size > 1000000 || FileData.size === 0) {
         toast({
-          title: "Invalid File Size",
-          description: "File size exceed the maximum size",
-          status: "warning",
+          title: 'Invalid File Size',
+          description: 'File size exceed the maximum size',
+          status: 'warning',
           duration: 7000,
           isClosable: true,
         });
@@ -71,16 +71,13 @@ const Ticket = () => {
           setFile(reader.result);
         };
         reader.onerror = () => {
-          console.error("AHHHHHHHH!!");
+          console.error('AHHHHHHHH!!');
         };
       }
     }
   };
 
-  const submitHandler = async (
-    values,
-    { setSubmitting, setErrors, setStatus, resetForm }
-  ) => {
+  const submitHandler = async (values) => {
     try {
       await addTicket({
         name: values.name,
@@ -96,37 +93,35 @@ const Ticket = () => {
   return (
     <Fragment>
       <Flex>
-        <Box flex="1">
-          <Flex minH={"100vh"} align={"center"} justify={"center"}>
-            <Stack spacing={8} mx={"auto"} maxW={"lg"}>
-              <Stack align={"center"}>
-                <Heading fontSize="3xl" color={"gray.600"}>
+        <Box flex='1'>
+          <Flex minH={'100vh'} align={'center'} justify={'center'}>
+            <Stack spacing={8} mx={'auto'} maxW={'lg'}>
+              <Stack align={'center'}>
+                <Heading fontSize='3xl' color={'gray.600'}>
                   Create Ticket
                 </Heading>
               </Stack>
-              <Box rounded={"lg"} width={"450px"}>
+              <Box rounded={'lg'} width={'450px'}>
                 <Formik
-                  initialValues={{ name: "", email: "", password: "" }}
+                  initialValues={{ name: '', email: '', password: '' }}
                   validationSchema={TicketSchema}
                   onSubmit={(values, actions) => {
                     submitHandler(values, actions);
-                  }}
-                >
+                  }}>
                   {({ props, values }) => (
                     <Form>
                       <Stack spacing={4}>
-                        <Field name="name">
+                        <Field name='name'>
                           {({ field, form, values }) => (
                             <FormControl
                               isInvalid={form.errors.name && form.touched.name}
-                              isRequired
-                            >
-                              <FormLabel htmlFor="name">Name</FormLabel>
+                              isRequired>
+                              <FormLabel htmlFor='name'>Name</FormLabel>
                               <Input
-                                borderColor="#707070"
+                                borderColor='#707070'
                                 {...field}
-                                id="name"
-                                placeholder="John Doe"
+                                id='name'
+                                placeholder='John Doe'
                               />
                               <FormErrorMessage>
                                 {form.errors.name}
@@ -134,20 +129,19 @@ const Ticket = () => {
                             </FormControl>
                           )}
                         </Field>
-                        <Field name="email">
+                        <Field name='email'>
                           {({ field, form }) => (
                             <FormControl
                               isInvalid={
                                 form.errors.email && form.touched.email
                               }
-                              isRequired
-                            >
-                              <FormLabel htmlFor="Email">Email</FormLabel>
+                              isRequired>
+                              <FormLabel htmlFor='Email'>Email</FormLabel>
                               <Input
-                                borderColor="#707070"
+                                borderColor='#707070'
                                 {...field}
-                                id="email"
-                                placeholder="john@gmail.com"
+                                id='email'
+                                placeholder='john@gmail.com'
                               />
                               <FormErrorMessage>
                                 {form.errors.email}
@@ -155,25 +149,23 @@ const Ticket = () => {
                             </FormControl>
                           )}
                         </Field>
-                        <Field name="department">
+                        <Field name='department'>
                           {({ field, form }) => (
                             <FormControl
                               isInvalid={
                                 form.errors.department &&
                                 form.touched.department
                               }
-                              isRequired
-                            >
-                              <FormLabel htmlFor="department">
+                              isRequired>
+                              <FormLabel htmlFor='department'>
                                 Department
                               </FormLabel>
                               <Select
-                                borderColor="#707070"
+                                borderColor='#707070'
                                 {...field}
-                                id="department"
-                                value={values.department || ""}
-                                placeholder="Department"
-                              >
+                                id='department'
+                                value={values.department || ''}
+                                placeholder='Department'>
                                 {/* <option value='option1'>Option 1</option>
                                 <option value='option2'>Option 2</option>
                                 <option value='option3'>Option 3</option> */}
@@ -190,21 +182,20 @@ const Ticket = () => {
                           )}
                         </Field>
 
-                        <Field name="subject">
+                        <Field name='subject'>
                           {({ field, form }) => (
                             <FormControl
                               isInvalid={
                                 form.errors.subject && form.touched.subject
                               }
-                              isRequired
-                            >
-                              <FormLabel htmlFor="subject">Subject</FormLabel>
+                              isRequired>
+                              <FormLabel htmlFor='subject'>Subject</FormLabel>
                               <Input
-                                borderColor="#707070"
+                                borderColor='#707070'
                                 {...field}
-                                id="subject"
-                                value={values.subject || ""}
-                                placeholder="Subject"
+                                id='subject'
+                                value={values.subject || ''}
+                                placeholder='Subject'
                               />
                               <FormErrorMessage>
                                 {form.errors.subject}
@@ -213,21 +204,20 @@ const Ticket = () => {
                           )}
                         </Field>
 
-                        <Field name="message">
+                        <Field name='message'>
                           {({ field, form }) => (
                             <FormControl
                               isInvalid={
                                 form.errors.message && form.touched.message
                               }
-                              isRequired
-                            >
-                              <FormLabel htmlFor="message">Message</FormLabel>
+                              isRequired>
+                              <FormLabel htmlFor='message'>Message</FormLabel>
                               <Textarea
-                                borderColor="#707070"
+                                borderColor='#707070'
                                 {...field}
-                                id="message"
-                                placeholder="message"
-                                value={values.message || ""}
+                                id='message'
+                                placeholder='message'
+                                value={values.message || ''}
                               />
                               <FormErrorMessage>
                                 {form.errors.message}
@@ -237,24 +227,23 @@ const Ticket = () => {
                         </Field>
                         <FormLabel>Attach file</FormLabel>
                         <FileUploader
-                          noOfFiles="1"
+                          noOfFiles='1'
                           multiple={false}
-                          input="Upload Your Resource Here"
+                          input='Upload Your Resource Here'
                           getFileCallback={getFile}
                         />
                       </Stack>
                       <Stack spacing={10} pt={8}>
                         <Button
-                          bg="#6C63FF"
-                          color={"white"}
+                          bg='#6C63FF'
+                          color={'white'}
                           _hover={{
-                            bg: "teal.500",
+                            bg: 'teal.500',
                           }}
-                          loadingText="Saving"
-                          spinnerPlacement="start"
+                          loadingText='Saving'
+                          spinnerPlacement='start'
                           isLoading={loading}
-                          type="submit"
-                        >
+                          type='submit'>
                           Submit
                         </Button>
                       </Stack>
@@ -265,10 +254,10 @@ const Ticket = () => {
             </Stack>
           </Flex>
         </Box>
-        <Square flex="1">
-          <Box boxSize="lg">
+        <Square flex='1'>
+          <Box boxSize='lg'>
             {/* <Image src='../../../../public/ticketbg.png' /> */}
-            <Image src="./ticketbg.png" mt="10" />
+            <Image src='./ticketbg.png' mt='10' />
           </Box>
         </Square>
       </Flex>
