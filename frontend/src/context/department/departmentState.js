@@ -12,15 +12,20 @@ const DepartmentState = (props) => {
 
   const [state, dispatch] = useReducer(departmentReducer, initialState);
 
-  const getDeartment = async () => {
+  const getDeartment = async (keyword,sortBy,orderby) => {
+    let params = {};
+    if (sortBy) params.sortby = sortBy;
+    if (orderby) params.orderby = orderby;
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
+      params,
     };
 
     try {
        const result = await axios.get('/api/v1/department',config);
+       console.log("🚀 ~ file: departmentState.js ~ line 28 ~ getDeartment ~ result", result)
        dispatch({
         type: GET_DEPARTMENTS,
         payload: result.data.department,
