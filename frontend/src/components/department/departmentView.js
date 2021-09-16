@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from 'react';
 import {
   Container,
   Stack,
@@ -17,29 +17,36 @@ import {
   FormLabel,
   FormErrorMessage,
   Center,
-} from "@chakra-ui/react";
-import { Formik, Form, Field } from "formik";
-import { FaArrowLeft } from "react-icons/fa";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import departmentContext from "../../context/department/departmentContext";
+} from '@chakra-ui/react';
+import { Formik, Form, Field } from 'formik';
+import { FaArrowLeft } from 'react-icons/fa';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import { find } from 'lodash';
+import departmentContext from '../../context/department/departmentContext';
 
-function DepartmentView() {
+function DepartmentView(props) {
   const history = useHistory();
-  const { addDeparment } = useContext(departmentContext);
+  const { depatments, getDeartment } = useContext(departmentContext);
+  // console.log('props.params.id ', props.match.params.id);
+  const department = find(depatments, department => department._id === props.match.params.id);
 
   const validationSchema = Yup.object().shape({
-    departmentId: Yup.string().required("Department ID is required!"),
-    departmentName: Yup.string().required("Department Name is required!"),
-    manager: Yup.string().required("Manager is required"),
+    departmentId: Yup.string().required('Department ID is required!'),
+    departmentName: Yup.string().required('Department Name is required!'),
+    manager: Yup.string().required('Manager is required'),
   });
+
+  useEffect(() => {
+    getDeartment();
+  }, []);
 
   return (
     <Container maxW="100%" centerContent={true}>
       <Stack w="80%" alignItems="stretch">
         <HStack>
           <Heading as="h4" size="lg">
-            Create Details
+            Department Details
           </Heading>
           <Spacer />
           <IconButton
@@ -59,18 +66,12 @@ function DepartmentView() {
           </Button>
         </HStack>
         <Center>
-          <Box width={{ base: "100%", sm: "100%", md: "100%" }}>
+          <Box width={{ base: '100%', sm: '100%', md: '100%' }}>
             <Formik
-              initialValues={{
-                departmentId: "SE",
-                departmentName: "Software Engineering",
-                manager: "Aruna Lakruwan",
-                desctiption:
-                  "Software engineering is the discipline of designing, creating and maintaining software by applying technologies and practices from computer science, project management, engineering, application domains, interface design, digital assets management and other fields.",
-              }}
+              initialValues={department}
               onSubmit={(values, actions) => {
                 console.log(values, actions);
-                addDeparment(values);
+                // addDeparment(values);
               }}
             >
               {(formik) => (

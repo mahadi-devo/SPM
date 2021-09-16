@@ -90,7 +90,7 @@ const DepartmentHome = (props) => {
             <Spacer />
             <FaEdit
               cursor="pointer"
-              onClick={() => history.push(`${url}/view/`)}
+              onClick={() => history.push(`${url}/view/${data._id}`)}
               color="#6C63FF"
             />
             <Spacer />
