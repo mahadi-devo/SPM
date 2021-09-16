@@ -26,7 +26,6 @@ const DepartmentState = (props) => {
 
     try {
        const result = await axios.get('/api/v1/department',config);
-       console.log("🚀 ~ file: departmentState.js ~ line 28 ~ getDeartment ~ result", result)
        dispatch({
         type: GET_DEPARTMENTS,
         payload: result.data.department,

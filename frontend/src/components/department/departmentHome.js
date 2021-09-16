@@ -46,7 +46,6 @@ const DepartmentHome = (props) => {
 
   useEffect(() => {
     getDeartment(searchKeyword,sortBy,orderBy);
-    console.log(sortBy,orderBy);
   }, [sortBy,orderBy,searchKeyword]);
 
   const Handelview = (id) => {
@@ -151,7 +150,6 @@ const DepartmentHome = (props) => {
             />
             <Input size="sm" w="20vw" placeholder="Search by Department name"
               onChange={ debounce((e) => {
-              console.log("🚀 ~ file: departmentHome.js ~ line 153 ~ DepartmentHome ~ item", e .target.value);
               setSearchKeyword(e.target.value);
               }, 1000)}
             />

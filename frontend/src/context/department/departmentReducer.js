@@ -8,7 +8,6 @@ const CustomerReducer = (state, action) => {
         depatments: [...state.depatments],
       };
     case GET_DEPARTMENTS:
-      console.log("🚀 ~ file: departmentReducer.js ~ line 15 ~ CustomerReducer ~ depatments")
       return {
         ...state,
         depatments: [...action.payload],
