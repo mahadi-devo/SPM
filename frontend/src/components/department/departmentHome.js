@@ -23,6 +23,7 @@ import {
   EditIcon,
   DownloadIcon,
 } from '@chakra-ui/icons';
+import { debounce } from 'lodash';
 
 import CustomTable from '../shared/customTable';
 import DeleteModal from '../shared/deleteModal';
@@ -35,6 +36,7 @@ const DepartmentHome = (props) => {
 
   const [sortBy, setSortBy] = useState('');
   const [orderBy, setOrderBy] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [isOpenDelete, setIsOpen] = useState(false);
   const onCloseDelete = () => setIsOpen(false);
 
@@ -43,9 +45,9 @@ const DepartmentHome = (props) => {
   }, []);
 
   useEffect(() => {
-    getDeartment('',sortBy,orderBy);
+    getDeartment(searchKeyword,sortBy,orderBy);
     console.log(sortBy,orderBy);
-  }, [sortBy,orderBy]);
+  }, [sortBy,orderBy,searchKeyword]);
 
   const Handelview = (id) => {
     console.log('clicked view on ', id);
@@ -147,7 +149,12 @@ const DepartmentHome = (props) => {
               height="30px"
               children={<SearchIcon color="gray.300" />}
             />
-            <Input size="sm" w="20vw" placeholder="Search" />
+            <Input size="sm" w="20vw" placeholder="Search by Department name"
+              onChange={ debounce((e) => {
+              console.log("🚀 ~ file: departmentHome.js ~ line 153 ~ DepartmentHome ~ item", e .target.value);
+              setSearchKeyword(e.target.value);
+              }, 1000)}
+            />
           </InputGroup>
           <Spacer />
           <div

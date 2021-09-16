@@ -16,6 +16,7 @@ const DepartmentState = (props) => {
     let params = {};
     if (sortBy) params.sortby = sortBy;
     if (orderby) params.orderby = orderby;
+    if (keyword) params.keyword = keyword;
     const config = {
       headers: {
         'Content-Type': 'application/json',
