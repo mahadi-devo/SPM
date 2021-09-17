@@ -3,7 +3,7 @@ const ApiError = require('../utils/apiError');
 
 const getDepartment = async (req, res) => {
   try {
-    const { keyword, sortby='', orderby = -1 } = req.query;
+    const { keyword, sortby = '', orderby = -1 } = req.query;
     let quary;
     switch (sortby) {
       case 'departmentId':
@@ -21,10 +21,14 @@ const getDepartment = async (req, res) => {
     }
     let department;
     if (keyword) {
-      var re = new RegExp(keyword,"i");
-      department = await Department.find({departmentName: re}).collation({locale:'en'}).sort(quary);
+      var re = new RegExp(keyword, 'i');
+      department = await Department.find({ departmentName: re })
+        .collation({ locale: 'en' })
+        .sort(quary);
     } else {
-      department = await Department.find().collation({locale:'en'}).sort(quary);
+      department = await Department.find()
+        .collation({ locale: 'en' })
+        .sort(quary);
     }
     res.status(200).json({
       department,
@@ -71,16 +75,49 @@ const addDepartment = async (req, res) => {
 };
 
 const updateDepartment = async (req, res) => {
+  try {
+    const { _id, departmentId, departmentName, manager, desctiption } =
+      req.body;
+    console.log("🚀 ~ file: department.controller.js ~ line 113 ~ updateDepartment ~ req.body", req.body)
 
-}
+    const departmentExist = await Department.findById(_id);
+
+    if (!departmentExist) {
+      return new ApiError('department dose not exist in the system', 400);
+    }
+
+    const department = await Department.findByIdAndUpdate(
+      _id,
+      {
+        $set: {
+          departmentId,
+          departmentName,
+          manager,
+          desctiption,
+        },
+      },
+      { new: true }
+    );
+
+    console.log('department :', department);
+    res.status(200).json({
+      success: true,
+      department,
+    });
+  } catch (e) {
+    if (e.status) {
+      console.log(e);
+    }
+    console.log(e);
+    return new ApiError(e.message, 500);
+  }
+};
 
 const deleteDepartment = async (req, res) => {
   try {
-  const { _id } = req.body;
-  console.log("🚀 ~ file: department.controller.js ~ line 80 ~ deleteDepartment ~ _id", _id)
-  
-  const department = await Department.findByIdAndRemove(_id);
-  console.log("🚀 ~ file: department.controller.js ~ line 83 ~ deleteDepartment ~ department", department)
+    const { _id } = req.body;
+
+    const department = await Department.findByIdAndRemove(_id);
 
     res.status(200).json({
       department,
@@ -93,5 +130,10 @@ const deleteDepartment = async (req, res) => {
     console.log(e);
     return new ApiError(e.message, 500);
   }
-}
-module.exports = { getDepartment, addDepartment, updateDepartment, deleteDepartment };
+};
+module.exports = {
+  getDepartment,
+  addDepartment,
+  updateDepartment,
+  deleteDepartment,
+};
