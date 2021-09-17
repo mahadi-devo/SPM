@@ -70,4 +70,28 @@ const addDepartment = async (req, res) => {
   }
 };
 
-module.exports = { getDepartment, addDepartment };
+const updateDepartment = async (req, res) => {
+
+}
+
+const deleteDepartment = async (req, res) => {
+  try {
+  const { _id } = req.body;
+  console.log("🚀 ~ file: department.controller.js ~ line 80 ~ deleteDepartment ~ _id", _id)
+  
+  const department = await Department.findByIdAndRemove(_id);
+  console.log("🚀 ~ file: department.controller.js ~ line 83 ~ deleteDepartment ~ department", department)
+
+    res.status(200).json({
+      department,
+      success: true,
+    });
+  } catch (e) {
+    if (e.status) {
+      console.log(e);
+    }
+    console.log(e);
+    return new ApiError(e.message, 500);
+  }
+}
+module.exports = { getDepartment, addDepartment, updateDepartment, deleteDepartment };
