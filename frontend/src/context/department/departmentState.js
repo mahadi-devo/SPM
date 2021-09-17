@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
+import { useToast } from '@chakra-ui/react';
 
 import { ADD_DEPARTMENT, GET_DEPARTMENTS } from './actions';
 import departmentContext from './departmentContext';
@@ -9,6 +10,7 @@ const DepartmentState = (props) => {
   const initialState = {
     depatments: [],
   };
+  const toast = useToast();
 
   const [state, dispatch] = useReducer(departmentReducer, initialState);
 
@@ -44,17 +46,71 @@ const DepartmentState = (props) => {
 
     try {
       const res = await axios.post('/api/v1/department', formData, config);
+      console.log("🚀 ~ file: departmentState.js ~ line 51 ~ addDeparment ~ formData", res);
 
-      dispatch({
-        type: ADD_DEPARTMENT,
-        payload: res.data.department,
-      });
-      getDeartment();
+      if (res.data.success) {
+        toast({
+          title: "Department created.",
+          description: "You have created a new Department.",
+          status: "success",
+          position: "top-right",
+          duration: 1500,
+          isClosable: true,
+        });
+        getDeartment();
+      } else {
+        toast({
+          title: "Error",
+          description: "Something went wrong",
+          status: "error",
+          position: "top-right",
+          duration: 1500,
+          isClosable: true,
+        });
+      }
+      
       
     } catch (err) {
       console.log(err);
     }
   };
+
+  const deleteDeparment = async (_id) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: { _id }
+    };
+
+    try {
+      const res = await axios.delete('/api/v1/department', config);
+
+      if(res.data.success) {
+        toast({
+          title: "Department Deleted.",
+          description: "You have successfully deleted the Department.",
+          status: "success",
+          position: "top-right",
+          duration: 1500,
+          isClosable: true,
+        });
+        getDeartment();
+      } else {
+        toast({
+          title: "Error",
+          description: "Something went wrong",
+          status: "error",
+          position: "top-right",
+          duration: 1500,
+          isClosable: true,
+        });
+      }
+      
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <departmentContext.Provider
@@ -62,6 +118,7 @@ const DepartmentState = (props) => {
         depatments: state.depatments,
         addDeparment,
         getDeartment,
+        deleteDeparment,
       }}
     >
       {props.children}

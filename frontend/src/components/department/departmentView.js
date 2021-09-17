@@ -28,7 +28,7 @@ import departmentContext from '../../context/department/departmentContext';
 function DepartmentView(props) {
   const history = useHistory();
   const { depatments, getDeartment } = useContext(departmentContext);
-  // console.log('props.params.id ', props.match.params.id);
+  
   const department = find(depatments, department => department._id === props.match.params.id);
 
   const validationSchema = Yup.object().shape({

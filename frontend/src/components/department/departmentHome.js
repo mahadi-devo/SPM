@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import {
   Container,
   Box,
@@ -32,13 +32,13 @@ import departmentContext from '../../context/department/departmentContext';
 const DepartmentHome = (props) => {
   const history = useHistory();
   const { url } = useRouteMatch();
-  const { depatments, getDeartment } = useContext(departmentContext);
+  const { depatments, getDeartment, deleteDeparment } = useContext(departmentContext);
 
   const [sortBy, setSortBy] = useState('');
   const [orderBy, setOrderBy] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [isOpenDelete, setIsOpen] = useState(false);
-  const onCloseDelete = () => setIsOpen(false);
+  const currentDepartment = useRef('');
 
   useEffect(() => {
     getDeartment();
@@ -47,6 +47,8 @@ const DepartmentHome = (props) => {
   useEffect(() => {
     getDeartment(searchKeyword,sortBy,orderBy);
   }, [sortBy,orderBy,searchKeyword]);
+
+  const onCloseDelete = () => {setIsOpen(false)};
 
   const Handelview = (id) => {
     console.log('clicked view on ', id);
@@ -57,9 +59,14 @@ const DepartmentHome = (props) => {
   };
 
   const HandelDelete = (id) => {
-    console.log('clicked delete on ', id);
+    currentDepartment.current = id;
     setIsOpen(true);
   };
+
+  const onDelete = (id) => {
+    deleteDeparment(id);
+    setIsOpen(false);
+  }
 
   const cols = [
     {
@@ -97,7 +104,7 @@ const DepartmentHome = (props) => {
             <DeleteIcon
               fontSize="1xl"
               cursor="pointer"
-              onClick={() => HandelDelete(data.departmentId)}
+              onClick={() => HandelDelete(data._id)}
               color="red"
             />
           </HStack>
@@ -206,6 +213,7 @@ const DepartmentHome = (props) => {
       </VStack>
       <DeleteModal
         isOpenDelete={isOpenDelete}
+        onDelete = {() => onDelete(currentDepartment.current)}
         onCloseDelete={onCloseDelete}
         title="Deparment"
         subTitle="Are you sure? You can't undo this action afterwards."
