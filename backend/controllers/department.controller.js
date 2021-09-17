@@ -131,9 +131,5 @@ const deleteDepartment = async (req, res) => {
     return new ApiError(e.message, 500);
   }
 };
-module.exports = {
-  getDepartment,
-  addDepartment,
-  updateDepartment,
-  deleteDepartment,
-};
+
+module.exports = { getDepartment, addDepartment, updateDepartment, deleteDepartment };

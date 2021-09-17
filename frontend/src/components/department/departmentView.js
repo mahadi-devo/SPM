@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Container,
   Stack,
@@ -24,10 +24,13 @@ import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import { find } from 'lodash';
 import departmentContext from '../../context/department/departmentContext';
+import DeleteModal from '../shared/deleteModal';
 
 function DepartmentView(props) {
   const history = useHistory();
-  const { depatments, getDeartment } = useContext(departmentContext);
+  const { depatments, getDeartment, deleteDeparment } = useContext(departmentContext);
+
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
   
   const department = find(depatments, department => department._id === props.match.params.id);
 
@@ -36,6 +39,14 @@ function DepartmentView(props) {
     departmentName: Yup.string().required('Department Name is required!'),
     manager: Yup.string().required('Manager is required'),
   });
+
+  const onCloseDelete = () => setIsOpenDelete(false);
+
+  const onDelete = () => {
+    deleteDeparment(props.match.params.id);
+    setIsOpenDelete(false);
+    history.goBack();
+  }
 
   useEffect(() => {
     getDeartment();
@@ -61,7 +72,7 @@ function DepartmentView(props) {
           <Button colorScheme="blue" size="sm">
             Update
           </Button>
-          <Button colorScheme="red" size="sm">
+          <Button colorScheme="red" size="sm" onClick={() => setIsOpenDelete(true)}>
             Delete
           </Button>
         </HStack>
@@ -186,6 +197,13 @@ function DepartmentView(props) {
           {/*</Box>*/}
         </Center>
       </Stack>
+      <DeleteModal
+        isOpenDelete={isOpenDelete}
+        onDelete = {onDelete}
+        onCloseDelete={onCloseDelete}
+        title="Deparment"
+        subTitle="Are you sure? You can't undo this action afterwards."
+      />
     </Container>
   );
 }
