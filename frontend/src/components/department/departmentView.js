@@ -25,12 +25,14 @@ import * as Yup from 'yup';
 import { find } from 'lodash';
 import departmentContext from '../../context/department/departmentContext';
 import DeleteModal from '../shared/deleteModal';
+import DepartmentForm from './departmentForm';
 
 function DepartmentView(props) {
   const history = useHistory();
   const { depatments, getDeartment, deleteDeparment } = useContext(departmentContext);
 
   const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
   
   const department = find(depatments, department => department._id === props.match.params.id);
 
@@ -69,8 +71,8 @@ function DepartmentView(props) {
             icon={<FaArrowLeft />}
             onClick={history.goBack}
           />
-          <Button colorScheme="blue" size="sm">
-            Update
+          <Button colorScheme="blue" size="sm" onClick={() => setIsUpdate(!isUpdate)}>
+            {isUpdate ? 'View' : 'Update'}
           </Button>
           <Button colorScheme="red" size="sm" onClick={() => setIsOpenDelete(true)}>
             Delete
@@ -78,123 +80,19 @@ function DepartmentView(props) {
         </HStack>
         <Center>
           <Box width={{ base: '100%', sm: '100%', md: '100%' }}>
-            <Formik
-              initialValues={department}
-              onSubmit={(values, actions) => {
-                console.log(values, actions);
-                // addDeparment(values);
-              }}
-            >
-              {(formik) => (
-                <Form>
-                  <Box fontSize="lg" mt="8">
-                    <Field name="departmentId">
-                      {({ field, form }) => (
-                        <FormControl
-                          isInvalid={
-                            form.errors.departmentId &&
-                            form.touched.departmentId
-                          }
-                          isRequired
-                        >
-                          <FormLabel htmlFor="departmentId">
-                            Department ID
-                          </FormLabel>
-                          <Input
-                            {...field}
-                            id="departmentId"
-                            placeholder="eg :- IT"
-                            isReadOnly
-                          />
-                        </FormControl>
-                      )}
-                    </Field>
-                  </Box>
-                  <Box fontSize="lg" mt="5">
-                    <Field name="departmentName">
-                      {({ field, form }) => (
-                        <FormControl
-                          isInvalid={
-                            form.errors.departmentName &&
-                            form.touched.departmentName
-                          }
-                        >
-                          <FormLabel htmlFor="departmentName">
-                            Department Name
-                          </FormLabel>
-                          <Input
-                            {...field}
-                            id="departmentName"
-                            placeholder="Enter Name Here"
-                            isReadOnly
-                          />
-                          <FormErrorMessage>
-                            {form.errors.departmentName}
-                          </FormErrorMessage>
-                        </FormControl>
-                      )}
-                    </Field>
-                  </Box>
-                  <Box fontSize="lg" mt="5">
-                    <Field name="manager">
-                      {({ field, form }) => (
-                        <FormControl
-                          isInvalid={
-                            form.errors.manager && form.touched.manager
-                          }
-                          isReadOnly
-                        >
-                          <FormLabel htmlFor="manager">Manager</FormLabel>
-                          <Input
-                            {...field}
-                            id="manager"
-                            placeholder="John Doe"
-                            isReadOnly
-                          />
-                          <FormErrorMessage>
-                            {form.errors.manager}
-                          </FormErrorMessage>
-                        </FormControl>
-                      )}
-                    </Field>
-                  </Box>
-                  <Box fontSize="lg" mt="5">
-                    <Field name="desctiption">
-                      {({ field, form }) => (
-                        <FormControl
-                          isInvalid={form.errors.name && form.touched.name}
-                        >
-                          <FormLabel htmlFor="desctiption">
-                            Desctiption
-                          </FormLabel>
-                          <Textarea
-                            {...field}
-                            id="manager"
-                            placeholder="John Doe"
-                            isReadOnly
-                          />
-                          <FormErrorMessage>
-                            {form.errors.name}
-                          </FormErrorMessage>
-                        </FormControl>
-                      )}
-                    </Field>
-                  </Box>
-                </Form>
-              )}
-            </Formik>
+            <DepartmentForm initialValues={department} update={isUpdate}/>
           </Box>
         </Center>
         <Center>
-          {/*<Box mt={4} p={5} shadow="md" width="100%" borderWidth="1px">*/}
-          {/*  <Heading fontSize="xl">User list</Heading>*/}
-          {/*  <Text >here are all the users belogs to this department</Text>*/}
-          {/*  <Box mt={4} pl={5}>*/}
-          {/*    <Text >User name one</Text>*/}
-          {/*    <Text >User name one</Text>*/}
-          {/*    <Text >User name one</Text>*/}
-          {/*  </Box>*/}
-          {/*</Box>*/}
+          <Box mt={4} p={5} shadow="md" width="100%" borderWidth="1px">
+           <Heading fontSize="xl">User list</Heading>
+           <Text >here are all the users belogs to this department</Text>
+           <Box mt={4} pl={5}>
+             <Text >User name one</Text>
+             <Text >User name one</Text>
+             <Text >User name one</Text>
+           </Box>
+          </Box>
         </Center>
       </Stack>
       <DeleteModal
