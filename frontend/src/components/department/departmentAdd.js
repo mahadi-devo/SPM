@@ -16,8 +16,6 @@ import {
   FormLabel,
   FormErrorMessage,
   Center,
-  toast,
-  useToast,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -26,21 +24,11 @@ import * as Yup from 'yup';
 import departmentContext from '../../context/department/departmentContext';
 
 function DepartmentAdd() {
-  const toast = useToast();
   const history = useHistory();
   const { addDeparment } = useContext(departmentContext);
 
   const submitFrom = (values, actions) => {
-    console.log(values, actions);
     addDeparment(values);
-    toast({
-      title: "Department created.",
-      description: "You have created a new Department.",
-      status: "success",
-      position: "top-right",
-      duration: 1500,
-      isClosable: true,
-    });
     history.push('/admin/departments');
   }
 
