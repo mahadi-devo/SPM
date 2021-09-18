@@ -80,7 +80,11 @@ function DepartmentView(props) {
         </HStack>
         <Center>
           <Box width={{ base: '100%', sm: '100%', md: '100%' }}>
-            <DepartmentForm initialValues={department} update={isUpdate}/>
+            <DepartmentForm 
+              initialValues={department} 
+              update={isUpdate}
+              onCancle={() => setIsUpdate(!isUpdate)}
+            />
           </Box>
         </Center>
         <Center>

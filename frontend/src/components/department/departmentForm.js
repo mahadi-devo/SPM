@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   Box,
   Button,
@@ -9,15 +9,18 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
+import departmentContext from '../../context/department/departmentContext';
 
-const departmentForm = (props) => {
-  const { initialValues, update } = props;
+const DepartmentForm = (props) => {
+  const { initialValues, update, onCancle } = props;
+  const { depatments, getDeartment, updateDeparment } = useContext(departmentContext);
 
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={(values, actions) => {
-        console.log(values, actions);
+        updateDeparment(values);
+        onCancle();
       }}
     >
       {(formik) => (
@@ -86,14 +89,14 @@ const departmentForm = (props) => {
             </Field>
           </Box>
           <Box fontSize="lg" mt="5">
-            <Field name="desctiption">
+            <Field name="description">
               {({ field, form }) => (
                 <FormControl isInvalid={form.errors.name && form.touched.name}>
-                  <FormLabel htmlFor="desctiption">Desctiption</FormLabel>
+                  <FormLabel htmlFor="description">Description</FormLabel>
                   <Textarea
                     {...field}
-                    id="manager"
-                    placeholder="John Doe"
+                    id="description"
+                    placeholder="Type department description here"
                     isReadOnly={!update}
                   />
                   <FormErrorMessage>{form.errors.name}</FormErrorMessage>
@@ -118,7 +121,7 @@ const departmentForm = (props) => {
               </Box>
               <Box fontSize="lg" mt="5">
                 <Button
-                  onClick={() => {}}
+                  onClick={onCancle}
                   width="100%"
                   maxW="100%"
                   type="reset"
@@ -135,4 +138,4 @@ const departmentForm = (props) => {
   );
 };
 
-export default departmentForm;
+export default DepartmentForm;
