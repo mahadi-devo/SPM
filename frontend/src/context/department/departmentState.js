@@ -75,6 +75,44 @@ const DepartmentState = (props) => {
     }
   };
 
+  const updateDeparment = async (formData) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const res = await axios.put('/api/v1/department', formData, config);
+      console.log("🚀 ~ file: departmentState.js ~ line 51 ~ addDeparment ~ formData", res);
+
+      if (res.data.success) {
+        toast({
+          title: "Department created.",
+          description: "You have created a new Department.",
+          status: "success",
+          position: "top-right",
+          duration: 1500,
+          isClosable: true,
+        });
+        getDeartment();
+      } else {
+        toast({
+          title: "Error",
+          description: "Something went wrong",
+          status: "error",
+          position: "top-right",
+          duration: 1500,
+          isClosable: true,
+        });
+      }
+      
+      
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const deleteDeparment = async (_id) => {
     const config = {
       headers: {
@@ -119,6 +157,7 @@ const DepartmentState = (props) => {
         addDeparment,
         getDeartment,
         deleteDeparment,
+        updateDeparment,
       }}
     >
       {props.children}
