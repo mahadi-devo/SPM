@@ -43,9 +43,8 @@ const getDepartment = async (req, res) => {
 };
 
 const addDepartment = async (req, res) => {
-  console.log('department :');
   try {
-    const { departmentId, departmentName, manager, desctiption } = req.body;
+    const { departmentId, departmentName, manager, description } = req.body;
 
     const departmentExist = await Department.findOne({ departmentId });
 
@@ -57,10 +56,9 @@ const addDepartment = async (req, res) => {
       departmentId,
       departmentName,
       manager,
-      desctiption,
+      description,
     });
 
-    console.log('department :', department);
     res.status(200).json({
       success: true,
       department,
@@ -76,9 +74,8 @@ const addDepartment = async (req, res) => {
 
 const updateDepartment = async (req, res) => {
   try {
-    const { _id, departmentId, departmentName, manager, desctiption } =
+    const { _id, departmentId, departmentName, manager, description } =
       req.body;
-    console.log("🚀 ~ file: department.controller.js ~ line 113 ~ updateDepartment ~ req.body", req.body)
 
     const departmentExist = await Department.findById(_id);
 
@@ -93,13 +90,12 @@ const updateDepartment = async (req, res) => {
           departmentId,
           departmentName,
           manager,
-          desctiption,
+          description,
         },
       },
       { new: true }
     );
 
-    console.log('department :', department);
     res.status(200).json({
       success: true,
       department,

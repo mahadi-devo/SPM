@@ -143,17 +143,17 @@ function DepartmentAdd() {
                     </Field>
                   </Box>
                   <Box fontSize="lg" mt="5">
-                    <Field name="desctiption">
+                    <Field name="description">
                       {({ field, form }) => (
                         <FormControl
                           isInvalid={form.errors.name && form.touched.name}
                         >
-                          <FormLabel htmlFor="desctiption">
-                            Desctiption
+                          <FormLabel htmlFor="description">
+                            Description
                           </FormLabel>
                           <Textarea
                             {...field}
-                            id="manager"
+                            id="description"
                             placeholder="Enter Manager Desctiption Here"
                           />
                           <FormErrorMessage>
