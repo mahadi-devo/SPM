@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Container,
   Button,
@@ -10,8 +11,8 @@ import {
 } from "@chakra-ui/react";
 
 const DeleteModel = (props) => {
-  const { isOpenDelete, cancelRef, onCloseDelete, title, subTitle } = props;
-
+  const { isOpenDelete, onCloseDelete, onDelete, title, subTitle } = props;
+  const cancelRef = React.useRef();
   return (
     <Container maxW="100%" centerContent={true}>
       <AlertDialog
@@ -31,7 +32,7 @@ const DeleteModel = (props) => {
               <Button ref={cancelRef} onClick={onCloseDelete}>
                 Cancel
               </Button>
-              <Button colorScheme="red" onClick={onCloseDelete} ml={3}>
+              <Button colorScheme="red" onClick={onDelete} ml={3}>
                 Delete
               </Button>
             </AlertDialogFooter>
