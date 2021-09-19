@@ -48,28 +48,32 @@ const UserState = (props) => {
           isClosable: true,
         });
         getUser();
-      } else {
-        toast({
-          title: 'Error',
-          description: 'Something went wrong',
-          status: 'error',
-          position: 'top-right',
-          duration: 1500,
-          isClosable: true,
-        });
       }
 
       dispatch({ type: ADD_USER, payload: res.data });
     } catch (e) {
       console.error(e);
+      toast({
+        title: 'Error',
+        description: 'Something went wrong',
+        status: 'error',
+        position: 'top-right',
+        duration: 1500,
+        isClosable: true,
+      });
     }
   };
 
-  const getUser = async () => {
+  const getUser = async (keyword, sortBy, orderby) => {
+    let params = {};
+    if (keyword) params.keyword = keyword;
+    if (sortBy) params.sortby = sortBy;
+    if (orderby) params.orderby = orderby;
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
+      params,
     };
 
     try {
@@ -89,6 +93,7 @@ const UserState = (props) => {
 
     const data = {};
 
+    data._id = user.id;
     data.name = user.userName;
     data.email = user.userEmail;
     data.department = user.department;
@@ -97,7 +102,7 @@ const UserState = (props) => {
     data.role = 2;
 
     try {
-      const res = await axios.put('/api/get/user', data);
+      const res = await axios.put('/api/v1/user', data, config);
       console.log(
         '🚀 ~ file: userStae.js ~ line 41 ~ updateUser ~ formData',
         res
@@ -113,23 +118,21 @@ const UserState = (props) => {
           isClosable: true,
         });
         getUser();
-      } else {
-        toast({
-          title: 'Error',
-          description: 'Something went wrong',
-          status: 'error',
-          position: 'top-right',
-          duration: 1500,
-          isClosable: true,
-        });
       }
     } catch (e) {
       console.error(e);
+      toast({
+        title: 'Error',
+        description: 'Something went wrong',
+        status: 'error',
+        position: 'top-right',
+        duration: 1500,
+        isClosable: true,
+      });
     }
   };
 
   const deleteUser = async (_id) => {
-    console.log('state', _id);
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -148,18 +151,17 @@ const UserState = (props) => {
           isClosable: true,
         });
         getUser();
-      } else {
-        toast({
-          title: 'Error',
-          description: 'Something went wrong',
-          status: 'error',
-          position: 'top-right',
-          duration: 1500,
-          isClosable: true,
-        });
       }
     } catch (e) {
       console.error(e);
+      toast({
+        title: 'Error',
+        description: 'Something went wrong',
+        status: 'error',
+        position: 'top-right',
+        duration: 1500,
+        isClosable: true,
+      });
     }
   };
 

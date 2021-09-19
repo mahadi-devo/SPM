@@ -35,6 +35,10 @@ const updateUser = async (req, res, next) => {
 
   try {
     const { _id, name, role, password, mobile, department } = req.body;
+    console.log(
+      '🚀 ~ file: user.controller.js ~ line 38 ~ updateUser ~ _id',
+      _id
+    );
     const userExist = await UserModal.findOne({ _id });
     if (!userExist) {
       return next(new ApiError('!User does not exist in the system', 400));
@@ -66,7 +70,33 @@ const updateUser = async (req, res, next) => {
 
 const getAllUser = async (req, res) => {
   try {
-    const users = await UserModal.find({ role: 2 }).sort({ createdAt: -1 });
+    const { keyword, sortby = '', orderby = -1 } = req.query;
+    let quary;
+    switch (sortby) {
+      case 'name':
+        quary = { name: orderby };
+        break;
+      case 'email':
+        quary = { email: orderby };
+        break;
+      case 'department':
+        quary = { department: orderby };
+        break;
+      default:
+        quary = { createdAt: -1 };
+        break;
+    }
+    let users;
+    if (keyword) {
+      var re = new RegExp(keyword, 'i');
+      users = await UserModal.find({ role: 2, name: re })
+        .sort(quary)
+        .collation({ locale: 'en' });
+    } else {
+      users = await UserModal.find({ role: 2 })
+        .sort(quary)
+        .collation({ locale: 'en' });
+    }
     res.status(200).json({
       users,
       success: true,
@@ -83,8 +113,6 @@ const deleteUser = async (req, res) => {
   console.log('deleeeee');
   try {
     const { _id } = req.body;
-
-    console.log(_id);
 
     const user = await UserModal.findByIdAndRemove(_id);
     res.status(200).json({

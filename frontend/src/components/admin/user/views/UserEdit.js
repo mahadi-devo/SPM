@@ -28,7 +28,11 @@ function UserEdit(props) {
 
   const userContext = useContext(UserContext);
 
-  const { updateUser } = userContext;
+  const { userUpdate, users } = userContext;
+
+  const user = find(users, (user) => user._id === props.match.params.id);
+
+  console.log('🚀 ~ file: UserEdit.js ~ line 34 ~ UserEdit ~ user', user);
 
   const validationSchema = Yup.object().shape({
     userName: Yup.string().required('User Name is required!'),
@@ -39,7 +43,8 @@ function UserEdit(props) {
   });
 
   const submitFrom = (values, actions) => {
-    updateUser(values);
+    console.log('Hiii');
+    userUpdate(values);
     history.push('/admin/users');
   };
 
@@ -64,10 +69,11 @@ function UserEdit(props) {
           </HStack>
           <Formik
             initialValues={{
-              userName: '',
-              userEmail: '',
-              department: '',
-              mobile: '',
+              id: user._id,
+              userName: user.name,
+              userEmail: user.email,
+              department: user.department,
+              mobile: user.mobile,
               password: '',
             }}
             validationSchema={validationSchema}
@@ -107,6 +113,8 @@ function UserEdit(props) {
                         <Input
                           {...field}
                           id='userEmail'
+                          isReadOnly={true}
+                          variant='filled'
                           placeholder='Enter Email'
                         />
                         <FormErrorMessage>
@@ -190,7 +198,7 @@ function UserEdit(props) {
                       boxShadow: '2xl',
                     }}
                     color='white'>
-                    Save
+                    Update
                   </Button>
                 </Box>
                 <Box fontSize='lg' mt='5' w='30vw'>
