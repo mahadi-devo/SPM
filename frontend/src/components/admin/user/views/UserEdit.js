@@ -18,16 +18,17 @@ import {
 import { Formik, Form, Field } from 'formik';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
+import { find } from 'lodash';
 import * as Yup from 'yup';
 
 import UserContext from '../../../../context/admin/user/userContext';
 
-function UserEdit() {
+function UserEdit(props) {
   const history = useHistory();
 
   const userContext = useContext(UserContext);
 
-  const { addUser } = userContext;
+  const { updateUser } = userContext;
 
   const validationSchema = Yup.object().shape({
     userName: Yup.string().required('User Name is required!'),
@@ -36,6 +37,11 @@ function UserEdit() {
     mobile: Yup.string().required('Mobile is required!'),
     password: Yup.string().required('Password is required!'),
   });
+
+  const submitFrom = (values, actions) => {
+    updateUser(values);
+    history.push('/admin/users');
+  };
 
   return (
     <Container maxW='100%' centerContent={true}>
@@ -65,10 +71,7 @@ function UserEdit() {
               password: '',
             }}
             validationSchema={validationSchema}
-            onSubmit={(values, actions) => {
-              console.log(values, actions);
-              addUser(values);
-            }}>
+            onSubmit={submitFrom}>
             {(formik) => (
               <Form>
                 <Box fontSize='lg' mt='8' w='30vw'>

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 
 import {
   Container,
@@ -29,23 +29,34 @@ import {
 import CustomTable from '../../shared/customTable';
 import DeleteModal from '../../shared/deleteModal';
 
-import { Link, useRouteMatch } from 'react-router-dom';
-
+import { Link, useRouteMatch, useHistory } from 'react-router-dom';
 import UserContext from '../../../context/admin/user/userContext';
 
 const User = () => {
   const { url } = useRouteMatch();
+  const history = useHistory();
 
   const userContext = useContext(UserContext);
-  const { users, getUser } = userContext;
-
+  const { users, getUser, deleteUser } = userContext;
+  const currentUser = useRef('');
   useEffect(() => {
     getUser();
     // eslint-disable-next-line
-  }, [users]);
+  }, []);
 
   const [isOpenDelete, setIsOpen] = useState(false);
   const onCloseDelete = () => setIsOpen(false);
+
+  const HandelDelete = (id) => {
+    currentUser.current = id;
+    setIsOpen(true);
+  };
+
+  const onDelete = (id) => {
+    console.log('On delete', id);
+    deleteUser(id);
+    setIsOpen(false);
+  };
 
   const cols = [
     {
@@ -80,9 +91,12 @@ const User = () => {
           <HStack w='50%'>
             <Spacer />
             <Tooltip hasArrow label='Edit' fontSize='md' placement='top'>
-              <Link to={`${url}/edit`}>
-                <EditIcon fontSize='1xl' cursor='pointer' color='#6C63FF' />
-              </Link>
+              <EditIcon
+                fontSize='1xl'
+                onClick={() => history.push(`${url}/edit/${data._id}`)}
+                cursor='pointer'
+                color='#6C63FF'
+              />
             </Tooltip>
 
             <Spacer />
@@ -90,7 +104,7 @@ const User = () => {
               <DeleteIcon
                 fontSize='1xl'
                 cursor='pointer'
-                onClick={() => setIsOpen(true)}
+                onClick={() => HandelDelete(data._id)}
                 color='red'
               />
             </Tooltip>
@@ -190,6 +204,7 @@ const User = () => {
 
       <DeleteModal
         isOpenDelete={isOpenDelete}
+        onDelete={() => onDelete(currentUser.current)}
         onCloseDelete={onCloseDelete}
         title='User'
         subTitle="Are you sure? You can't undo this action afterwards."

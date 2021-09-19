@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import {
   Container,
   VStack,
@@ -11,14 +11,13 @@ import {
   Select,
   Center,
   Button,
-  useToast,
   FormControl,
   FormLabel,
   FormErrorMessage,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import { FaArrowLeft } from 'react-icons/fa';
-import {Redirect, useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import UserContext from '../../../../context/admin/user/userContext';
@@ -28,22 +27,7 @@ function UserAdd() {
 
   const userContext = useContext(UserContext);
 
-  const { addUser, sucess, changeSuccess } = userContext;
-
-  const toast = useToast();
-
-  // useEffect(() => {
-  //   if (sucess) {
-  //     toast({
-  //       title: 'User Created Successfully',
-  //       status: 'success',
-  //       duration: 5000,
-  //       isClosable: true,
-  //       position: 'top',
-  //     });
-  //   }
-  //   // eslint-disable-next-line
-  // }, [sucess]);
+  const { addUser } = userContext;
 
   const validationSchema = Yup.object().shape({
     userName: Yup.string().required('User Name is required!'),
@@ -52,6 +36,11 @@ function UserAdd() {
     mobile: Yup.string().required('Mobile is required!'),
     password: Yup.string().required('Password is required!'),
   });
+
+  const submitFrom = (values, actions) => {
+    addUser(values);
+    history.push('/admin/users');
+  };
 
   return (
     <Container maxW='100%' centerContent={true}>
@@ -81,19 +70,7 @@ function UserAdd() {
               password: '',
             }}
             validationSchema={validationSchema}
-            onSubmit={(values, actions) => {
-              console.log(values, actions);
-              addUser(values);
-              //changeSuccess();
-              toast({
-                title: 'User Created Successfully',
-                status: 'success',
-                duration: 5000,
-                isClosable: true,
-                position: 'top',
-              });
-              history.push('/admin/users/')
-            }}>
+            onSubmit={submitFrom}>
             {(formik) => (
               <Form>
                 <Box fontSize='lg' mt='8' w='30vw'>
