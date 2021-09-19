@@ -171,7 +171,7 @@ const User = () => {
               onChange={debounce((e) => {
                 setSearchKeyword(e.target.value);
               }, 1000)}
-              placeholder='Search by user name'
+              placeholder='Search by user name '
             />
           </InputGroup>
           <Spacer />
