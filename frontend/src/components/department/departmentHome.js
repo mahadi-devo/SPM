@@ -14,6 +14,7 @@ import {
   InputLeftElement,
   Flex,
   Center,
+  Spinner,
 } from '@chakra-ui/react';
 import { FaPlus, FaEdit } from 'react-icons/fa';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
@@ -32,7 +33,8 @@ import departmentContext from '../../context/department/departmentContext';
 const DepartmentHome = (props) => {
   const history = useHistory();
   const { url } = useRouteMatch();
-  const { depatments, getDeartment, deleteDeparment } = useContext(departmentContext);
+  const { depatments, getDeartment, deleteDeparment } =
+    useContext(departmentContext);
 
   const [sortBy, setSortBy] = useState('');
   const [orderBy, setOrderBy] = useState('');
@@ -45,10 +47,12 @@ const DepartmentHome = (props) => {
   }, []);
 
   useEffect(() => {
-    getDeartment(searchKeyword,sortBy,orderBy);
-  }, [sortBy,orderBy,searchKeyword]);
+    getDeartment(searchKeyword, sortBy, orderBy);
+  }, [sortBy, orderBy, searchKeyword]);
 
-  const onCloseDelete = () => {setIsOpen(false)};
+  const onCloseDelete = () => {
+    setIsOpen(false);
+  };
 
   const Handelview = (id) => {
     console.log('clicked view on ', id);
@@ -66,7 +70,7 @@ const DepartmentHome = (props) => {
   const onDelete = (id) => {
     deleteDeparment(id);
     setIsOpen(false);
-  }
+  };
 
   const cols = [
     {
@@ -155,9 +159,12 @@ const DepartmentHome = (props) => {
               height="30px"
               children={<SearchIcon color="gray.300" />}
             />
-            <Input size="sm" w="20vw" placeholder="Search by Department name"
-              onChange={ debounce((e) => {
-              setSearchKeyword(e.target.value);
+            <Input
+              size="sm"
+              w="20vw"
+              placeholder="Search by Department name"
+              onChange={debounce((e) => {
+                setSearchKeyword(e.target.value);
               }, 1000)}
             />
           </InputGroup>
@@ -177,7 +184,7 @@ const DepartmentHome = (props) => {
               placeholder="Select"
               size="sm"
               value={sortBy}
-              onChange={(value,type) => {
+              onChange={(value, type) => {
                 setSortBy(value.target.value);
               }}
             >
@@ -204,16 +211,22 @@ const DepartmentHome = (props) => {
           </div>
         </HStack>
         {/* <CustomTable cols={cols} rows={depatments} /> */}
-        <CustomTable
-          headColor="white"
-          colorScheme={'blackAlpha'}
-          cols={cols}
-          rows={depatments}
-        />
+        {depatments ? (
+          <CustomTable
+            headColor="white"
+            colorScheme={'blackAlpha'}
+            cols={cols}
+            rows={depatments}
+          />
+        ) : (
+          <Center>
+            <Spinner size="xl" />
+          </Center>
+        )}
       </VStack>
       <DeleteModal
         isOpenDelete={isOpenDelete}
-        onDelete = {() => onDelete(currentDepartment.current)}
+        onDelete={() => onDelete(currentDepartment.current)}
         onCloseDelete={onCloseDelete}
         title="Deparment"
         subTitle="Are you sure? You can't undo this action afterwards."
