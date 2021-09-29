@@ -25,6 +25,8 @@ import {
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
+  toast,
+  useToast,
   Button,
 } from '@chakra-ui/react';
 import { DeleteIcon, EditIcon, SearchIcon } from '@chakra-ui/icons';
@@ -35,7 +37,17 @@ import customerContext from '../../../context/customer/customerContext';
 const TicketHistory = () => {
   const CustomerContext = useContext(customerContext);
 
-  const { tickets, getTickets, removeLoaded } = CustomerContext;
+  const {
+    tickets,
+    getTickets,
+    removeLoaded,
+    deleteTicket,
+    filtered,
+    filterTickets,
+    clearFilter,
+  } = CustomerContext;
+
+  const toast = useToast();
 
   useEffect(() => {
     getTickets();
@@ -44,9 +56,19 @@ const TicketHistory = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [editTicket, setEditTicket] = useState(false);
   const [ticket, setTicket] = useState('');
+  const [deleteId, setDeleteId] = useState(null);
 
   const onClose = () => setIsOpen(false);
   const cancelRef = useRef();
+  const text = useRef();
+
+  const searchText = (e) => {
+    if (text.current.value !== '') {
+      filterTickets(e.target.value);
+    } else {
+      clearFilter();
+    }
+  };
 
   const HandelEdit = (id) => {
     const x = tickets.filter((ticket) => {
@@ -58,7 +80,7 @@ const TicketHistory = () => {
   };
 
   const HandelDelete = (id) => {
-    console.log('clicked delete on ', id);
+    setDeleteId(id);
     setIsOpen(true);
   };
 
@@ -140,14 +162,20 @@ const TicketHistory = () => {
               height='35px'
               children={<SearchIcon color='gray.300' />}
             />
-            <Input type='tel' size={'sm'} placeholder='Search Ticket' />
+            <Input
+              type='tel'
+              ref={text}
+              onChange={searchText}
+              size={'sm'}
+              placeholder='Search Ticket'
+            />
           </InputGroup>
           <div>
             <CustomTable
               headColor='white'
               colorScheme={'blackAlpha'}
               cols={cols}
-              rows={tickets}
+              rows={filtered !== null ? filtered : tickets}
             />
           </div>
         </Fragment>
@@ -172,7 +200,20 @@ const TicketHistory = () => {
                 <Button ref={cancelRef} onClick={onClose}>
                   Cancel
                 </Button>
-                <Button colorScheme='red' onClick={onClose} ml={3}>
+                <Button
+                  colorScheme='red'
+                  onClick={() => {
+                    deleteTicket(deleteId);
+                    onClose();
+                    toast({
+                      title: 'Ticket Deleted Successfully',
+                      status: 'error',
+                      duration: 5000,
+                      isClosable: true,
+                      position: 'top',
+                    });
+                  }}
+                  ml={3}>
                   Delete
                 </Button>
               </AlertDialogFooter>

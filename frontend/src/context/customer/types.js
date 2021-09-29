@@ -3,3 +3,7 @@ export const GET_TICKETS = 'GET_TICKETS';
 export const VIEW_TICKET = 'VIEW_TICKET';
 export const IS_LOADING = 'IS_LOADING';
 export const REMOVE_LOADED = 'REMOVE_LOADED';
+export const DELETE_TICKET = 'DELETE_TICKET';
+export const UPDATE_STATUS = 'UPDATE_STATUS';
+export const FILTER_TICKETS = 'FILTER_TICKETS';
+export const CLEAR_FILTER = 'CLEAR_FILTER';

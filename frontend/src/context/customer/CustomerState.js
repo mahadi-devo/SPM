@@ -5,10 +5,14 @@ import {
   IS_LOADING,
   VIEW_TICKET,
   REMOVE_LOADED,
+  CLEAR_FILTER,
+  DELETE_TICKET,
+  FILTER_TICKETS,
 } from './types';
 import customerContext from './customerContext';
 import CustomerReducer from './customerReducer';
 import axios from 'axios';
+import config from '../../utils/config';
 
 const CustomerState = (props) => {
   const initialState = {
@@ -16,6 +20,8 @@ const CustomerState = (props) => {
     loading: false,
     sucess: false,
     loadedTicket: null,
+    deleteSucess: false,
+    filtered: null,
   };
 
   const [state, dispatch] = useReducer(CustomerReducer, initialState);
@@ -24,14 +30,6 @@ const CustomerState = (props) => {
     dispatch({
       type: IS_LOADING,
     });
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMjM2MjE4NWE3YTZkMzc4NDhhYjBjYSIsImlhdCI6MTYyOTcwODgyNSwiZXhwIjoxNjMyMzAwODI1fQ.xdYmAzhKie72IrzkAH-zBw8rEy24FPx-AGSgkGiJd5g',
-      },
-    };
 
     try {
       const res = await axios.post(
@@ -48,14 +46,6 @@ const CustomerState = (props) => {
   };
 
   const getTickets = async () => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMjM2MjE4NWE3YTZkMzc4NDhhYjBjYSIsImlhdCI6MTYyOTcwODgyNSwiZXhwIjoxNjMyMzAwODI1fQ.xdYmAzhKie72IrzkAH-zBw8rEy24FPx-AGSgkGiJd5g',
-      },
-    };
-
     try {
       const res = await axios.get(
         'http://localhost:5000/api/v1/ticket',
@@ -70,14 +60,6 @@ const CustomerState = (props) => {
   };
 
   const getviewTicket = async (id) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMjM2MjE4NWE3YTZkMzc4NDhhYjBjYSIsImlhdCI6MTYyOTcwODgyNSwiZXhwIjoxNjMyMzAwODI1fQ.xdYmAzhKie72IrzkAH-zBw8rEy24FPx-AGSgkGiJd5g',
-      },
-    };
-
     try {
       const res = await axios.get(
         `http://localhost:5000/api/v1/ticket/${id}`,
@@ -99,15 +81,65 @@ const CustomerState = (props) => {
     });
   };
 
+  const deleteTicket = async (id) => {
+    console.log(id);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization:
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNTA3YjBkMzdkMDE5MWVkMGEyZDFkMiIsImlhdCI6MTYzMjY2NDMzMywiZXhwIjoxNjM1MjU2MzMzfQ.X4XWUMru-SG28S1Di5TLnL0mgDT0OBo_npOxACf0Xts',
+      },
+    };
+
+    try {
+      const res = await axios.delete(
+        `http://localhost:5000/api/v1/ticket/${id}`,
+        config
+      );
+
+      dispatch({
+        type: DELETE_TICKET,
+        payload: id,
+      });
+
+      getTickets();
+    } catch (error) {}
+  };
+
+  const closeTicket = async (ticket) => {
+    try {
+      const res = await axios.put(
+        `http://localhost:5000/api/v1/ticket/status/${ticket._id}`,
+        config
+      );
+
+      getTickets();
+      getviewTicket(ticket._id);
+    } catch (error) {}
+  };
+
+  const filterTickets = (text) => {
+    dispatch({ type: FILTER_TICKETS, payload: text });
+  };
+
+  const clearFilter = () => {
+    dispatch({ type: CLEAR_FILTER });
+  };
+
   return (
     <customerContext.Provider
       value={{
         tickets: state.tickets,
         loadedTicket: state.loadedTicket,
+        filtered: state.filtered,
         addTicket,
         getTickets,
         getviewTicket,
         removeLoaded,
+        deleteTicket,
+        closeTicket,
+        filterTickets,
+        clearFilter,
         loading: state.loading,
         sucess: state.sucess,
       }}>

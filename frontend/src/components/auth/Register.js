@@ -17,12 +17,12 @@ import {
   toast,
   useColorModeValue,
   useToast,
-} from "@chakra-ui/react";
-import { Formik, Form, Field } from "formik";
-import { SignupSchema } from "./authSchema";
-import React, { useContext, useEffect } from "react";
-import AuthContext from "../../context/auth/authContext";
-import { useHistory } from "react-router-dom";
+} from '@chakra-ui/react';
+import { Formik, Form, Field } from 'formik';
+import { SignupSchema } from './authSchema';
+import React, { useContext, useEffect } from 'react';
+import AuthContext from '../../context/auth/authContext';
+import { useHistory } from 'react-router-dom';
 
 const Register = () => {
   const toast = useToast();
@@ -60,7 +60,7 @@ const Register = () => {
         email: values.email,
         password: values.password,
       });
-      history.push("/customer");
+      history.push('/customer');
       resetForm({});
       setStatus({ success: true });
     } catch (error) {
@@ -73,38 +73,36 @@ const Register = () => {
   return (
     <>
       <Flex>
-        <Box flex="1">
-          <Flex minH={"100vh"} align={"center"} justify={"center"}>
-            <Stack spacing={10} mx={"auto"} maxW={"lg"}>
+        <Box flex='1'>
+          <Flex minH={'100vh'} align={'center'} justify={'center'}>
+            <Stack spacing={10} mx={'auto'} maxW={'lg'}>
               <Stack>
-                <Heading fontSize="3xl" color={"gray.600"}>
+                <Heading fontSize='3xl' color={'gray.600'}>
                   Hello!
                   <br />
                   Create your account
                 </Heading>
               </Stack>
-              <Box rounded={"lg"} width={"450px"}>
+              <Box rounded={'lg'} width={'450px'}>
                 <Formik
-                  initialValues={{ name: "", email: "", password: "" }}
+                  initialValues={{ name: '', email: '', password: '' }}
                   validationSchema={SignupSchema}
                   onSubmit={(values, actions) => {
                     submitHandler(values, actions);
-                  }}
-                >
+                  }}>
                   {(props) => (
                     <Form>
                       <Stack spacing={4}>
-                        <Field name="name">
+                        <Field name='name'>
                           {({ field, form }) => (
                             <FormControl
                               isInvalid={form.errors.name && form.touched.name}
-                              isRequired
-                            >
-                              <FormLabel htmlFor="name">Name</FormLabel>
+                              isRequired>
+                              <FormLabel htmlFor='name'>Name</FormLabel>
                               <Input
                                 {...field}
-                                id="name"
-                                placeholder="John Doe"
+                                id='name'
+                                placeholder='John Doe'
                               />
                               <FormErrorMessage>
                                 {form.errors.name}
@@ -112,19 +110,18 @@ const Register = () => {
                             </FormControl>
                           )}
                         </Field>
-                        <Field name="email">
+                        <Field name='email'>
                           {({ field, form }) => (
                             <FormControl
                               isInvalid={
                                 form.errors.email && form.touched.email
                               }
-                              isRequired
-                            >
-                              <FormLabel htmlFor="Email">Email</FormLabel>
+                              isRequired>
+                              <FormLabel htmlFor='Email'>Email</FormLabel>
                               <Input
                                 {...field}
-                                id="email"
-                                placeholder="john@gmail.com"
+                                id='email'
+                                placeholder='john@gmail.com'
                               />
                               <FormErrorMessage>
                                 {form.errors.email}
@@ -132,19 +129,18 @@ const Register = () => {
                             </FormControl>
                           )}
                         </Field>
-                        <Field name="password">
+                        <Field name='password'>
                           {({ field, form }) => (
                             <FormControl
                               isInvalid={
                                 form.errors.password && form.touched.password
                               }
-                              isRequired
-                            >
-                              <FormLabel htmlFor="password">Password</FormLabel>
+                              isRequired>
+                              <FormLabel htmlFor='password'>Password</FormLabel>
                               <Input
                                 {...field}
-                                id="password"
-                                placeholder="secret***"
+                                id='password'
+                                placeholder='secret***'
                               />
                               <FormErrorMessage>
                                 {form.errors.password}
@@ -155,14 +151,13 @@ const Register = () => {
                       </Stack>
                       <Stack spacing={10} pt={8}>
                         <Button
-                          bg={"#6C63FF"}
-                          color={"white"}
+                          bg={'#6C63FF'}
+                          color={'white'}
                           _hover={{
-                            boxShadow: "dark-lg",
+                            boxShadow: 'dark-lg',
                           }}
                           isLoading={props.isSubmitting}
-                          type="submit"
-                        >
+                          type='submit'>
                           Register
                         </Button>
                       </Stack>
@@ -172,17 +167,17 @@ const Register = () => {
               </Box>
 
               <Text flex={1}>
-                Already have an account ?{" "}
-                <Link to="/login">
-                  <span style={{ color: "#6C63FF" }}>Login here</span>
+                Already have an account ?{' '}
+                <Link to='/login'>
+                  <span style={{ color: '#6C63FF' }}>Login here</span>
                 </Link>
               </Text>
             </Stack>
           </Flex>
         </Box>
-        <Square flex="1">
-          <Box boxSize="lg">
-            <Image boxSize="580px" src="./register.png" />
+        <Square flex='1'>
+          <Box boxSize='lg'>
+            <Image boxSize='580px' src='./register.png' />
           </Box>
         </Square>
       </Flex>
