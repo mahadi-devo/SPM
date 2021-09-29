@@ -15,7 +15,7 @@ import {
   Flex,
   Center,
 } from '@chakra-ui/react';
-import { FaPlus, FaEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { FaPlus, FaEdit } from 'react-icons/fa';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import {
   DeleteIcon,
