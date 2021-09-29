@@ -21,21 +21,38 @@ import {
   Image,
   Select,
 } from '@chakra-ui/react';
+import axios from 'axios';
 
 import { Formik, Form, Field } from 'formik';
 import { TicketSchema } from './ticketSchema';
 import customerContext from '../../../context/customer/customerContext';
+import { saveAs } from 'file-saver';
 
 import { DownloadIcon, ArrowBackIcon } from '@chakra-ui/icons';
 
 const ViewTicket = ({ match, func, ticket }) => {
   const CustomerContext = useContext(customerContext);
 
-  const { getviewTicket, loadedTicket } = CustomerContext;
-
+  const { getviewTicket, loadedTicket, closeTicket } = CustomerContext;
+  const toast = useToast();
   useEffect(() => {
     getviewTicket(ticket._id);
   }, []);
+
+  const createAndDownloadPdf = () => {
+    axios
+      .post('http://localhost:5000/api/v1/ticket/generate-report', loadedTicket)
+      .then(() =>
+        axios.post('http://localhost:5000/api/v1/ticket/fetch-report', {
+          responseType: 'blob',
+        })
+      )
+      .then((res) => {
+        const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+
+        saveAs(pdfBlob, 'newPdf.pdf');
+      });
+  };
 
   // const { name, email, status, subject, department, message } = loadedTicket;
 
@@ -54,14 +71,15 @@ const ViewTicket = ({ match, func, ticket }) => {
   };
   return (
     <div>
-      <Button style={{ marginLeft: "50px", marginBottom: "20px" }}
+      <Button
+        style={{ marginLeft: '50px', marginBottom: '20px' }}
         leftIcon={<ArrowBackIcon />}
         onClick={() => {
           func('hello');
         }}>
         Back
       </Button>
-      <Flex justifyContent="space-between" px={'50'}>
+      <Flex justifyContent='space-between' px={'50'}>
         <Box>
           {loadedTicket !== null && (
             <Flex minH={'100vh'}>
@@ -96,7 +114,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                                   id='name'
                                   placeholder='John Doe'
                                   isDisabled
-                                  bg="gray.300"
+                                  bg='gray.300'
                                 />
                                 <FormErrorMessage>
                                   {form.errors.name}
@@ -118,7 +136,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                                   id='email'
                                   placeholder='john@gmail.com'
                                   isDisabled
-                                  bg="gray.300"
+                                  bg='gray.300'
                                 />
                                 <FormErrorMessage>
                                   {form.errors.email}
@@ -143,7 +161,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                                   isDisabled
                                   id='department'
                                   placeholder='Department'
-                                  bg="gray.300"
+                                  bg='gray.300'
                                 />
 
                                 <FormErrorMessage>
@@ -167,7 +185,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                                   {...field}
                                   id='subject'
                                   placeholder='Subject'
-                                  bg="gray.300"
+                                  bg='gray.300'
                                 />
                                 <FormErrorMessage>
                                   {form.errors.subject}
@@ -190,7 +208,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                                   {...field}
                                   id='message'
                                   placeholder='message'
-                                  bg="gray.300"
+                                  bg='gray.300'
                                 />
                                 <FormErrorMessage>
                                   {form.errors.message}
@@ -275,6 +293,16 @@ const ViewTicket = ({ match, func, ticket }) => {
                   _hover={{
                     bg: 'red',
                   }}
+                  onClick={() => {
+                    closeTicket(loadedTicket);
+                    toast({
+                      title: 'Ticket Closed Successfully',
+                      status: 'success',
+                      duration: 5000,
+                      isClosable: true,
+                      position: 'top',
+                    });
+                  }}
                   color={'white'}
                   style={{
                     width: '200px',
@@ -292,6 +320,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                     marginRight: '0',
                     marginLeft: 'auto',
                   }}
+                  onClick={createAndDownloadPdf}
                   colorScheme='teal'
                   variant='solid'>
                   Generate report
