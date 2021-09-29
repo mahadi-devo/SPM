@@ -131,7 +131,7 @@ const deleteDepartment = async (req, res) => {
 
 const getTicketOfDepartment = async (req, res) => {
   try {
-    const {_id} = req.body;
+    const { _id } = req.query;
     console.log("🚀 ~ file: department.controller.js ~ line 134 ~ getTicketOfDepartment ~ id", _id)
     const tickets = await Ticket.find({department: _id}).populate("department");
     res.status(200).json({ tickets });
