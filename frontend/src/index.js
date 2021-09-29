@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import { ChakraProvider } from '@chakra-ui/react';
-import AuthState from './context/auth/AuthState';
-import UserState from './context/admin/user/userState';
-import DepartmentState from './context/department/departmentState';
-=======
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
@@ -15,7 +6,6 @@ import AuthState from "./context/auth/AuthState";
 import DepartmentState from "./context/department/departmentState";
 import UserState from "./context/admin/user/userState";
 import TicketState from "./context/admin/ticket/ticketState";
->>>>>>> master
 
 ReactDOM.render(
   <React.StrictMode>
