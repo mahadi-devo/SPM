@@ -1,4 +1,5 @@
 const Department = require('../models/department.model');
+const Ticket = require('../models/ticket.model');
 const ApiError = require('../utils/apiError');
 
 const getDepartment = async (req, res) => {
@@ -128,4 +129,15 @@ const deleteDepartment = async (req, res) => {
   }
 };
 
-module.exports = { getDepartment, addDepartment, updateDepartment, deleteDepartment };
+const getTicketOfDepartment = async (req, res) => {
+  try {
+    const {_id} = req.body;
+    console.log("🚀 ~ file: department.controller.js ~ line 134 ~ getTicketOfDepartment ~ id", _id)
+    const tickets = await Ticket.find({department: _id}).populate("department");
+    res.status(200).json({ tickets });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+module.exports = { getDepartment, addDepartment, updateDepartment, deleteDepartment, getTicketOfDepartment };
