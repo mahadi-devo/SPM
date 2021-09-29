@@ -2,7 +2,6 @@ const Department = require('../models/department.model');
 const ApiError = require('../utils/apiError');
 
 const getDepartment = async (req, res) => {
-  console.log('in');
   try {
     const department = await Department.find();
     res.status(200).json({
