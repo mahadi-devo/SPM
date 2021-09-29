@@ -11,29 +11,32 @@ import {
   Button,
   Center,
   Tooltip,
+  Spinner,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import * as Yup from 'yup';
 import { FaEye } from 'react-icons/fa';
-import {
-  DeleteIcon,
-  DownloadIcon,
-  EditIcon,
-} from "@chakra-ui/icons";
+import { DeleteIcon, DownloadIcon, EditIcon } from '@chakra-ui/icons';
 import { find } from 'lodash';
 import departmentContext from '../../context/department/departmentContext';
-import ticketContext from "../../context/admin/ticket/ticketContext";
+import ticketContext from '../../context/admin/ticket/ticketContext';
 import DeleteModal from '../shared/deleteModal';
 import DepartmentForm from './departmentForm';
-import CustomTable from "../shared/customTable";
+import CustomTable from '../shared/customTable';
 
 function DepartmentView(props) {
   const history = useHistory();
   const { url } = useRouteMatch();
-  const { depatments, getDeartment, deleteDeparment } = useContext(departmentContext);
-  const { getAllTickets, tickets } = useContext(ticketContext);
+  const {
+    depatments,
+    tickets,
+    getDeartment,
+    deleteDeparment,
+    getTicketOfDeparment,
+  } = useContext(departmentContext);
+  // const { getAllTickets, tickets } = useContext(ticketContext);
 
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
@@ -59,38 +62,38 @@ function DepartmentView(props) {
 
   useEffect(() => {
     getDeartment();
-    getAllTickets();
+    getTicketOfDeparment(props.match.params.id);
   }, []);
 
   const cols = [
     {
-      title: "Ref No",
+      title: 'Ref No',
       render: (data) => {
         return data._id;
       },
     },
     {
-      title: "Name",
+      title: 'Name',
       render: (data) => {
         return data.name;
       },
     },
     {
-      title: "Subject",
+      title: 'Subject',
       // isNumeric: true,
       render: (data) => {
         return data.subject;
       },
     },
     {
-      title: "Status",
+      title: 'Status',
       // isNumeric: true,
       render: (data) => {
         return data.status;
       },
     },
     {
-      title: "Actions",
+      title: 'Actions',
       // isNumeric: true,
       render: (data) => {
         return (
@@ -169,14 +172,22 @@ function DepartmentView(props) {
                 Report
               </Button>
             </HStack>
-            <Text>here are all the ticket  belogs to this department</Text>
+            <Text>here are all the ticket belogs to this department</Text>
             <Box mt={4} pl={5}>
-              <CustomTable
-                headColor="white"
-                colorScheme={"blackAlpha"}
-                cols={cols}
-                rows={tickets}
-              />
+              {tickets ? (
+                tickets.lenth !== 0 ? (
+                  <CustomTable
+                    headColor="white"
+                    colorScheme={'blackAlpha'}
+                    cols={cols}
+                    rows={tickets}
+                  />
+                ) : null
+              ) : (
+                <Center>
+                  <Spinner size="xl" />
+                </Center>
+              )}
             </Box>
           </Box>
         </Center>
