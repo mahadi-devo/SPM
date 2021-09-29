@@ -26,7 +26,7 @@ const Department = () => {
         />
         <PrivateRoute
           exact
-          path={`${path}/view`}
+          path={`${path}/view/:id`}
           component={DepartmentView}
           entitlement={[AccessRights.admin, AccessRights.organizationalUser]}
         />

@@ -16,16 +16,21 @@ import {
   FormLabel,
   FormErrorMessage,
   Center,
-} from "@chakra-ui/react";
-import { Formik, Form, Field } from "formik";
-import { FaArrowLeft } from "react-icons/fa";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import departmentContext from "../../context/department/departmentContext";
+} from '@chakra-ui/react';
+import { Formik, Form, Field } from 'formik';
+import { FaArrowLeft } from 'react-icons/fa';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import departmentContext from '../../context/department/departmentContext';
 
 function DepartmentAdd() {
   const history = useHistory();
   const { addDeparment } = useContext(departmentContext);
+
+  const submitFrom = (values, actions) => {
+    addDeparment(values);
+    history.push('/admin/departments');
+  }
 
   const validationSchema = Yup.object().shape({
     departmentId: Yup.string().required("Department ID is required!"),
@@ -35,9 +40,9 @@ function DepartmentAdd() {
 
   return (
     <Container maxW="100%" centerContent={true}>
-      <Stack w="80%" alignItems="stretch">
+      <Stack w="70%" alignItems="stretch">
         <HStack>
-          <Heading as="h4" size="lg" paddingLeft="10">
+          <Heading as="h4" size="lg">
             Create New Department
           </Heading>
           <Spacer />
@@ -52,7 +57,7 @@ function DepartmentAdd() {
           />
         </HStack>
         <Center>
-          <Box width={{ base: "100%", sm: "100%", md: "90%" }}>
+          <Box width={{ base: "100%", sm: "100%", md: "100%" }}>
             <Formik
               initialValues={{
                 departmentId: "",
@@ -61,10 +66,7 @@ function DepartmentAdd() {
                 desctiption: "",
               }}
               validationSchema={validationSchema}
-              onSubmit={(values, actions) => {
-                console.log(values, actions);
-                addDeparment(values);
-              }}
+              onSubmit={submitFrom}
             >
               {(formik) => (
                 <Form>
@@ -131,7 +133,7 @@ function DepartmentAdd() {
                           <Input
                             {...field}
                             id="manager"
-                            placeholder="John Doe"
+                            placeholder="Enter Manager Name Here"
                           />
                           <FormErrorMessage>
                             {form.errors.manager}
@@ -141,18 +143,18 @@ function DepartmentAdd() {
                     </Field>
                   </Box>
                   <Box fontSize="lg" mt="5">
-                    <Field name="desctiption">
+                    <Field name="description">
                       {({ field, form }) => (
                         <FormControl
                           isInvalid={form.errors.name && form.touched.name}
                         >
-                          <FormLabel htmlFor="desctiption">
-                            Desctiption
+                          <FormLabel htmlFor="description">
+                            Description
                           </FormLabel>
                           <Textarea
                             {...field}
-                            id="manager"
-                            placeholder="John Doe"
+                            id="description"
+                            placeholder="Enter Manager Desctiption Here"
                           />
                           <FormErrorMessage>
                             {form.errors.name}

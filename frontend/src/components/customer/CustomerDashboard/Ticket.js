@@ -87,6 +87,7 @@ const Ticket = () => {
         message: values.message,
         file: file,
       });
+      //resetForm({});
     } catch (error) {}
   };
   return (

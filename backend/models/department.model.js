@@ -9,9 +9,17 @@ const DepartmentSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    required: false,
+  },
   manager: {
     type: String,
     required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
   users: [
     { type: mongoose.Schema.Types.ObjectId, required: false, ref: "user" },
