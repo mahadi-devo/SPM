@@ -18,16 +18,21 @@ import {
 import { Formik, Form, Field } from 'formik';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
+import { find } from 'lodash';
 import * as Yup from 'yup';
 
 import UserContext from '../../../../context/admin/user/userContext';
 
-function UserEdit() {
+function UserEdit(props) {
   const history = useHistory();
 
   const userContext = useContext(UserContext);
 
-  const { addUser } = userContext;
+  const { userUpdate, users } = userContext;
+
+  const user = find(users, (user) => user._id === props.match.params.id);
+
+  console.log('🚀 ~ file: UserEdit.js ~ line 34 ~ UserEdit ~ user', user);
 
   const validationSchema = Yup.object().shape({
     userName: Yup.string().required('User Name is required!'),
@@ -36,6 +41,12 @@ function UserEdit() {
     mobile: Yup.string().required('Mobile is required!'),
     password: Yup.string().required('Password is required!'),
   });
+
+  const submitFrom = (values, actions) => {
+    console.log('Hiii');
+    userUpdate(values);
+    history.push('/admin/users');
+  };
 
   return (
     <Container maxW='100%' centerContent={true}>
@@ -58,17 +69,15 @@ function UserEdit() {
           </HStack>
           <Formik
             initialValues={{
-              userName: '',
-              userEmail: '',
-              department: '',
-              mobile: '',
+              id: user._id,
+              userName: user.name,
+              userEmail: user.email,
+              department: user.department,
+              mobile: user.mobile,
               password: '',
             }}
             validationSchema={validationSchema}
-            onSubmit={(values, actions) => {
-              console.log(values, actions);
-              addUser(values);
-            }}>
+            onSubmit={submitFrom}>
             {(formik) => (
               <Form>
                 <Box fontSize='lg' mt='8' w='30vw'>
@@ -104,6 +113,8 @@ function UserEdit() {
                         <Input
                           {...field}
                           id='userEmail'
+                          isReadOnly={true}
+                          variant='filled'
                           placeholder='Enter Email'
                         />
                         <FormErrorMessage>
@@ -187,7 +198,7 @@ function UserEdit() {
                       boxShadow: '2xl',
                     }}
                     color='white'>
-                    Save
+                    Update
                   </Button>
                 </Box>
                 <Box fontSize='lg' mt='5' w='30vw'>
