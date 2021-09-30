@@ -83,8 +83,8 @@ const Topbar = (props) => {
                   <Avatar
                     size='sm'
                     bg='#6C63FF'
-                    name='Mahadi Hassan'
-                    src='https://bit.ly/tioluwani-kolawole'
+                    color= 'white'
+                    name={localStorage.getItem('name')}
                   />
                   <VStack
                     display={{ base: 'none', md: 'flex' }}

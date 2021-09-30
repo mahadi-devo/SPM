@@ -9,7 +9,7 @@ const register = Joi.object().keys({
 
 const login = Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().pattern(new RegExp('^[a-zA-Z0-9]{6,30}$')),
+    password: Joi.string().min(4).required(),
 });
 
 module.exports = { register, login };

@@ -50,7 +50,6 @@ const EditTicket = () => {
 
   const { updateTickets } = TicketContext;
   const toast = useToast();
-
   const submitHandler = async (
     values,
     { setSubmitting, setErrors, setStatus, resetForm }
@@ -158,7 +157,7 @@ const EditTicket = () => {
 
       <Flex>
         <Box flex="1">
-          {data !== null && (
+          {(
             <Flex mb={"10"}>
               <Stack spacing={8} mx={"auto"} maxW={"lg"}>
                 <Box rounded={"lg"} width={"500px"} bg>
@@ -167,8 +166,8 @@ const EditTicket = () => {
                       name: data.name,
                       email: data.email,
                       subject: data.subject,
-                      message: data.message,
-                      department: data.department.departmentName,
+                      message: data.message || '',
+                      department: '',
                       reply: "",
                     }}
                     validationSchema={TicketSchema}
