@@ -24,7 +24,9 @@ import {
   EditIcon,
   DownloadIcon,
 } from '@chakra-ui/icons';
+import axios from 'axios';
 import { debounce } from 'lodash';
+import { saveAs } from 'file-saver';
 
 import CustomTable from '../shared/customTable';
 import DeleteModal from '../shared/deleteModal';
@@ -54,14 +56,6 @@ const DepartmentHome = (props) => {
     setIsOpen(false);
   };
 
-  const Handelview = (id) => {
-    console.log('clicked view on ', id);
-  };
-
-  const HandelEdit = (id) => {
-    console.log('clicked edit on ', id);
-  };
-
   const HandelDelete = (id) => {
     currentDepartment.current = id;
     setIsOpen(true);
@@ -70,6 +64,21 @@ const DepartmentHome = (props) => {
   const onDelete = (id) => {
     deleteDeparment(id);
     setIsOpen(false);
+  };
+
+  const createAndDownloadPdf = () => {
+    axios
+      .get('http://localhost:5000/api/v1/department/generate-report')
+      .then(() =>
+        axios.post('http://localhost:5000/api/v1/department/fetch-report', {
+          responseType: 'blob',
+        })
+      )
+      .then((res) => {
+        const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+
+        saveAs(pdfBlob, 'newPdf.pdf');
+      });
   };
 
   const cols = [
@@ -131,6 +140,7 @@ const DepartmentHome = (props) => {
                 boxShadow: '2xl',
               }}
               bg="#6C63FF"
+              onClick={createAndDownloadPdf}
             >
               Import
             </Button>

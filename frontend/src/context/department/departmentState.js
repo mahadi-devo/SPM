@@ -47,8 +47,6 @@ const DepartmentState = (props) => {
 
     try {
       const res = await axios.post('/api/v1/department', formData, config);
-      console.log("🚀 ~ file: departmentState.js ~ line 51 ~ addDeparment ~ formData", res);
-
       if (res.data.success) {
         toast({
           title: "Department created.",
@@ -83,8 +81,6 @@ const DepartmentState = (props) => {
 
     try {
       const res = await axios.put('/api/v1/department', formData, config);
-      console.log("🚀 ~ file: departmentState.js ~ line 51 ~ addDeparment ~ formData", res);
-
       if (res.data.success) {
         toast({
           title: "Department created.",
@@ -148,7 +144,6 @@ const DepartmentState = (props) => {
   }
 
   const getTicketOfDeparment = async (_id) => {
-  console.log("🚀 ~ file: departmentState.js ~ line 151 ~ getTicketOfDeparment ~ _id", _id)
     const config = {
       headers: {
         'Content-Type': 'application/json',
