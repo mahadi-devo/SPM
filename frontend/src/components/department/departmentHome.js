@@ -14,8 +14,9 @@ import {
   InputLeftElement,
   Flex,
   Center,
+  Spinner,
 } from '@chakra-ui/react';
-import { FaPlus, FaEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { FaPlus, FaEdit } from 'react-icons/fa';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import {
   DeleteIcon,
@@ -23,7 +24,9 @@ import {
   EditIcon,
   DownloadIcon,
 } from '@chakra-ui/icons';
+import axios from 'axios';
 import { debounce } from 'lodash';
+import { saveAs } from 'file-saver';
 
 import CustomTable from '../shared/customTable';
 import DeleteModal from '../shared/deleteModal';
@@ -53,14 +56,6 @@ const DepartmentHome = (props) => {
     setIsOpen(false);
   };
 
-  const Handelview = (id) => {
-    console.log('clicked view on ', id);
-  };
-
-  const HandelEdit = (id) => {
-    console.log('clicked edit on ', id);
-  };
-
   const HandelDelete = (id) => {
     currentDepartment.current = id;
     setIsOpen(true);
@@ -69,6 +64,21 @@ const DepartmentHome = (props) => {
   const onDelete = (id) => {
     deleteDeparment(id);
     setIsOpen(false);
+  };
+
+  const createAndDownloadPdf = () => {
+    axios
+      .get('http://localhost:5000/api/v1/department/generate-report')
+      .then(() =>
+        axios.post('http://localhost:5000/api/v1/department/fetch-report', {
+          responseType: 'blob',
+        })
+      )
+      .then((res) => {
+        const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+
+        saveAs(pdfBlob, 'newPdf.pdf');
+      });
   };
 
   const cols = [
@@ -129,7 +139,9 @@ const DepartmentHome = (props) => {
               _hover={{
                 boxShadow: '2xl',
               }}
-              bg='#6C63FF'>
+              bg="#6C63FF"
+              onClick={createAndDownloadPdf}
+            >
               Import
             </Button>
           </Heading>
@@ -157,9 +169,9 @@ const DepartmentHome = (props) => {
               children={<SearchIcon color='gray.300' />}
             />
             <Input
-              size='sm'
-              w='20vw'
-              placeholder='Search by Department name'
+              size="sm"
+              w="20vw"
+              placeholder="Search by Department name"
               onChange={debounce((e) => {
                 setSearchKeyword(e.target.value);
               }, 1000)}
@@ -205,12 +217,18 @@ const DepartmentHome = (props) => {
           </div>
         </HStack>
         {/* <CustomTable cols={cols} rows={depatments} /> */}
-        <CustomTable
-          headColor='white'
-          colorScheme={'blackAlpha'}
-          cols={cols}
-          rows={depatments}
-        />
+        {depatments ? (
+          <CustomTable
+            headColor="white"
+            colorScheme={'blackAlpha'}
+            cols={cols}
+            rows={depatments}
+          />
+        ) : (
+          <Center>
+            <Spinner size="xl" />
+          </Center>
+        )}
       </VStack>
       <DeleteModal
         isOpenDelete={isOpenDelete}
