@@ -20,7 +20,7 @@ const UserRoute = () => {
 
         <PrivateRoute
           exact
-          path={`${url}/edit`}
+          path={`${url}/edit/:id`}
           component={UserEdit}
           entitlement={[AccessRights.admin, AccessRights.organizationalUser]}
         />
