@@ -2,13 +2,14 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import { useToast } from '@chakra-ui/react';
 
-import { ADD_DEPARTMENT, GET_DEPARTMENTS } from './actions';
+import { GET_TICKET_OF_DEPARTMENTS, GET_DEPARTMENTS } from './actions';
 import departmentContext from './departmentContext';
 import departmentReducer from './departmentReducer';
 
 const DepartmentState = (props) => {
   const initialState = {
     depatments: [],
+    tickets: [],
   };
   const toast = useToast();
 
@@ -46,8 +47,6 @@ const DepartmentState = (props) => {
 
     try {
       const res = await axios.post('/api/v1/department', formData, config);
-      console.log("🚀 ~ file: departmentState.js ~ line 51 ~ addDeparment ~ formData", res);
-
       if (res.data.success) {
         toast({
           title: "Department created.",
@@ -58,20 +57,18 @@ const DepartmentState = (props) => {
           isClosable: true,
         });
         getDeartment();
-      } else {
-        toast({
-          title: "Error",
-          description: "Something went wrong",
-          status: "error",
-          position: "top-right",
-          duration: 1500,
-          isClosable: true,
-        });
-      }
-      
+      }      
       
     } catch (err) {
       console.log(err);
+      toast({
+        title: "Error",
+        description: "Something went wrong",
+        status: "error",
+        position: "top-right",
+        duration: 1500,
+        isClosable: true,
+      });
     }
   };
 
@@ -84,8 +81,6 @@ const DepartmentState = (props) => {
 
     try {
       const res = await axios.put('/api/v1/department', formData, config);
-      console.log("🚀 ~ file: departmentState.js ~ line 51 ~ addDeparment ~ formData", res);
-
       if (res.data.success) {
         toast({
           title: "Department created.",
@@ -96,20 +91,18 @@ const DepartmentState = (props) => {
           isClosable: true,
         });
         getDeartment();
-      } else {
-        toast({
-          title: "Error",
-          description: "Something went wrong",
-          status: "error",
-          position: "top-right",
-          duration: 1500,
-          isClosable: true,
-        });
-      }
-      
+      }      
       
     } catch (err) {
       console.log(err);
+      toast({
+        title: "Error",
+        description: "Something went wrong",
+        status: "error",
+        position: "top-right",
+        duration: 1500,
+        isClosable: true,
+      });
     }
   };
 
@@ -150,14 +143,34 @@ const DepartmentState = (props) => {
     }
   }
 
+  const getTicketOfDeparment = async (_id) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      params: {_id}
+    };
+
+    try {
+       const result = await axios.get('/api/v1/department/ticket/',config);
+       dispatch({
+        type: GET_TICKET_OF_DEPARTMENTS,
+        payload: result.data.tickets,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <departmentContext.Provider
       value={{
         depatments: state.depatments,
+        tickets: state.tickets,
         addDeparment,
         getDeartment,
         deleteDeparment,
         updateDeparment,
+        getTicketOfDeparment,
       }}
     >
       {props.children}

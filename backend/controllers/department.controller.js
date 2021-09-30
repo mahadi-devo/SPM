@@ -1,5 +1,11 @@
 const Department = require('../models/department.model');
+const Ticket = require('../models/ticket.model');
 const ApiError = require('../utils/apiError');
+const pdf = require('html-pdf');
+const {
+  allDepatmentReportTemplate,
+} = require('../utils/departmentPdfTemplate');
+const { cwd } = require('process');
 
 const getDepartment = async (req, res) => {
   try {
@@ -128,4 +134,53 @@ const deleteDepartment = async (req, res) => {
   }
 };
 
-module.exports = { getDepartment, addDepartment, updateDepartment, deleteDepartment };
+const getTicketOfDepartment = async (req, res) => {
+  try {
+    const { _id } = req.query;
+    const tickets = await Ticket.find({ department: _id }).populate(
+      'department'
+    );
+    res.status(200).json({ tickets });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+const generateReport = async (req, res) => {
+  const department = await Department.find();
+
+  pdf
+    .create(allDepatmentReportTemplate({ department }), {})
+    .toFile('allDepatmentReport.pdf', (err, result) => {
+      if (err) {
+        res.send(Promise.reject());
+      }
+      // console.log(result);
+      res.send(Promise.resolve());
+    });
+};
+
+const fetchReport = (req, res) => {
+  try {
+    const fileRootPath = cwd();
+    let newFilePath = '';
+    fileRootPath.split("/").forEach(fname => {
+        newFilePath += `${fname}\\\\`
+    });
+    res.sendFile(
+      `${newFilePath}allDepatmentReport.pdf`
+    );
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+module.exports = {
+  getDepartment,
+  addDepartment,
+  updateDepartment,
+  deleteDepartment,
+  getTicketOfDepartment,
+  generateReport,
+  fetchReport,
+};
