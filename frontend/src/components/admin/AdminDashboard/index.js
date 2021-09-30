@@ -22,9 +22,9 @@ const AdminDashboard = () => {
   return (
     <Router>
       <Box minH='100vh' bg='#rgba(255, 255, 255, 0.80)'>
-        {/*<Switch>*/}
-        {/*  <Route exact path='/login' component={Login} />*/}
-        {/*</Switch>*/}
+        <Switch>
+          <Route exact path='/login' component={Login} />
+        </Switch>
         <Sidebar />
 
         <Topbar
