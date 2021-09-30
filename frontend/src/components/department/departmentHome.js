@@ -106,19 +106,19 @@ const DepartmentHome = (props) => {
       // isNumeric: true,
       render: (data) => {
         return (
-          <HStack w="50%">
+          <HStack w='50%'>
             <Spacer />
             <FaEdit
-              cursor="pointer"
+              cursor='pointer'
               onClick={() => history.push(`${url}/view/${data._id}`)}
-              color="#6C63FF"
+              color='#6C63FF'
             />
             <Spacer />
             <DeleteIcon
-              fontSize="1xl"
-              cursor="pointer"
+              fontSize='1xl'
+              cursor='pointer'
               onClick={() => HandelDelete(data._id)}
-              color="red"
+              color='red'
             />
           </HStack>
         );
@@ -127,15 +127,15 @@ const DepartmentHome = (props) => {
   ];
 
   return (
-    <Container maxW="95%" centerContent={true}>
-      <VStack w="100%" alignItems="stretch" mt={5}>
+    <Container maxW='95%' centerContent={true}>
+      <VStack w='100%' alignItems='stretch' mt={5}>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Heading as="h4" size="lg" mb="5">
+          <Heading as='h4' size='lg' mb='5'>
             Department Management{' '}
             <Button
               leftIcon={<DownloadIcon />}
-              colorScheme="blue"
-              size="sm"
+              colorScheme='blue'
+              size='sm'
               _hover={{
                 boxShadow: '2xl',
               }}
@@ -149,14 +149,13 @@ const DepartmentHome = (props) => {
           <Link to={`${url}/add`}>
             <Button
               leftIcon={<FaPlus />}
-              size="sm"
-              bg="#6C63FF"
-              color="white"
+              size='sm'
+              bg='#6C63FF'
+              color='white'
               _hover={{
                 boxShadow: '2xl',
               }}
-              variant="solid"
-            >
+              variant='solid'>
               ADD
             </Button>
           </Link>
@@ -164,10 +163,10 @@ const DepartmentHome = (props) => {
         <HStack style={{ marginBottom: '10px' }}>
           <InputGroup>
             <InputLeftElement
-              pointerEvents="none"
-              size="sm"
-              height="30px"
-              children={<SearchIcon color="gray.300" />}
+              pointerEvents='none'
+              size='sm'
+              height='30px'
+              children={<SearchIcon color='gray.300' />}
             />
             <Input
               size="sm"
@@ -184,39 +183,36 @@ const DepartmentHome = (props) => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-            }}
-          >
-            <Center w="200px">
-              <Text size="xs">Sort By</Text>
+            }}>
+            <Center w='200px'>
+              <Text size='xs'>Sort By</Text>
             </Center>
             <Select
-              variant="outline"
-              placeholder="Select"
-              size="sm"
+              variant='outline'
+              placeholder='Select'
+              size='sm'
               value={sortBy}
               onChange={(value, type) => {
                 setSortBy(value.target.value);
-              }}
-            >
-              <option value="departmentId">Department Id</option>
-              <option value="departmentName">Department Name</option>
-              <option value="manager">Manager</option>
+              }}>
+              <option value='departmentId'>Department Id</option>
+              <option value='departmentName'>Department Name</option>
+              <option value='manager'>Manager</option>
             </Select>
             <Spacer />
-            <Center w="200px">
-              <Text size="sm">Order By</Text>
+            <Center w='200px'>
+              <Text size='sm'>Order By</Text>
             </Center>
             <Select
-              variant="outline"
-              placeholder="Select"
-              size="sm"
+              variant='outline'
+              placeholder='Select'
+              size='sm'
               value={orderBy}
               onChange={(value) => {
                 setOrderBy(value.target.value);
-              }}
-            >
-              <option value="1">Ascending</option>
-              <option value="-1">Descending</option>
+              }}>
+              <option value='1'>Ascending</option>
+              <option value='-1'>Descending</option>
             </Select>
           </div>
         </HStack>
@@ -238,7 +234,7 @@ const DepartmentHome = (props) => {
         isOpenDelete={isOpenDelete}
         onDelete={() => onDelete(currentDepartment.current)}
         onCloseDelete={onCloseDelete}
-        title="Deparment"
+        title='Deparment'
         subTitle="Are you sure? You can't undo this action afterwards."
       />
     </Container>
