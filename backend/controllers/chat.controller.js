@@ -22,7 +22,6 @@ const getChatByTicketId = async (req, res, next) => {
 const createChatByTicketId = async (req, res, next) => {
   try {
     const { message } = req.body;
-    console.log(message);
 
     const ticket = await Ticket.findOne({ id: req.params.id });
 

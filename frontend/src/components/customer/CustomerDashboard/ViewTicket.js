@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import {
   Flex,
   Spacer,
@@ -7,6 +7,9 @@ import {
   Box,
   Square,
   FormControl,
+  ButtonGroup,
+  Editable,
+  IconButton,
   FormErrorMessage,
   FormLabel,
   Heading,
@@ -20,24 +23,141 @@ import {
   Textarea,
   Image,
   Select,
+  EditableInput,
+  EditablePreview,
+  useEditableControls,
 } from '@chakra-ui/react';
 import axios from 'axios';
+import config from '../../../utils/config';
+import {
+  ArrowBackIcon,
+  ChatIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  CloseIcon,
+  DeleteIcon,
+  DownloadIcon,
+  EditIcon,
+} from '@chakra-ui/icons';
+import { Spinner } from '@chakra-ui/react';
 
 import { Formik, Form, Field } from 'formik';
 import { TicketSchema } from './ticketSchema';
 import customerContext from '../../../context/customer/customerContext';
 import { saveAs } from 'file-saver';
 
-import { DownloadIcon, ArrowBackIcon } from '@chakra-ui/icons';
-
 const ViewTicket = ({ match, func, ticket }) => {
   const CustomerContext = useContext(customerContext);
 
+  // const userId = localStorage.getItem('id');
+
+  const [chats, setChats] = useState([]);
+  const [chatEdit, setChatEdit] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState(localStorage.getItem('id'));
   const { getviewTicket, loadedTicket, closeTicket } = CustomerContext;
-  const toast = useToast();
   useEffect(() => {
+    setUserId(localStorage.getItem('id'));
     getviewTicket(ticket._id);
   }, []);
+
+  useEffect(() => {
+    getChats();
+  }, []);
+
+  const getChats = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(`/api/v1/chat/${loadedTicket._id}`, config);
+      await setChats(res.data.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteChat = async (chat) => {
+    try {
+      setLoading(true);
+      const res = await axios.delete(`/api/v1/chat/${chat._id}`, config);
+      await getChats();
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const chatSubmitHandler = async (event, chatId) => {
+    try {
+      setLoading(true);
+      const res = await axios.patch(
+        `/api/v1/chat/${chatId}`,
+        { message: event },
+        config
+      );
+      await getChats();
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const toast = useToast();
+  const submitHandler = async (
+    values,
+    { setSubmitting, setErrors, setStatus, resetForm }
+  ) => {
+    try {
+      const res = await axios.post(
+        `/api/v1/chat/${loadedTicket._id}`,
+        { message: values.reply },
+        config
+      );
+      getChats();
+      resetForm({});
+      setStatus({ success: true });
+    } catch (error) {
+      setStatus({ success: false });
+      setSubmitting(false);
+      setErrors({ submit: error.message });
+    }
+  };
+
+  const EditableControls = ({ chat }) => {
+    const {
+      isEditing,
+      getSubmitButtonProps,
+      getCancelButtonProps,
+      getEditButtonProps,
+    } = useEditableControls();
+
+    return isEditing ? (
+      <ButtonGroup justifyContent='end' size='sm' marginBottom='5'>
+        <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
+        <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
+      </ButtonGroup>
+    ) : (
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          marginBottom: '5',
+        }}>
+        <div>
+          <IconButton size='sm' icon={<EditIcon />} {...getEditButtonProps()} />
+        </div>
+        <div onClick={(e) => deleteChat(chat)}>
+          <IconButton
+            style={{ marginLeft: '5px' }}
+            size='sm'
+            icon={<DeleteIcon />}
+            {...getSubmitButtonProps()}
+          />
+        </div>
+      </div>
+    );
+  };
 
   const createAndDownloadPdf = () => {
     axios
@@ -54,25 +174,10 @@ const ViewTicket = ({ match, func, ticket }) => {
       });
   };
 
-  // const { name, email, status, subject, department, message } = loadedTicket;
-
-  const submitHandler = async (
-    values,
-    { setSubmitting, setErrors, setStatus, resetForm }
-  ) => {
-    try {
-      resetForm({});
-      setStatus({ success: true });
-    } catch (error) {
-      setStatus({ success: false });
-      setSubmitting(false);
-      setErrors({ submit: error.message });
-    }
-  };
   return (
     <div>
       <Button
-        style={{ marginLeft: '50px', marginBottom: '20px' }}
+        style={{ marginLeft: '150px', marginBottom: '20px' }}
         leftIcon={<ArrowBackIcon />}
         onClick={() => {
           func('hello');
@@ -82,7 +187,7 @@ const ViewTicket = ({ match, func, ticket }) => {
       <Flex justifyContent='space-between' px={'50'}>
         <Box>
           {loadedTicket !== null && (
-            <Flex minH={'100vh'}>
+            <Flex minH={'80vh'}>
               <Stack spacing={8} mx={'auto'} maxW={'lg'}>
                 <Box rounded={'lg'} width={'500px'} bg>
                   <Formik
@@ -216,32 +321,6 @@ const ViewTicket = ({ match, func, ticket }) => {
                               </FormControl>
                             )}
                           </Field>
-
-                          <Field name='reply'>
-                            {({ field, form }) => (
-                              <FormControl>
-                                <FormLabel htmlFor='message'>Reply</FormLabel>
-                                <Textarea
-                                  borderColor='#707070'
-                                  {...field}
-                                  id='message'
-                                  placeholder='Reply'
-                                />
-                              </FormControl>
-                            )}
-                          </Field>
-                        </Stack>
-                        <Stack spacing={10} pt={8}>
-                          <Button
-                            bg='#6C63FF'
-                            color={'white'}
-                            _hover={{
-                              bg: 'teal.500',
-                            }}
-                            isLoading={props.isSubmitting}
-                            type='submit'>
-                            Submit
-                          </Button>
                         </Stack>
                       </Form>
                     )}
@@ -250,6 +329,122 @@ const ViewTicket = ({ match, func, ticket }) => {
               </Stack>
             </Flex>
           )}
+          <div style={{ marginLeft: '110px' }}>
+            <Text fontWeight={'600'} mb='10'>
+              <ChatIcon /> Conversations
+            </Text>
+            {loading && <Spinner />}
+            {chats.map((c, index) => (
+              <Editable
+                id={index}
+                colorScheme='cyan'
+                style={{
+                  marginBottom: '20px',
+                  width: '500px',
+                }}
+                textAlign='left'
+                defaultValue={c.message}
+                onSubmit={(e) => chatSubmitHandler(e, c._id)}
+                isPreviewFocusable={false}>
+                {c.user && c.user._id === userId && (
+                  <div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}>
+                      <b>@{c.user.name} (Me) </b>
+                      <EditableControls chat={c} />
+                    </div>
+                    <EditablePreview
+                      bg='cyan.50'
+                      style={{
+                        width: '500px',
+                        minHeight: '50px',
+                        padding: '10px',
+                        marginTop: '10px',
+                      }}></EditablePreview>
+                    <EditableInput
+                      style={{
+                        width: '500px',
+                        Height: '200px',
+                        padding: '10px',
+                      }}
+                    />
+                  </div>
+                )}
+                {c.user && c.user._id !== userId && (
+                  <div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}>
+                      <b>@{c.user.name} </b>
+                    </div>
+                    <EditablePreview
+                      bg='gray.50'
+                      style={{
+                        width: '500px',
+                        minHeight: '50px',
+                        padding: '10px',
+                        marginTop: '10px',
+                      }}></EditablePreview>
+                  </div>
+                )}
+              </Editable>
+            ))}
+            <Formik
+              initialValues={{
+                reply: '',
+              }}
+              onSubmit={(values, actions) => {
+                submitHandler(values, actions);
+              }}>
+              {(props, values) => (
+                <Form>
+                  <Stack spacing={10} pt={8}>
+                    <Field name='reply'>
+                      {({ field, form }) => (
+                        <FormControl
+                          isInvalid={
+                            form.errors.message && form.touched.message
+                          }
+                          isRequired>
+                          <FormLabel htmlFor='reply'>Reply</FormLabel>
+                          <Textarea
+                            width={'500px'}
+                            isRequired={true}
+                            borderColor='#707070'
+                            {...field}
+                            id='reply'
+                            placeholder='Reply'
+                          />
+                        </FormControl>
+                      )}
+                    </Field>
+                  </Stack>
+                  <Stack spacing={10} pt={8}>
+                    <Button
+                      style={{
+                        width: '100px',
+                        marginLeft: '400px',
+                        marginRight: '98px',
+                      }}
+                      bg='#6C63FF'
+                      color={'white'}
+                      _hover={{
+                        bg: 'teal.500',
+                      }}
+                      isLoading={props.isSubmitting}
+                      type='submit'>
+                      Send
+                    </Button>
+                  </Stack>
+                </Form>
+              )}
+            </Formik>
+          </div>
         </Box>
         <Box w='400px' style={{ textAlign: 'right' }}>
           {loadedTicket !== null && (

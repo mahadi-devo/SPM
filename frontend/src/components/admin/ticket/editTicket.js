@@ -52,6 +52,7 @@ const EditTicket = () => {
   const CustomerContext = useContext(customerContext);
 
   useEffect(() => {
+    window.location.reload();
     getviewTicket(data._id);
   }, []);
 
