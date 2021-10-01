@@ -1,15 +1,15 @@
 const allDepatmentReportTemplate = (props) => {
   const { department } = props;
-  
+
   let row = '';
-  department.forEach(element => {
+  department.forEach((element) => {
     row += `
     <tr>
       <td>${element.departmentId}</td>
       <td>${element.departmentName}</td>
       <td>${element.manager}</td>
     </tr>
-    `
+    `;
   });
   return `
     <!doctype html>

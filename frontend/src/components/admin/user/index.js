@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
-
+import axios from 'axios';
+import { saveAs } from 'file-saver';
 import {
   Container,
   Spacer,
@@ -62,6 +63,21 @@ const User = () => {
   const onDelete = (id) => {
     deleteUser(id);
     setIsOpen(false);
+  };
+
+  const createAndDownloadPdf = () => {
+    axios
+      .get('http://localhost:5000/api/v1/user/generate-report')
+      .then(() =>
+        axios.post('http://localhost:5000/api/v1/user/fetch-report', {
+          responseType: 'blob',
+        })
+      )
+      .then((res) => {
+        const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+
+        saveAs(pdfBlob, 'newPdf.pdf');
+      });
   };
 
   const cols = [
@@ -134,6 +150,7 @@ const User = () => {
                 _hover={{
                   boxShadow: '2xl',
                 }}
+                onClick={createAndDownloadPdf}
                 bg='#6C63FF'>
                 Import
               </Button>

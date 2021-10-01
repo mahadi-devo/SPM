@@ -1,5 +1,7 @@
 const UserModal = require('../models/user.model');
 const ApiError = require('../utils/apiError');
+const pdf = require('html-pdf');
+const { userPdfTemplate } = require('../utils/userPdfTemplate');
 
 const addUser = async (req, res, next) => {
   try {
@@ -110,7 +112,6 @@ const getAllUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  console.log('deleeeee');
   try {
     const { _id } = req.body;
 
@@ -127,9 +128,31 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const generateReport = async (req, res) => {
+  const user = await UserModal.find();
+  pdf
+    .create(userPdfTemplate({ user }), {})
+    .toFile('allUserReport.pdf', (err, result) => {
+      if (err) {
+        res.send(Promise.reject());
+      }
+      // console.log(result);
+      res.send(Promise.resolve());
+    });
+};
+
+const fetchReport = (req, res) => {
+  console.log('Fileee');
+  res.sendFile(
+    `F:/Year 3 Semester 2/Software Project Managment/spm_ticketing_project/SPM/allUserReport.pdf`
+  );
+};
+
 module.exports = {
   addUser,
   getAllUser,
   updateUser,
   deleteUser,
+  generateReport,
+  fetchReport,
 };
