@@ -294,7 +294,7 @@ const ViewTicket = ({ match, func, ticket }) => {
                     bg: 'red',
                   }}
                   onClick={() => {
-                    closeTicket(loadedTicket);
+                    closeTicket(loadedTicket, 1);
                     toast({
                       title: 'Ticket Closed Successfully',
                       status: 'success',

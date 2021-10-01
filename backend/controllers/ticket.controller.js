@@ -100,8 +100,20 @@ const updateMsgTicket = async (req, res) => {
 
 const updateStatus = async (req, res) => {
   const id = req.params.id;
+
+  let status;
+  if (req.body.type === 1) {
+    status = 'Closed';
+  } else if (req.body.type === 2) {
+    status = 'Pending';
+  } else if (req.body.type === 3) {
+    status = 'On Hold';
+  } else {
+    status = 'Reserved';
+  }
+
   try {
-    const result = await Ticket.updateOne({ _id: id }, { status: 'closed' });
+    const result = await Ticket.updateOne({ _id: id }, { status });
     res.status(200).json({ msg: 'success' });
   } catch (error) {
     res.status(500).json({
