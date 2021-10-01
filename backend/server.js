@@ -18,6 +18,7 @@ const auth = require('./routes/auth.route');
 const ticket = require('./routes/ticket.route');
 const user = require('./routes/user.route');
 const department = require('./routes/department.route');
+const chat = require('./routes/chat.route');
 
 const app = express();
 
@@ -31,7 +32,7 @@ app.use(cors());
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/ticket', ticket);
 app.use('/api/v1/department', department);
-app.use('/api/v1/user', user);
+app.use('/api/v1/chat', chat);
 
 app.use(errorHandler);
 

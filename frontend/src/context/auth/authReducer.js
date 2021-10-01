@@ -17,6 +17,7 @@ export default (state, action) => {
       localStorage.setItem('role', action.payload.user.role);
       localStorage.setItem('isAuthenticated', true);
       localStorage.setItem('name', action.payload.user.name);
+      localStorage.setItem('id', action.payload.user.id);
       return {
         ...state,
         isAuthenticated: true,
@@ -30,6 +31,7 @@ export default (state, action) => {
       localStorage.setItem('role', action.payload.user.role);
       localStorage.setItem('isAuthenticated', true);
       localStorage.setItem('name', action.payload.user.name);
+      localStorage.setItem('id', action.payload.user.id);
       return {
         ...state,
         ...action.payload,

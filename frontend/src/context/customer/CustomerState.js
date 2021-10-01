@@ -106,10 +106,11 @@ const CustomerState = (props) => {
     } catch (error) {}
   };
 
-  const closeTicket = async (ticket) => {
+  const closeTicket = async (ticket, type) => {
     try {
       const res = await axios.put(
         `http://localhost:5000/api/v1/ticket/status/${ticket._id}`,
+        { type },
         config
       );
 
