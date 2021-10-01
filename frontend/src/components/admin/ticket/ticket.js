@@ -27,6 +27,8 @@ import {
   SearchIcon,
 } from "@chakra-ui/icons";
 import * as PropTypes from "prop-types";
+import { saveAs } from 'file-saver';
+import axios from 'axios';
 import CustomTable from "../../shared/customTable";
 import {Link, useRouteMatch} from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
@@ -74,6 +76,21 @@ const Ticket = () => {
       state: data,
     });
   }
+
+  const createAndDownloadPdf = () => {
+    axios
+      .post('http://localhost:5000/api/v1/ticket/generate-ticket-report')
+      .then(() =>
+        axios.post('http://localhost:5000/api/v1/ticket/fetch-ticket-report', {
+          responseType: 'blob',
+        })
+      )
+      .then((res) => {
+        const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+
+        saveAs(pdfBlob, 'newPdf.pdf');
+      });
+  };
 
   const cols = [
     {
@@ -141,13 +158,15 @@ const Ticket = () => {
             <Heading as="h6" size="lg">
               Ticket Management{' '}
               <Button
-                  leftIcon={<DownloadIcon />}
-                  colorScheme='blue'
-                  size='sm'
-                  _hover={{
-                    boxShadow: '2xl',
-                  }}
-                  bg='#6C63FF'>
+                leftIcon={<DownloadIcon />}
+                colorScheme='blue'
+                size='sm'
+                _hover={{
+                  boxShadow: '2xl',
+                }}
+                bg='#6C63FF'
+                onClick={createAndDownloadPdf}
+              >
                 Import
               </Button>
             </Heading>

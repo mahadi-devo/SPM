@@ -3,6 +3,8 @@ const Chat = require('../models/chat.model');
 const pdf = require('html-pdf');
 const cloudinary = require('cloudinary').v2;
 const pdfTemplate = require('../utils/pdfTemplate');
+const {allTicketReportTemplate} = require('../utils/allTicketReportTemplate');
+const { cwd } = require('process');
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -136,6 +138,28 @@ const fetchReport = (req, res) => {
   res.sendFile(`C:/Users/Pasindu Jayawardena/Desktop/spm/SPM/result.pdf`);
 };
 
+const generateTicketReport = async (req, res) => {
+  const tickets = await Ticket.find().populate('department');
+  console.log("🚀 ~ file: ticket.controller.js ~ line 142 ~ generateTicketReport ~ tickets", tickets)
+
+  pdf.create(allTicketReportTemplate({tickets}), {}).toFile('allTicketReport.pdf', (err, result) => {
+    if (err) {
+      res.send(Promise.reject());
+    }
+    console.log(result);
+    res.send(Promise.resolve());
+  });
+};
+
+const fetchTicketReport = (req, res) => {
+  const fileRootPath = cwd();
+    let newFilePath = '';
+    fileRootPath.split("/").forEach(fname => {
+        newFilePath += `${fname}\\\\`
+    });
+  res.sendFile(`${newFilePath}allTicketReport.pdf`);
+};
+
 module.exports = {
   getTickets,
   addTicket,
@@ -148,4 +172,6 @@ module.exports = {
   updateMsgTicket,
   closeTicket,
   generateReport,
+  generateTicketReport,
+  fetchTicketReport,
 };
